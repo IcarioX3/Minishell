@@ -1,27 +1,39 @@
-<span style="color:purple">Minishell</span>
+# Minishell
 Minishell est un projet de programmation réalisé dans le cadre de la formation à l'école 42. Il s'agit d'un shell minimaliste écrit en langage C, qui permet à l'utilisateur d'interagir avec le système d'exploitation en lui permettant d'exécuter des commandes et de lancer des programmes.
 
-<span style="color:orange">Fonctionnalités</span>
+## Fonctionnalités
 Minishell implémente les fonctionnalités de base d'un shell, notamment :
 
-L'exécution de commandes simples
-Les pipes
-Les redirections
-La gestion des erreurs
-Les variables d'environnement
-Le changement de répertoire
-Et bien plus encore !
-<span style="color:orange">Compétences acquises</span>
+- L'exécution de commandes simples
+- Les pipes
+- Les redirections
+- La gestion des erreurs
+- Les variables d'environnement
+- Le changement de répertoire
+
+## Compétences acquises
 En travaillant sur ce projet, les développeurs ont acquis les compétences suivantes :
 
-La compréhension des principes fondamentaux des shells Unix
-La manipulation des processus et des signaux
-La gestion des fichiers et des entrées/sorties en C
-La manipulation des chaînes de caractères et des tableaux
-La gestion des erreurs et des exceptions
-La collaboration en équipe et la gestion de projet
-<span style="color:orange">Utilisation</span>
+- Compréhension des principes fondamentaux des shells Unix
+- Manipulation des processus et des signaux
+- Gestion des fichiers et des entrées/sorties en C
+- Manipulation des chaînes de caractères et des tableaux
+- Gestion des erreurs et des exceptions
+- Collaboration en équipe et gestion de projet
+
+## Installation
+Pour installer et exécuter Minishell sur votre système, suivez ces étapes :
+
+1) Clonez le repository GitHub en utilisant la commande suivante :
+`git clone https://github.com/votre-utilisateur/minishell.git`
+2) Compilez le programme en utilisant la commande make :
+`cd minishell
+make`
+3) Exécutez le programme en utilisant la commande suivante :
+`./minishell`
+
+## Utilisation
 Une fois que vous avez lancé Minishell, vous pouvez entrer des commandes comme vous le feriez dans un shell standard. Vous pouvez également utiliser les fonctionnalités spécifiques de Minishell, telles que les pipes et les redirections.
 
-<span style="color:orange">Auteurs</span>
-Minishell a été développé par [Nom de l'auteur 1] et [Nom de l'auteur 2] dans le cadre de la formation à l'école 42.
+## Auteurs
+Minishell a été développé par **_ablevin_** et **_nasamadi_** dans le cadre de la formation à l'école 42.
