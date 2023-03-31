@@ -15,7 +15,7 @@ Minishell implémente les fonctionnalités de base d'un shell, notamment :
 - Le changement de répertoire
 
 ## Compétences acquises
-En travaillant sur ce projet, les développeurs ont acquis les compétences suivantes :
+En travaillant sur ce projet, nous avons acquis les compétences suivantes :
 
 - Compréhension des principes fondamentaux des shells Unix
 - Manipulation des processus et des signaux
