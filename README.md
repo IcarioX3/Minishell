@@ -1,6 +1,9 @@
 # Minishell
 Minishell est un projet de programmation réalisé dans le cadre de la formation à l'école 42. Il s'agit d'un shell minimaliste écrit en langage C, qui permet à l'utilisateur d'interagir avec le système d'exploitation en lui permettant d'exécuter des commandes et de lancer des programmes.
 
+## Avancement
+Suivi de l'avancement des tests réalisés de notre projet grace à cette [fiche](https://docs.google.com/spreadsheets/d/1OPdDKuCm6sv913Odu46dra5rvPGJn4yZHe7JJdCs5kA/edit?usp=sharing) de suivi. (Cette liste est très voire trop complète, elle n'est utilisée qu'à titre indicatif).
+
 ## Fonctionnalités
 Minishell implémente les fonctionnalités de base d'un shell, notamment :
 
