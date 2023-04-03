@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: icario <icario@student.42.fr>              +#+  +:+       +#+        */
+/*   By: frgojard <frgojard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:54:00 by icario            #+#    #+#             */
-/*   Updated: 2023/03/31 15:55:34 by icario           ###   ########.fr       */
+/*   Updated: 2023/04/03 16:34:29 by frgojard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
-	return (0);
+	(void)ac;
+	(void)av;
+	(void)env;
+
+	char	*cmd;
+	while (1)
+	{
+		cmd = readline(BLUE"minishell :"END);
+		if (!cmd)
+			break ;
+		add_history(cmd);
+	}
 }
