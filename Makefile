@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/05 12:13:43 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/05 14:22:18 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,14 @@ END		= \033[0m
 ##### Names #####
 NAME	= minishell
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -lreadline
 
 SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= inc
 
-PARSING 	= parsing.c
+PARSING 	= parsing.c \
+			prompt.c \
 
 PARSING_DIR = parsing
 
