@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: icario <icario@student.42.fr>              +#+  +:+       +#+         #
+#    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/03/31 15:55:10 by icario           ###   ########.fr        #
+#    Updated: 2023/04/05 12:13:43 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,26 +14,34 @@
 GREEN 	= \033[0;32m
 RED 	= \033[0;31m
 BLUE 	= \033[0;34m
-END	= \033[0m
+END		= \033[0m
 
 ##### Names #####
 NAME	= minishell
-CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -g3 
+CC		= gcc
+CFLAGS	= -Wall -Werror -Wextra
 
 SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= inc
 
-_SRC	= main.c
+PARSING 	= parsing.c
+
+PARSING_DIR = parsing
+
+SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
+
+_SRC		= main.c \
+			$(SRC_PARSING)
 		
-SRC	= $(addprefix $(SRCDIR)/, $(_SRC))
-OBJ	= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)
-HEADER = $(addprefix $(INCDIR)/, $(NAME).h)
+SRC			= $(addprefix $(SRCDIR)/, $(_SRC))
+OBJ			= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)
+HEADER 		= $(addprefix $(INCDIR)/, $(NAME).h)
 
 ##### Makefile work ####
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER)
 	@mkdir -p $(@D)
+	@mkdir -p $(OBJDIR)/$(PARSING_DIR)
 	@$(CC) -c $(CFLAGS) -I$(INCDIR) $< -o $@
 
 all: $(NAME)
