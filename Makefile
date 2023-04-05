@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/05 14:22:18 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/05 15:05:14 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,14 @@ END		= \033[0m
 
 ##### Names #####
 NAME	= minishell
+LIBNAME	= libft.a
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra -lreadline
 
 SRCDIR	= src
 OBJDIR	= obj
 INCDIR	= inc
+LIBDIR	= libft
 
 PARSING 	= parsing.c \
 			prompt.c \
@@ -43,23 +45,27 @@ HEADER 		= $(addprefix $(INCDIR)/, $(NAME).h)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER)
 	@mkdir -p $(@D)
 	@mkdir -p $(OBJDIR)/$(PARSING_DIR)
-	@$(CC) -c $(CFLAGS) -I$(INCDIR) $< -o $@
+	@$(CC) -c $(CFLAGS) -I$(LIBDIR) -I$(INCDIR) $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(HEADER)
+	@echo "Baking $(LIBDIR)..."
+	@make -s -C $(LIBDIR)
 	@echo "Baking $(NAME)..."
-	@$(CC) -I$(INCDIR) -o $@ $^ $(CFLAGS) 
+	@$(CC) -I$(INCDIR) -I$(LIBDIR) -o $@ $^ $(LIBDIR)/$(LIBNAME) $(CFLAGS) 
 	@echo "$(GREEN)OK!$(END)"
 	@echo "$(BLUE)$(NAME) READY !$(END)"
 
 clean:
 	@echo "Removing objects..."
+	@make clean -s -C $(LIBDIR)
 	@rm -rf $(OBJDIR)
 	@echo "$(GREEN)Done!$(END)"
 
 fclean: clean
 	@echo "Cleaning everything..."
+	@make fclean -s -C $(LIBDIR)
 	@rm -f $(NAME)
 	@echo "$(GREEN)Done!$(END)"
 	@echo "$(BLUE)Everything is clean!$(END)"
