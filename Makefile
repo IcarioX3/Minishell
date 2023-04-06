@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/05 15:05:14 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/06 16:04:16 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ all: $(NAME)
 $(NAME): $(OBJ) $(HEADER)
 	@echo "Baking $(LIBDIR)..."
 	@make -s -C $(LIBDIR)
+	@echo "$(GREEN)OK!$(END)"
 	@echo "Baking $(NAME)..."
 	@$(CC) -I$(INCDIR) -I$(LIBDIR) -o $@ $^ $(LIBDIR)/$(LIBNAME) $(CFLAGS) 
 	@echo "$(GREEN)OK!$(END)"
