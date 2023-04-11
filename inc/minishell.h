@@ -11,22 +11,21 @@
 //ENUMS
 typedef	enum e_token
 {
-	WORD;
-	PIPE;
-	FILE;
-	CMD;
-	IN_REDIR;
-	OUT_REDIR;
-	IN_HEREDOC;
-	OUT_HEREDOC;
-}	t_token;
+	WORD,
+	PIPE,
+	CMD,
+	IN_REDIR,
+	OUT_REDIR,
+	IN_HEREDOC,
+	OUT_HEREDOC
+}	t_etoken;
 
 //STRUCTS
-typedef	struct s_token
+typedef	struct s_lexer
 {
 	char	*str;
 	int		token;
-}
+}	t_lexer;
 
 //FUNCTIONS
 void	prompt(void);
