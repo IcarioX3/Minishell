@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: frgojard <frgojard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: franck <franck@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 01:32:45 by nbled             #+#    #+#             */
-/*   Updated: 2023/03/03 03:31:32 by frgojard         ###   ########.fr       */
+/*   Updated: 2023/04/11 14:11:43 by franck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 
 typedef struct s_pile
 {
-	int				value;
+	int 			value;
 	int				token;
 	char			*str;
 	struct s_pile	*prev;
@@ -59,6 +59,7 @@ typedef enum token
 	FLE,
 	CMD,
 } 	e_token;
+
 
 // ----------------------------------------------------
 //	LIST
@@ -78,6 +79,30 @@ size_t	ft_count_words(const char *s);
 size_t	ft_str_len(char const *s);
 char	**ft_split(const char *s);
 int		isasep(const char c);
+
+// ----------------------------------------------------
+//	TOKEN.C
+// ----------------------------------------------------
+
+void	get_token_sign(t_pile *start);
+int	get_token(t_pile *start);
+
+// ----------------------------------------------------
+//	UTILS.C
+// ----------------------------------------------------
+
+size_t	ft_strlen(const char *s);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strstr(char *str, char *to_find);
+
+// ----------------------------------------------------
+//	UTILS.C
+// ----------------------------------------------------
+
+void	check_pwd(t_pile *start);
+void	check_env(t_pile *start, char **env);
+void	check_echo(t_pile *start);
+void	check_builtin(t_pile *start, char **env);
 
 // ----------------------------------------------------
 //	OTHER

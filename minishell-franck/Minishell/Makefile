@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nbled <marvin@42.fr>                       +#+  +:+       +#+         #
+#    By: franck <franck@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 01:30:53 by nbled             #+#    #+#              #
-#    Updated: 2023/02/22 01:31:50 by nbled            ###   ########.fr        #
+#    Updated: 2023/04/11 13:56:21 by franck           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,9 @@ SRCS =	list/ft_lstnew.c \
 		split/ft_str_len.c \
 		split/ft_count_words.c \
 		quote_check.c \
+		token.c \
+		utils.c \
+		builtin.c \
 		test.c 
 
 OBJS = $(SRCS:.c=.o)
