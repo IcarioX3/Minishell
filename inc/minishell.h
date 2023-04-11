@@ -11,13 +11,16 @@
 //ENUMS
 typedef	enum e_token
 {
-	WORD,
 	PIPE,
-	CMD,
+	WORD,
+	DOLLAR,
 	IN_REDIR,
 	OUT_REDIR,
 	IN_HEREDOC,
-	OUT_HEREDOC
+	OUT_HEREDOC,
+	S_QUOTE,
+	D_QUOTE,
+	SEP
 }	t_etoken;
 
 //STRUCTS
@@ -25,6 +28,8 @@ typedef	struct s_lexer
 {
 	char	*str;
 	int		token;
+	struct s_lexer	*next;
+	struct s_lexer	*previous;
 }	t_lexer;
 
 //FUNCTIONS

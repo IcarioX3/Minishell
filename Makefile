@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/06 16:04:16 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/11 17:24:55 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,21 @@ OBJDIR	= obj
 INCDIR	= inc
 LIBDIR	= libft
 
+PARSING_DIR = parsing
+LST_DIR		= lst_utils
+
 PARSING 	= parsing.c \
 			prompt.c \
+			lexer.c
 
-PARSING_DIR = parsing
+LST			= new_token.c
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
+SRC_LST		= $(addprefix $(LST_DIR)/, $(LST))
 
 _SRC		= main.c \
-			$(SRC_PARSING)
+			$(SRC_PARSING) \
+			$(SRC_LST)
 		
 SRC			= $(addprefix $(SRCDIR)/, $(_SRC))
 OBJ			= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)

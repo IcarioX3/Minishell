@@ -1,9 +1,11 @@
 #include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+int	main(int argc, char **argv, char **env)
 {
-	(void)ac;
-	(void)av;
+	(void)argc;
+	(void)argv;
 	(void)env;
+	if (argc != 1)
+		return (0);
 	prompt();
 }
