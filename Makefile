@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/11 17:24:55 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/12 16:46:20 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,19 +29,28 @@ LIBDIR	= libft
 
 PARSING_DIR = parsing
 LST_DIR		= lst_utils
+DEBUG_DIR	= debug
+UTILS_DIR	= utils
 
-PARSING 	= parsing.c \
-			prompt.c \
+PARSING 	= prompt.c \
 			lexer.c
 
-LST			= new_token.c
+LST			= lst_token.c
+
+DEBUG		= print_tokens.c
+
+UTILS		= parsing_utils.c
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRC_LST		= $(addprefix $(LST_DIR)/, $(LST))
+SRC_DEBUG	= $(addprefix $(DEBUG_DIR)/, $(DEBUG))
+SRC_UTILS	= $(addprefix $(UTILS_DIR)/, $(UTILS))
 
 _SRC		= main.c \
 			$(SRC_PARSING) \
-			$(SRC_LST)
+			$(SRC_LST) \
+			$(SRC_DEBUG) \
+			$(SRC_UTILS)
 		
 SRC			= $(addprefix $(SRCDIR)/, $(_SRC))
 OBJ			= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)
