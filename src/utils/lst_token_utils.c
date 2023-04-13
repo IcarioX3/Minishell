@@ -23,7 +23,11 @@ t_tokens	*lst_new_token(t_tokens *tokens, char *s, int token)
 
 	new = (t_tokens *)malloc(sizeof(t_tokens));
 	if (new == NULL)
+	{
+		free(s);
+		lst_clear_token(&tokens);
 		return (NULL);
+	}
 	new->str = s;
 	if (new->str == NULL)
 		return (NULL);
