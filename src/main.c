@@ -3,9 +3,11 @@
 int	main(int argc, char **argv, char **env)
 {
 	char	*input;
+	t_tokens	*tokens;
 
 	(void)argv;
 	(void)env;
+	tokens = NULL;
 	if (argc != 1)
 		return (1);
 	while (1)
@@ -17,8 +19,10 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			break ;
 		}
-		lexer(input);
+		tokens = lexer(input, tokens);
 		free(input);
+		parser(&tokens);
+		lst_clear_token(&tokens);
 	}
 	return (0);
 }

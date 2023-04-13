@@ -62,13 +62,11 @@ t_tokens	*word_token(t_tokens *tokens, char *str, int *i)
 	return (tokens);
 }
 
-void	lexer(char *str)
+t_tokens	*lexer(char *str, t_tokens *tokens)
 {
-	t_tokens	*tokens;
 	int			i;
 
 	i = 0;
-	tokens = NULL;
 	while (str[i])
 	{
 		if (str[i] == '|' || str[i] == '$' || str[i] == '\'' || str[i] == '\"')
@@ -82,5 +80,5 @@ void	lexer(char *str)
 		i++;
 	}
 	print_tokens(tokens);
-	lst_clear_token(&tokens);
+	return (tokens);
 }

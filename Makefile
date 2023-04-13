@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/13 13:32:14 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/13 15:42:13 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ DEBUG_DIR	= debug
 UTILS_DIR	= utils
 ERROR_DIR	= error
 
-PARSING 	= lexer.c
+PARSING 	= lexer.c \
+			parser.c \
 
 LST			= lst_token.c
 
