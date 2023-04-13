@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/13 09:41:37 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/13 11:19:13 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,7 @@ PARSING_DIR = parsing
 DEBUG_DIR	= debug
 UTILS_DIR	= utils
 
-PARSING 	= prompt.c \
-			lexer.c
+PARSING 	= lexer.c
 
 LST			= lst_token.c
 

@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/21 12:49:00 by ablevin           #+#    #+#              #
-#    Updated: 2023/02/01 16:42:33 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/13 10:50:30 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS 			=	ft_isalpha.c \
 				ft_itoa.c \
 				ft_strmapi.c \
 				ft_striteri.c \
+				ft_strinsert.c \
 				ft_putchar_fd.c \
 				ft_putstr_fd.c \
 				ft_putendl_fd.c \

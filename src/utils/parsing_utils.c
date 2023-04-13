@@ -13,4 +13,3 @@ int	is_special(char c)
 		return (1);
 	return (0);
 }
-
