@@ -25,8 +25,5 @@ int	check_close_quote(t_tokens *tokens)
 void	parser(t_tokens **tokens)
 {
 	if (check_close_quote(*tokens) == 1)
-	{
-		lst_clear_token(tokens);
-		exit(EXIT_FAILURE);
-	}
+		return ;
 }
