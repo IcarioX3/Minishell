@@ -35,7 +35,7 @@ typedef struct s_tokens
 //---FUNCTIONS---
 
 //PARSING
-void		prompt(void);
+int			prompt(void);
 void		lexer(char *str);
 //LST_UTILS
 t_tokens	*lst_new_token(t_tokens *tokens, char *str, int token);
