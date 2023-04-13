@@ -45,5 +45,7 @@ void		print_tokens(t_tokens *tokens);
 //UTILS
 int			is_whitespace(char c);
 int			is_special(char c);
+//ERRORS
+void		error_exit(char *str, int exit_code);
 
 #endif

@@ -26,6 +26,7 @@ t_tokens	*lst_new_token(t_tokens *tokens, char *s, int token)
 	{
 		free(s);
 		lst_clear_token(&tokens);
+		error_exit("malloc error", 1);
 		return (NULL);
 	}
 	new->str = s;
