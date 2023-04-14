@@ -35,4 +35,5 @@ void	parser(t_tokens **tokens)
 			tmp = join_s_quote(tmp);
 		tmp = tmp->next;
 	}
+	*tokens = env_var_parser(*tokens);
 }
