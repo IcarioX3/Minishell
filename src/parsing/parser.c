@@ -22,28 +22,24 @@ int	check_close_quote(t_tokens *tokens)
 	return (0);
 }
 
-void	handle_dollar(t_tokens **tokens)
-{
-	int		in_s_quote;
-	int		in_d_quote;
-	t_tokens	*tmp;
-
-	in_s_quote = 0;
-	in_d_quote = 0;
-	tmp = *tokens;
-	while (tmp)
-	{
-		if (tmp->token == S_QUOTE)
-			in_s_quote = !in_s_quote;
-		if (tmp->token == D_QUOTE)
-			in_d_quote = !in_d_quote;
-		tmp = tmp->next;
-	}
-}
-
 void	parser(t_tokens **tokens)
 {
+	t_tokens	*tmp;
+	int	in_s_quote;
+
+	in_s_quote = 0;
+	tmp = *tokens;
 	if (check_close_quote(*tokens) == 1)
 		return ;
-	handle_dollar(tokens);
+	while (tmp)
+	{
+		if (tmp->token == S_QUOTE && in_s_quote == 0)
+		{
+			in_s_quote = 1;
+			tmp = join_s_quote(tmp);
+		}
+		else if (tmp->token == S_QUOTE && in_s_quote == 1)
+			in_s_quote = 0;
+		tmp = tmp->next;
+	}
 }

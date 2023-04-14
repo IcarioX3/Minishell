@@ -6,7 +6,7 @@
 #    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/13 15:42:13 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/14 10:40:11 by ablevin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ ERROR_DIR	= error
 
 PARSING 	= lexer.c \
 			parser.c \
+			s_quote_parser.c
 
 LST			= lst_token.c
 

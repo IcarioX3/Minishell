@@ -79,6 +79,5 @@ t_tokens	*lexer(char *str, t_tokens *tokens)
 			tokens = word_token(tokens, str, &i);
 		i++;
 	}
-	print_tokens(tokens);
 	return (tokens);
 }
