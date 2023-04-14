@@ -2,7 +2,7 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	*input;
+	char		*input;
 	t_tokens	*tokens;
 
 	(void)argv;

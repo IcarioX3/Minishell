@@ -25,21 +25,14 @@ int	check_close_quote(t_tokens *tokens)
 void	parser(t_tokens **tokens)
 {
 	t_tokens	*tmp;
-	int	in_s_quote;
 
-	in_s_quote = 0;
 	tmp = *tokens;
 	if (check_close_quote(*tokens) == 1)
 		return ;
 	while (tmp)
 	{
-		if (tmp->token == S_QUOTE && in_s_quote == 0)
-		{
-			in_s_quote = 1;
+		if (tmp->token == S_QUOTE)
 			tmp = join_s_quote(tmp);
-		}
-		else if (tmp->token == S_QUOTE && in_s_quote == 1)
-			in_s_quote = 0;
 		tmp = tmp->next;
 	}
 }

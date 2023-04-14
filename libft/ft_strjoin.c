@@ -6,7 +6,7 @@
 /*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 12:19:50 by ablevin           #+#    #+#             */
-/*   Updated: 2023/04/14 11:44:33 by ablevin          ###   ########.fr       */
+/*   Updated: 2023/04/14 14:00:46 by ablevin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	char	*s;
 
 	if (!s2)
-		return (NULL);
+		return (s1);
 	if (!s1)
 	{
 		s = malloc((ft_strlen(s2) + 1) * sizeof(char));
 		if (!s)
+		{
+			free(s1);
+			ft_putstr_fd("Error: malloc failed\n", 2);
 			return (NULL);
+		}
 		ft_strlcpy(s, s2, ft_strlen(s2) + 1);
 		return (s);
 	}
