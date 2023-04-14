@@ -23,17 +23,10 @@ t_tokens	*join_s_quote(t_tokens *tokens)
 	str = get_string_s_quote(tmp);
 	while (tmp && tmp->token != S_QUOTE)
 	{
-		tokens->next = tmp->next;
-		tmp->next->previous = tokens;
-		free(tmp->str);
-		free(tmp);
+		tokens = del_token(tokens, tmp);
 		tmp = tokens->next;
 	}
-	tokens->next = tmp->next;
-	if (tmp->next)
-		tmp->next->previous = tokens;
-	free(tmp->str);
-	free(tmp);
+	tokens = del_token(tokens, tmp);
 	free(tokens->str);
 	tokens->str = str;
 	tokens->token = WORD;

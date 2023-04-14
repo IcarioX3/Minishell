@@ -9,18 +9,20 @@
 # include "libft.h"
 
 //---ENUMS---
+//PIPE=1, WORD=2, DOLLAR=3, IN_REDIR=4, OUT_REDIR=5, 
+//HEREDOC=6, APPEND=7, S_QUOTE=8, D_QUOTE=9, SEP=10
 typedef enum e_token
 {
-	PIPE, //0
-	WORD, //1
-	DOLLAR, //2
-	IN_REDIR, //3
-	OUT_REDIR, //4
-	HEREDOC, //5
-	APPEND, //6
-	S_QUOTE, //7
-	D_QUOTE, //8
-	SEP //9
+	PIPE,
+	WORD,
+	DOLLAR,
+	IN_REDIR,
+	OUT_REDIR,
+	HEREDOC,
+	APPEND,
+	S_QUOTE,
+	D_QUOTE,
+	SEP
 }	t_etoken;
 
 //---STRUCTS---
@@ -42,7 +44,7 @@ t_tokens	*join_s_quote(t_tokens *tokens);
 //LST_UTILS
 t_tokens	*lst_new_token(t_tokens *tokens, char *str, int token);
 void		lst_clear_token(t_tokens **tokens);
-void		lst_delone_token(t_tokens **tokens, t_tokens *del);
+t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp);
 //DEBUG
 void		print_tokens(t_tokens *tokens);
 //UTILS

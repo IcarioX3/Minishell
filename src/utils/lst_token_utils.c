@@ -45,27 +45,15 @@ t_tokens	*lst_new_token(t_tokens *tokens, char *s, int token)
 	return (tokens);
 }
 
-void	lst_del_token(t_tokens **tokens, t_tokens *del)
+t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp)
 {
-	t_tokens	*tmp;
-
-	if (tokens == NULL || *tokens == NULL || del == NULL)
-		return ;
-	tmp = *tokens;
-	while (tmp)
-	{
-		if (tmp == del)
-		{
-			if (tmp->previous)
-				tmp->previous->next = tmp->next;
-			if (tmp->next)
-				tmp->next->previous = tmp->previous;
-			if (tmp == *tokens)
-				*tokens = tmp->next;
-			free(tmp->str);
-			free(tmp);
-			return ;
-		}
-		tmp = tmp->next;
-	}
+	if (tmp->previous)
+		tmp->previous->next = tmp->next;
+	if (tmp->next)
+		tmp->next->previous = tmp->previous;
+	if (tmp == tokens)
+		tokens = tmp->next;
+	free(tmp->str);
+	free(tmp);
+	return (tokens);
 }
