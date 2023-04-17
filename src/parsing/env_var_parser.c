@@ -18,10 +18,10 @@ t_tokens	*env_var_parser(t_tokens *tokens)
 	{
 		if (tmp->token == DOLLAR)
 		{
-			if (!tmp->next || tmp->next->token != WORD)
-				tmp->token = WORD;
-			else
+			if (tmp->next && tmp->next->token == WORD)
 				tmp = replace_var(tmp);
+			else
+				tmp->token = WORD;
 		}
 		tmp = tmp->next;
 	}

@@ -10,7 +10,8 @@ void	lst_clear_token(t_tokens **tokens)
 	{
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	tokens = NULL;

@@ -9,31 +9,33 @@ int	check_close_quote(t_tokens *tokens)
 	d_quote = 0;
 	while (tokens)
 	{
-		if (tokens->token == S_QUOTE)
-			s_quote++;
-		if (tokens->token == D_QUOTE)
-			d_quote++;
+		if (tokens->token == S_QUOTE && d_quote == 0)
+			s_quote = !s_quote;
+		else if (tokens->token == D_QUOTE && s_quote == 0)
+			d_quote = !d_quote;
 		tokens = tokens->next;
 	}
-	if (s_quote % 2 != 0)
-		return (print_error("Unmatched single quote"), 1);
-	if (d_quote % 2 != 0)
-		return (print_error("Unmatched double quote"), 1);
+	if (s_quote == 1 || d_quote == 1)
+	{
+		ft_putstr_fd("minishell: syntax error: ", 2);
+		ft_putstr_fd("unterminated quote\n", 2);
+		return (1);
+	}
 	return (0);
 }
 
 void	parser(t_tokens **tokens)
 {
-	t_tokens	*tmp;
+/* 	t_tokens	*tmp;
 
-	tmp = *tokens;
+	tmp = *tokens; */
 	if (check_close_quote(*tokens) == 1)
 		return ;
-	while (tmp)
+/* 	while (tmp)
 	{
 		if (tmp->token == S_QUOTE)
 			tmp = join_s_quote(tmp);
 		tmp = tmp->next;
 	}
-	*tokens = env_var_parser(*tokens);
+	*tokens = env_var_parser(*tokens); */
 }
