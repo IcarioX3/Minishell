@@ -40,6 +40,6 @@ t_tokens	*d_quote_parser(t_tokens *tokens)
 	tokens = del_token(tokens, tmp);
 	free(tokens->str);
 	tokens->str = str;
-	tokens->token = WORD;
+	tokens->token = D_QUOTE;
 	return (tokens);
 }

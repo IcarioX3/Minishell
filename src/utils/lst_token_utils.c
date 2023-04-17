@@ -11,6 +11,7 @@ void	lst_clear_token(t_tokens **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str)
+			
 			free(tmp->str);
 		free(tmp);
 	}

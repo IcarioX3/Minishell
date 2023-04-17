@@ -29,6 +29,6 @@ t_tokens	*s_quote_parser(t_tokens *tokens)
 	tokens = del_token(tokens, tmp);
 	free(tokens->str);
 	tokens->str = str;
-	tokens->token = WORD;
+	tokens->token = S_QUOTE;
 	return (tokens);
 }

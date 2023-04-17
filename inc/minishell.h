@@ -42,7 +42,7 @@ t_tokens	*lexer(char *str, t_tokens *tokens);
 void		parser(t_tokens **tokens);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens);
-t_tokens	*env_var_parser(t_tokens *tokens);
+t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
 //LST_UTILS
 t_tokens	*lst_new_token(t_tokens *tokens, char *str, int token);
 void		lst_clear_token(t_tokens **tokens);
