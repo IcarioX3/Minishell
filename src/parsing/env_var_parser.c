@@ -11,19 +11,9 @@ t_tokens	*replace_var(t_tokens *token)
 
 t_tokens	*env_var_parser(t_tokens *tokens)
 {
-	t_tokens	*tmp;
-
-	tmp = tokens;
-	while (tmp)
-	{
-		if (tmp->token == DOLLAR)
-		{
-			if (tmp->next && tmp->next->token == WORD)
-				tmp = replace_var(tmp);
-			else
-				tmp->token = WORD;
-		}
-		tmp = tmp->next;
-	}
+	if (tokens->next && tokens->next->token == WORD)
+		tokens = replace_var(tokens);
+	else
+		tokens->token = WORD;	
 	return (tokens);
 }

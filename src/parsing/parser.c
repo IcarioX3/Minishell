@@ -26,16 +26,19 @@ int	check_close_quote(t_tokens *tokens)
 
 void	parser(t_tokens **tokens)
 {
-/* 	t_tokens	*tmp;
+	t_tokens	*tmp;
 
-	tmp = *tokens; */
+	tmp = *tokens;
 	if (check_close_quote(*tokens) == 1)
 		return ;
-/* 	while (tmp)
+	while (tmp)
 	{
 		if (tmp->token == S_QUOTE)
-			tmp = join_s_quote(tmp);
+			tmp = s_quote_parser(tmp);
+		else if (tmp->token == D_QUOTE)
+			tmp = d_quote_parser(tmp);
+		else if (tmp->token == DOLLAR)
+			tmp = env_var_parser(tmp);
 		tmp = tmp->next;
 	}
-	*tokens = env_var_parser(*tokens); */
 }

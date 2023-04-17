@@ -13,7 +13,7 @@ char	*get_string_s_quote(t_tokens *tokens)
 	return (str);
 }
 
-t_tokens	*join_s_quote(t_tokens *tokens)
+t_tokens	*s_quote_parser(t_tokens *tokens)
 {
 	t_tokens	*tmp;
 	char		*str;
