@@ -10,11 +10,13 @@ int	main(int argc, char **argv, char **env)
 	tokens = NULL;
 	if (argc != 1)
 		return (1);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		input = readline("\033[36mminishell$\033[0m ");
 		add_history(input);
-		if (input[0] == '0')
+		if (!input)
 		{
 			free(input);
 			break ;

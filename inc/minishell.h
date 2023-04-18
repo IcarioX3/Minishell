@@ -6,6 +6,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include <signal.h>
 # include "libft.h"
 
 //---ENUMS---
@@ -55,5 +56,7 @@ int			is_special(char c);
 //ERRORS
 void		error_exit(char *str, int exit_code);
 void		print_error(char *str);
+//SIGNAL
+void	handle_sigint(int sig);
 
 #endif

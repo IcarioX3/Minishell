@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
+#    By: frgojard <frgojard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:53:05 by icario            #+#    #+#              #
-#    Updated: 2023/04/17 11:41:13 by ablevin          ###   ########.fr        #
+#    Updated: 2023/04/18 10:22:51 by frgojard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRC_UTILS	= $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRC_ERROR	= $(addprefix $(ERROR_DIR)/, $(ERROR))
 
 _SRC		= main.c \
+			signal.c \
 			$(SRC_PARSING) \
 			$(SRC_DEBUG) \
 			$(SRC_UTILS) \
