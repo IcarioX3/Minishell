@@ -12,6 +12,7 @@
 //---ENUMS---
 //PIPE=1, WORD=2, DOLLAR=3, IN_REDIR=4, OUT_REDIR=5, 
 //HEREDOC=6, APPEND=7, S_QUOTE=8, D_QUOTE=9, SEP=10
+
 typedef enum e_token
 {
 	PIPE,
@@ -27,6 +28,13 @@ typedef enum e_token
 }	t_etoken;
 
 //---STRUCTS---
+
+typedef struct s_env
+{
+	char			*str;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_tokens
 {
 	char			*str;
@@ -58,5 +66,7 @@ void		error_exit(char *str, int exit_code);
 void		print_error(char *str);
 //SIGNAL
 void	handle_sigint(int sig);
+//BUILTIN
+void	check_builtin(char **input, char **env);
 
 #endif
