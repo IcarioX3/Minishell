@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **env)
 		printf("After lexer:\n");
 		print_tokens(tokens);
 		free(input);
-		parser(&tokens);
+		tokens = parser(tokens);
 		printf("\nAfter parser:\n");
 		print_tokens(tokens);
 		lst_clear_token(&tokens);

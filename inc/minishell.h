@@ -40,7 +40,7 @@ typedef struct s_tokens
 //PARSING
 int			prompt(void);
 t_tokens	*lexer(char *str, t_tokens *tokens);
-void		parser(t_tokens **tokens);
+t_tokens	*parser(t_tokens *tokens);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens);
 t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
@@ -57,6 +57,6 @@ int			is_special(char c);
 void		error_exit(char *str, int exit_code);
 void		print_error(char *str);
 //SIGNAL
-void	handle_sigint(int sig);
+void		handle_sigint(int sig);
 
 #endif

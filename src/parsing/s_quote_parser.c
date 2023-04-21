@@ -24,11 +24,12 @@ t_tokens	*s_quote_parser(t_tokens *tokens)
 	while (tmp && tmp->token != S_QUOTE)
 	{
 		tokens = del_token(tokens, tmp);
-		tmp = tokens->next;
+		if (tokens)
+			tmp = tokens->next;
 	}
 	tokens = del_token(tokens, tmp);
 	free(tokens->str);
 	tokens->str = str;
-	tokens->token = S_QUOTE;
+	tokens->token = WORD;
 	return (tokens);
 }

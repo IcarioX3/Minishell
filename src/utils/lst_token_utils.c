@@ -11,11 +11,9 @@ void	lst_clear_token(t_tokens **tokens)
 		tmp = *tokens;
 		*tokens = (*tokens)->next;
 		if (tmp->str)
-			
 			free(tmp->str);
 		free(tmp);
 	}
-	tokens = NULL;
 }
 
 t_tokens	*lst_new_token(t_tokens *tokens, char *s, int token)
@@ -49,13 +47,20 @@ t_tokens	*lst_new_token(t_tokens *tokens, char *s, int token)
 
 t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp)
 {
-	if (tmp->previous)
-		tmp->previous->next = tmp->next;
-	if (tmp->next)
-		tmp->next->previous = tmp->previous;
-	if (tmp == tokens)
-		tokens = tmp->next;
-	free(tmp->str);
-	free(tmp);
+	t_tokens	*next;
+	t_tokens	*previous;
+
+	next = tmp->next;
+	previous = tmp->previous;
+	if (previous)
+		previous->next = next;
+	if (next)
+		next->previous = previous;
+	if (tmp->str)
+		free(tmp->str);
+	if (tmp)
+		free(tmp);
+	if (previous == NULL)
+		return (next);
 	return (tokens);
 }

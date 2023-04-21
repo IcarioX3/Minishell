@@ -24,15 +24,44 @@ int	check_close_quote(t_tokens *tokens)
 	return (0);
 }
 
-void	parser(t_tokens **tokens)
+t_tokens	*remove_empty_words(t_tokens **tokens)
+{
+	t_tokens	*tmp;
+	t_tokens	*prev;
+
+	tmp = *tokens;
+	while (tmp && tmp->token == WORD && ft_strlen(tmp->str) == 0)
+	{
+		*tokens = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = *tokens;
+	}
+	while (tmp)
+	{
+		if (tmp->token == WORD && ft_strlen(tmp->str) == 0)
+		{
+			prev->next = tmp->next;
+			free(tmp->str);
+			free(tmp);
+			tmp = prev->next;
+			continue ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (*tokens);
+}
+
+t_tokens	*parser(t_tokens *tokens)
 {
 	t_tokens	*tmp;
 	int			in_d_quote;
 
 	in_d_quote = 0;
-	tmp = *tokens;
-	if (check_close_quote(*tokens) == 1)
-		return ;
+	tmp = tokens;
+	if (check_close_quote(tokens) == 1)
+		return (NULL);
 	while (tmp)
 	{
 		if (tmp->token == S_QUOTE)
@@ -46,4 +75,6 @@ void	parser(t_tokens **tokens)
 			tmp = env_var_parser(tmp, in_d_quote);
 		tmp = tmp->next;
 	}
+	tokens = remove_empty_words(&tokens);
+	return (tokens);
 }
