@@ -33,6 +33,7 @@ typedef struct s_env
 {
 	char			*str;
 	struct s_env	*next;
+	struct s_env	*prev;
 }	t_env;
 
 typedef struct s_tokens
@@ -67,6 +68,6 @@ void		print_error(char *str);
 //SIGNAL
 void	handle_sigint(int sig);
 //BUILTIN
-void	check_builtin(char **input, char **env);
+void	check_builtin(char **input, t_env **env);
 
 #endif

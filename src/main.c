@@ -1,22 +1,62 @@
 #include "minishell.h"
 
-t_env	*lst_new_env(t_env *envi, char *str)
+void	lst_clear_env(t_env **envi)
 {
 	t_env	*tmp;
+
+	if (envi == NULL)
+		return ;
+	while (*envi)
+	{
+		tmp = *envi;
+		*envi = (*envi)->next;
+		if (tmp->str)
+			free(tmp->str);
+		free(tmp);
+	}
+	envi = NULL;
+}
+
+t_env	*ft_lstlast_env(t_env *env)
+{
+	while (env)
+	{
+		if (env->next == NULL)
+			return (env);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+void	ft_lstadd_back_env(t_env **env, t_env *new)
+{
+	t_env	*tmp;
+
+	if (*env == NULL)
+	{
+		*env = new;
+	}
+	else
+	{
+		tmp = ft_lstlast_env(*env);
+		tmp->next = new;
+		new->prev = tmp;
+	}
+}
+
+
+t_env	*lst_new_env(t_env *envi, char *str)
+{
 	t_env	*new;
 
-	new = (t_env *)malloc(sizeof(new));
+	new = (t_env *)malloc(sizeof(t_env));
 	new->str = ft_strdup(str);
 	new->next = NULL;
+	new->prev = NULL;
 	if (envi == NULL)
 		envi = new;
 	else
-	{
-		tmp = new;
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
+		ft_lstadd_back_env(&envi, new);
 	return (envi);
 }
 
@@ -57,7 +97,7 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		ui = ft_split(input, ' ');
-		check_builtin(ui, env);
+		check_builtin(ui, &envi);
 		tokens = lexer(input, tokens);
 		//printf("After lexer:\n");
 		//print_tokens(tokens);
@@ -67,5 +107,6 @@ int	main(int argc, char **argv, char **env)
 		//print_tokens(tokens);
 		lst_clear_token(&tokens);
 	}
+	lst_clear_env(&envi); //probleme de leak a coriger a l'ecole
 	return (0);
 }
