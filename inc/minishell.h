@@ -69,5 +69,8 @@ void		print_error(char *str);
 void	handle_sigint(int sig);
 //BUILTIN
 void	check_builtin(char **input, t_env **env);
+t_env	*ft_lstlast_env(t_env *env);
+void	ft_lstadd_back_env(t_env **env, t_env *new);
+t_env	*lst_new_env(t_env *envi, char *str);
 
 #endif

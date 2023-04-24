@@ -119,7 +119,6 @@ void del_env(t_env **env, t_env *node_to_remove)
 {
     if (*env == NULL || node_to_remove == NULL)
         return;
-
     // Si le maillon à supprimer est la tête de la liste
     if (*env == node_to_remove)
         *env = node_to_remove->next;
@@ -171,12 +170,66 @@ void	ft_unset(char **input, t_env **env)
 	}
 }
 
+void	ft_check_export(char *input, t_env **env)
+{
+	t_env	*tmp;
+	int flag;
+
+	tmp = *env;
+	flag = 0;
+	int eg = 0;
+
+	while (input[eg] != '=')
+		eg++;
+	eg++;
+	while (*env)
+	{
+		if (ft_strnstr((*env)->str, input, eg + 1) != NULL)
+			flag = 1;
+		*env = (*env)->next;
+	}
+
+	*env = tmp;
+	while (*env)
+	{
+		if (flag == 0 && ft_strchr(input, '=') != NULL)
+		{
+			printf("str = %s\n", (*env)->str);
+			*env = lst_new_env(*env, input);
+			break ;
+		}
+		*env = (*env)->next;
+	}
+	*env = tmp;
+}
+
+void	ft_export(char **input, t_env **env)
+{
+		int i;
+
+	i = 1;
+	if (input[1] == NULL)
+		return ;
+	if (ft_strlen(input[0]) == 6)
+	{
+		if (ft_strnstr(input[0], "export", 6) != NULL)
+		{
+			while (input[i])
+			{
+				ft_check_export(input[i], env);
+				i++;
+			}
+		}
+	}
+}
+
 void	check_builtin(char **input, t_env **env)
 {
 	ft_pwd(input);
 	ft_env(input, env);
 	ft_cd(input);
 	ft_echo(input);
-	ft_unset(input, env);
-	//pour export si j'export une var deja existante je la remplace par la nouvelle
+	ft_unset(input, env); //probleme quand je supprime la derniere variable de ma liste
+	ft_export(input, env); //attention si j'export a=1 pui a=2 alore j'ecraserai le premier a
+	//pour export si j'export une var deja existante je la remplace par la nouvelle erreur si je met un egale en premier
 }
