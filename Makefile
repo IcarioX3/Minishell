@@ -36,7 +36,15 @@ UTILS		= parsing_utils.c \
 
 ERROR		= error.c
 
-BUILTIN		= builtin.c
+BUILTIN		= builtin.c \
+			cd.c \
+			echo.c \
+			env.c \
+			export.c \
+			pwd.c \
+			unset.c \
+			utils_builtin.c
+
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRC_DEBUG	= $(addprefix $(DEBUG_DIR)/, $(DEBUG))
