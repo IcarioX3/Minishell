@@ -90,7 +90,7 @@ t_tokens	*parser(t_tokens *tokens)
 	in_d_quote = 0;
 	tmp = tokens;
 	if (check_close_quote(tokens) == 1)
-		return (NULL);
+		return (tokens);
 	while (tmp)
 	{
 		if (tmp->token == S_QUOTE)

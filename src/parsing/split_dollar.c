@@ -80,36 +80,3 @@ t_tokens	*split_dollar(t_tokens *tokens)
 	free(split);
 	return (tokens);
 }
-
-/* t_tokens	*split_dollar(t_tokens *tokens)
-{
-	t_tokens	*tmp;
-	char		**split;
-	int			i;
-
-	tmp = tokens;
-	if (!tmp || !tmp->str)
-		return (tokens);
-	split = get_split_str(tmp->str);
-	if (!split)
-		return (NULL);
-	if (count_words(tmp->str) == 1)
-	{
-		free(tmp->str);
-		tmp->str = split[0];
-		tmp->token = WORD;
-		free(split);
-		return (tokens);
-	}
-	free(tmp->str);
-	tmp->str = split[0];
-	tmp->token = WORD;
-	i = count_words(tmp->str) - 1;
-	while (i >= 0 && split[i])
-	{
-		tmp = insert_token(tmp, split[i], WORD);
-		i--;
-	}
-	free(split);
-	return (tokens);
-} */
