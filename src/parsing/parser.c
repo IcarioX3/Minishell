@@ -53,6 +53,35 @@ t_tokens	*remove_empty_words(t_tokens **tokens)
 	return (*tokens);
 }
 
+t_tokens	*remove_sep(t_tokens *tokens)
+{
+	t_tokens	*tmp;
+	t_tokens	*prev;
+
+	tmp = tokens;
+	while (tmp && tmp->token == SEP)
+	{
+		tokens = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = tokens;
+	}
+	while (tmp)
+	{
+		if (tmp->token == SEP)
+		{
+			prev->next = tmp->next;
+			free(tmp->str);
+			free(tmp);
+			tmp = prev->next;
+			continue ;
+		}
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (tokens);
+}
+
 t_tokens	*parser(t_tokens *tokens)
 {
 	t_tokens	*tmp;
@@ -76,5 +105,6 @@ t_tokens	*parser(t_tokens *tokens)
 		tmp = tmp->next;
 	}
 	tokens = remove_empty_words(&tokens);
+	tokens = remove_sep(tokens);
 	return (tokens);
 }
