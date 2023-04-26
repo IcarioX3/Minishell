@@ -102,6 +102,8 @@ t_tokens	*parser(t_tokens *tokens)
 		}
 		else if (tmp->token == DOLLAR)
 			tmp = env_var_parser(tmp, in_d_quote);
+		if (tmp->token == DOLLAR)
+			tmp = split_dollar(tmp);
 		tmp = tmp->next;
 	}
 	tokens = remove_empty_words(&tokens);

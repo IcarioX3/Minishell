@@ -64,3 +64,25 @@ t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp)
 		return (next);
 	return (tokens);
 }
+
+t_tokens	*insert_token(t_tokens *tmp, char *str, int token)
+{
+	t_tokens	*new;
+
+	new = (t_tokens *)malloc(sizeof(t_tokens));
+	if (new == NULL)
+	{
+		free(str);
+		lst_clear_token(&tmp);
+		error_exit("malloc error", 1);
+		return (NULL);
+	}
+	new->str = str;
+	new->token = token;
+	if (tmp->next)
+		tmp->next->previous = new;
+	new->next = tmp->next;
+	tmp->next = new;
+	new->previous = tmp;
+	return (new);
+}

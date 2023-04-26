@@ -44,10 +44,12 @@ t_tokens	*parser(t_tokens *tokens);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens);
 t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
+t_tokens	*split_dollar(t_tokens *tokens);
 //LST_UTILS
 t_tokens	*lst_new_token(t_tokens *tokens, char *str, int token);
 void		lst_clear_token(t_tokens **tokens);
 t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp);
+t_tokens	*insert_token(t_tokens *tmp, char *s, int token);
 //DEBUG
 void		print_tokens(t_tokens *tokens);
 //UTILS
