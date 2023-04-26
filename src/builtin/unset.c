@@ -1,26 +1,34 @@
 #include "minishell.h"
 
-void del_env(t_env **env, t_env *node_to_remove)
+void del_env(t_env **env, t_env *node_to_remove, t_env **tmp)
 {
+	t_env	*temp;
+
+	temp = node_to_remove;
 	if (*env == NULL || node_to_remove == NULL)
 		return ;
-	if (*env == node_to_remove)
-		*env = node_to_remove->next;
-	if (node_to_remove->next != NULL)
-        node_to_remove->next->prev = node_to_remove->prev;
-	if (node_to_remove->prev != NULL)
+	if (node_to_remove->prev == NULL)
 	{
-		if (node_to_remove->next == NULL)
-		{
-			node_to_remove->prev->next = NULL;
-		}
-		else
-		{
-			node_to_remove->prev->next = node_to_remove->next;
-		}
+		printf("1\n");
+		*env = node_to_remove->next;
+		(*env)->prev = NULL;
+		*tmp = node_to_remove->next;
 	}
+	else if (node_to_remove->prev != NULL && node_to_remove->next != NULL)
+	{
+		printf("2\n");
+		node_to_remove->prev->next = node_to_remove->next;
+		node_to_remove->next->prev = node_to_remove->prev;
+		node_to_remove = temp;
+	}
+	else
+	{
+		printf("3\n");
+		node_to_remove->prev->next = NULL;
+		node_to_remove = temp;
+	}
+    //free(node_to_remove); //a voir car me creer un segfault donc a gerer quand je ferais la partie leak
 	free(node_to_remove->str);
-    free(node_to_remove);
 }
 
 void	ft_check_unset(char *input, t_env **env)
@@ -28,16 +36,16 @@ void	ft_check_unset(char *input, t_env **env)
 	t_env	*tmp;
 
 	tmp = *env;
-	while (*env)
+	while (env && *env)
 	{
 		if (ft_strnstr((*env)->str, input, ft_strlen(input)) != NULL 
 			&& (*env)->str[ft_strlen(input)] == '=')
 		{
-			del_env(env, *env);
+			del_env(env, *env, &tmp);
 		}
-		*env = (*env)->next;
+		else
+			*env = (*env)->next;
 	}
-	printf("2\n");
 	*env = tmp;
 }
 
