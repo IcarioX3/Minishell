@@ -13,7 +13,7 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	envi = lst_env(envi, env);
+	envi = lst_env(env);
 	while (1)
 	{
 		input = readline("\033[36mminishell$\033[0m ");

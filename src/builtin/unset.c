@@ -12,7 +12,7 @@ void del_env(t_env *env, t_env *node_to_remove)
 		printf("1\n");
 		env = node_to_remove->next;
 		(env)->prev = NULL;
-		tmp = node_to_remove->next;
+		temp = node_to_remove->next;
 	}
 	else if (node_to_remove->prev != NULL && node_to_remove->next != NULL)
 	{
@@ -41,7 +41,7 @@ void	ft_check_unset(char *input, t_env *env)
 		if (ft_strnstr((env)->str, input, ft_strlen(input)) != NULL 
 			&& (env)->str[ft_strlen(input)] == '=')
 		{
-			del_env(env, env, tmp);
+			del_env(env, env);
 		}
 		else
 			env = (env)->next;

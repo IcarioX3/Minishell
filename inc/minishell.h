@@ -102,9 +102,9 @@ void	ft_unset(char **input, t_env *env);
 /*utils_builtin.c*/
 void	lst_clear_env(t_env *envi);
 t_env	*ft_lstlast_env(t_env *env);
-void	ft_lstadd_back_env(t_env *env, t_env *new);
-void	lst_new_env(t_env *envi, char *str);
-t_env	*lst_env(t_env *envi, char **env);
+t_env	*ft_lstadd_back_env(t_env *env, t_env *new);
+t_env	*lst_new_env(t_env *envi, char *str);
+t_env *lst_env(char **env);
 /*builtin.c*/
 void	check_builtin(char **input, t_env *env);
 

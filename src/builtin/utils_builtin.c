@@ -28,7 +28,7 @@ t_env	*ft_lstlast_env(t_env *env)
 	return (NULL);
 }
 
-void	ft_lstadd_back_env(t_env *env, t_env *new)
+t_env	*ft_lstadd_back_env(t_env *env, t_env *new)
 {
 	t_env	*tmp;
 
@@ -42,9 +42,10 @@ void	ft_lstadd_back_env(t_env *env, t_env *new)
 		tmp->next = new;
 		new->prev = tmp;
 	}
+	return (env);
 }
 
-void	lst_new_env(t_env *envi, char *str)
+t_env	*lst_new_env(t_env *envi, char *str)
 {
 	t_env	*new;
 
@@ -55,18 +56,22 @@ void	lst_new_env(t_env *envi, char *str)
 	if (envi == NULL)
 		envi = new;
 	else
-		ft_lstadd_back_env(envi, new);
+		envi = ft_lstadd_back_env(envi, new);
+	//printf("%s\n", envi->str);
+	return (envi);
 }
 
-t_env	*lst_env(t_env *envi, char **env)
+t_env *lst_env(char **env)
 {
-	int i;
+    t_env *envi;
 
-	i = 0;
-	while (env[i] != NULL)
-	{
-		lst_new_env(envi, env[i]);
-		i++;
-	}
-	return (envi);
+    envi = NULL;
+    int i = 0;
+	
+    while (env[i])
+    {
+        envi = lst_new_env(envi, env[i]);
+        i++;
+    }
+    return (envi);
 }
