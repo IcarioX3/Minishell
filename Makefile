@@ -8,7 +8,7 @@ END		= \033[0m
 NAME	= minishell
 LIBNAME	= libft.a
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -lreadline
+CFLAGS	= -Wall -Werror -Wextra -lreadline -g3
 
 SRCDIR	= src
 OBJDIR	= obj

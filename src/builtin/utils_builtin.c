@@ -1,15 +1,15 @@
 #include "minishell.h"
 
-void	lst_clear_env(t_env **envi)
+void	lst_clear_env(t_env *envi)
 {
 	t_env	*tmp;
 
 	if (envi == NULL)
 		return ;
-	while (*envi)
+	while (envi)
 	{
-		tmp = *envi;
-		*envi = (*envi)->next;
+		tmp = envi;
+		envi = (envi)->next;
 		if (tmp->str)
 			free(tmp->str);
 		free(tmp);
@@ -28,24 +28,23 @@ t_env	*ft_lstlast_env(t_env *env)
 	return (NULL);
 }
 
-void	ft_lstadd_back_env(t_env **env, t_env *new)
+void	ft_lstadd_back_env(t_env *env, t_env *new)
 {
 	t_env	*tmp;
 
-	if (*env == NULL)
+	if (env == NULL)
 	{
-		*env = new;
+		env = new;
 	}
 	else
 	{
-		tmp = ft_lstlast_env(*env);
+		tmp = ft_lstlast_env(env);
 		tmp->next = new;
 		new->prev = tmp;
 	}
 }
 
-
-t_env	*lst_new_env(t_env *envi, char *str)
+void	lst_new_env(t_env *envi, char *str)
 {
 	t_env	*new;
 
@@ -56,8 +55,7 @@ t_env	*lst_new_env(t_env *envi, char *str)
 	if (envi == NULL)
 		envi = new;
 	else
-		ft_lstadd_back_env(&envi, new);
-	return (envi);
+		ft_lstadd_back_env(envi, new);
 }
 
 t_env	*lst_env(t_env *envi, char **env)
@@ -67,7 +65,7 @@ t_env	*lst_env(t_env *envi, char **env)
 	i = 0;
 	while (env[i] != NULL)
 	{
-		envi = lst_new_env(envi, env[i]);
+		lst_new_env(envi, env[i]);
 		i++;
 	}
 	return (envi);

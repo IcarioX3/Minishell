@@ -1,39 +1,33 @@
 #include "minishell.h"
 
-void	ft_check_export(char *input, t_env **env)
+void	ft_check_export(char *input, t_env *env)
 {
 	t_env	*tmp;
-	int flag;
+	int		poseg;
 
-	tmp = *env;
-	flag = 0;
-	int eg = 0;
-
-	while (input[eg] != '=')
-		eg++;
-	eg++;
-	while (*env)
+	tmp = env;
+	poseg = 0;
+	if (ft_strlen(input) < 2)
+		return ;
+	while (input[poseg] != '=')
+		poseg++;
+	while (env)
 	{
-		if (ft_strnstr((*env)->str, input, eg + 1) != NULL)
-			flag = 1;
-		*env = (*env)->next;
-	}
-
-	*env = tmp;
-	while (*env)
-	{
-		if (flag == 0 && ft_strchr(input, '=') != NULL)
+		if (ft_strncmp((env)->str, input, poseg + 1) == 0)
 		{
-			printf("OK\n");
-			*env = lst_new_env(*env, input);
+			del_env(env, env);
+			env = tmp;
+			lst_new_env(env, input);
 			break ;
 		}
-		*env = (*env)->next;
+		else if ((env)->next == NULL)
+			lst_new_env(env, input);
+		env = (env)->next;
 	}
-	*env = tmp;
+	env = tmp;
 }
 
-void	ft_export(char **input, t_env **env)
+void	ft_export(char **input, t_env *env)
 {
 	int	i;
 
@@ -46,6 +40,8 @@ void	ft_export(char **input, t_env **env)
 		{
 			while (input[i])
 			{
+				if (input[i][0] == '=')
+					return ;
 				ft_check_export(input[i], env);
 				i++;
 			}

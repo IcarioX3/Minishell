@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-void del_env(t_env **env, t_env *node_to_remove, t_env **tmp)
+void del_env(t_env *env, t_env *node_to_remove)
 {
 	t_env	*temp;
 
 	temp = node_to_remove;
-	if (*env == NULL || node_to_remove == NULL)
+	if (env == NULL || node_to_remove == NULL)
 		return ;
 	if (node_to_remove->prev == NULL)
 	{
 		printf("1\n");
-		*env = node_to_remove->next;
-		(*env)->prev = NULL;
-		*tmp = node_to_remove->next;
+		env = node_to_remove->next;
+		(env)->prev = NULL;
+		tmp = node_to_remove->next;
 	}
 	else if (node_to_remove->prev != NULL && node_to_remove->next != NULL)
 	{
@@ -31,25 +31,25 @@ void del_env(t_env **env, t_env *node_to_remove, t_env **tmp)
 	free(node_to_remove->str);
 }
 
-void	ft_check_unset(char *input, t_env **env)
+void	ft_check_unset(char *input, t_env *env)
 {
 	t_env	*tmp;
 
-	tmp = *env;
-	while (env && *env)
+	tmp = env;
+	while (env && env)
 	{
-		if (ft_strnstr((*env)->str, input, ft_strlen(input)) != NULL 
-			&& (*env)->str[ft_strlen(input)] == '=')
+		if (ft_strnstr((env)->str, input, ft_strlen(input)) != NULL 
+			&& (env)->str[ft_strlen(input)] == '=')
 		{
-			del_env(env, *env, &tmp);
+			del_env(env, env, tmp);
 		}
 		else
-			*env = (*env)->next;
+			env = (env)->next;
 	}
-	*env = tmp;
+	env = tmp;
 }
 
-void	ft_unset(char **input, t_env **env)
+void	ft_unset(char **input, t_env *env)
 {
 	int i;
 

@@ -24,7 +24,7 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		ui = ft_split(input, ' ');
-		check_builtin(ui, &envi);
+		check_builtin(ui, envi);
 		tokens = lexer(input, tokens);
 		//printf("After lexer:\n");
 		//print_tokens(tokens);
@@ -34,6 +34,7 @@ int	main(int argc, char **argv, char **env)
 		//print_tokens(tokens);
 		lst_clear_token(&tokens);
 	}
-	lst_clear_env(&envi); //probleme de leak a coriger a l'ecole
+	lst_clear_env(envi);
+	free_split(ui);
 	return (0);
 }
