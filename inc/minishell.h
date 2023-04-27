@@ -44,6 +44,7 @@ t_tokens	*parser(t_tokens *tokens);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens);
 t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
+t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);
 int			check_redir(t_tokens *tokens);

@@ -27,6 +27,7 @@ PARSING 	= lexer.c \
 			env_var_parser.c \
 			split_dollar.c \
 			check_parse_error.c \
+			redir_parser.c \
 
 LST			= lst_token.c
 

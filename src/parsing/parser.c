@@ -94,17 +94,18 @@ t_tokens	*parser(t_tokens *tokens)
 			in_d_quote = !in_d_quote;
 			tmp = d_quote_parser(tmp);
 		}
-		else if (tmp->token == DOLLAR)
+/*  		else if (tmp->token == DOLLAR)
 		{
 			tmp = env_var_parser(tmp, in_d_quote);
 			tmp = split_dollar(tmp);
-		}
+		} */
 		tmp = tmp->next;
 	}
 	tokens = merge_words(tokens);
-	tokens = remove_sep(tokens);
+	//tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1)
 		return (tokens);
 	//tokens = remove_empty_words(&tokens);
+	tokens = redir_parser(tokens);
 	return (tokens);
 }
