@@ -2,10 +2,8 @@
 
 void	ft_check_export(char *input, t_env *env)
 {
-	t_env	*tmp;
 	int		poseg;
 
-	tmp = env;
 	poseg = 0;
 	if (ft_strlen(input) < 2)
 		return ;
@@ -15,16 +13,17 @@ void	ft_check_export(char *input, t_env *env)
 	{
 		if (ft_strncmp((env)->str, input, poseg + 1) == 0)
 		{
-			del_env(env, env);
-			env = tmp;
-			env = lst_new_env(env, input);
+			free(env->str);
+			env->str = ft_strdup(input);
 			break ;
 		}
 		else if ((env)->next == NULL)
-			env = lst_new_env(env, input);
+		{
+			lst_new_env(env, input);
+			break;
+		}
 		env = (env)->next;
 	}
-	env = tmp;
 }
 
 void	ft_export(char **input, t_env *env)
@@ -34,6 +33,7 @@ void	ft_export(char **input, t_env *env)
 	i = 1;
 	if (input[1] == NULL)
 		return ;
+	//printf("%s\n", *input);
 	if (ft_strlen(input[0]) == 6)
 	{
 		if (ft_strnstr(input[0], "export", 6) != NULL)

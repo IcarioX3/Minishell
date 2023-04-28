@@ -49,39 +49,23 @@ t_env	*lst_new_env(t_env *envi, char *str)
 {
 	t_env	*new;
 
-	new = (t_env *)malloc(sizeof(t_env));
+	new = malloc(sizeof(t_env));
 	new->str = ft_strdup(str);
+	//printf("%p\n 1\n", new->next);
 	new->next = NULL;
 	new->prev = NULL;
-	if (envi == NULL)
-		envi = new;
-	else
-		envi = ft_lstadd_back_env(envi, new);
+	envi = ft_lstadd_back_env(envi, new);
 	return (envi);
 }
-
-// t_env	*lst_env(t_env *envi, char **env)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (env[i] != NULL)
-// 	{
-// 		lst_new_env(envi, env[i]);
-// 		i++;
-// 	}
-// 	return (envi);
-// }
-
 
 t_env *lst_env(char **env)
 {
     t_env *envi;
 
-    envi = NULL;
-    int i = 0;
+    int i = 1;
+	envi = NULL;
 	
-    while (env[i])
+    while (i <= 1)
     {
         envi = lst_new_env(envi, env[i]);
         i++;
