@@ -24,6 +24,7 @@ void del_env(t_env *env, t_env *node_to_remove)
 	else
 	{
 		printf("end\n");
+		// segfault ici
 		node_to_remove->prev->next = NULL;
 		node_to_remove = temp;
 	}
