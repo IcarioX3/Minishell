@@ -35,6 +35,8 @@ int	main(int argc, char **argv, char **env)
 		lst_clear_token(&tokens);
 	}
 	lst_clear_env(envi);
+	//free(envi->str);
+	//printf("%s/n", envi->str);
 	free_split(ui);
 	return (0);
 }

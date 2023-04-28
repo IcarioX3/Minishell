@@ -57,9 +57,22 @@ t_env	*lst_new_env(t_env *envi, char *str)
 		envi = new;
 	else
 		envi = ft_lstadd_back_env(envi, new);
-	//printf("%s\n", envi->str);
 	return (envi);
 }
+
+// t_env	*lst_env(t_env *envi, char **env)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (env[i] != NULL)
+// 	{
+// 		lst_new_env(envi, env[i]);
+// 		i++;
+// 	}
+// 	return (envi);
+// }
+
 
 t_env *lst_env(char **env)
 {

@@ -17,11 +17,11 @@ void	ft_check_export(char *input, t_env *env)
 		{
 			del_env(env, env);
 			env = tmp;
-			lst_new_env(env, input);
+			env = lst_new_env(env, input);
 			break ;
 		}
 		else if ((env)->next == NULL)
-			lst_new_env(env, input);
+			env = lst_new_env(env, input);
 		env = (env)->next;
 	}
 	env = tmp;
