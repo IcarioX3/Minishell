@@ -7,6 +7,7 @@ void	ft_check_export(char *input, t_env *env)
 	poseg = 0;
 	if (ft_strlen(input) < 2)
 		return ;
+	printf("%s\n", input);
 	while (input[poseg] != '=')
 		poseg++;
 	while (env)
