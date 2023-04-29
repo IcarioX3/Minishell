@@ -7,7 +7,7 @@ void del_env(t_env *env, t_env *node_to_remove)
 	temp = node_to_remove;
 	if (env == NULL || node_to_remove == NULL)
 		return ;
-	if (node_to_remove->prev == NULL)
+	if (node_to_remove->prev == NULL) // quand je unset le premier maillon cela segfault voir pourquoi 
 	{
 		printf("first\n");
 		env = node_to_remove->next;
@@ -21,15 +21,14 @@ void del_env(t_env *env, t_env *node_to_remove)
 		node_to_remove->next->prev = node_to_remove->prev;
 		node_to_remove = temp;
 	}
-	else
+	else if (node_to_remove->next == NULL)
 	{
 		printf("end\n");
-		// segfault ici
 		node_to_remove->prev->next = NULL;
 		node_to_remove = temp;
 	}
-	//free(node_to_remove->str);
-    //free(node_to_remove); //a voir car me creer un segfault donc a gerer quand je ferais la partie leak
+	free(node_to_remove->str);
+    free(node_to_remove);
 }
 
 void	ft_check_unset(char *input, t_env *env)
@@ -38,15 +37,17 @@ void	ft_check_unset(char *input, t_env *env)
 
 	tmp = env;
 	int		poseg;
+	int i = 0;
 
 	poseg = 0;
 	while (input[poseg] != 0)
 		poseg++;
-	while (env)
+	while (env && i == 0)
 	{
-		if (ft_strncmp((env)->str, input, poseg) == 0)
+		if (ft_strncmp((env)->str, input, poseg) == 0 && i == 0)
 		{
 			del_env(env, env);
+			i = 1;
 		}
 		else
 			env = env->next;
