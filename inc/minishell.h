@@ -96,7 +96,7 @@ void	ft_env(char **input, t_env *env);
 void	ft_check_export(char *input, t_env *env);
 void	ft_export(char **input, t_env *env);
 /*unset.c*/
-void del_env(t_env *env, t_env *node_to_remove);
+void del_env(t_env **remove);
 void	ft_check_unset(char *input, t_env *env);
 void	ft_unset(char **input, t_env *env);
 /*utils_builtin.c*/

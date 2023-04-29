@@ -1,36 +1,46 @@
 #include "minishell.h"
 
-void del_env(t_env *env, t_env *node_to_remove)
+void del_env(t_env **remove)
 {
-	t_env	*temp;
+	t_env	*tmp;
 
-	temp = node_to_remove;
-	if (env == NULL || node_to_remove == NULL)
-		return ;
-	if (node_to_remove->prev == NULL) // quand je unset le premier maillon cela segfault voir pourquoi 
+	tmp = *remove;
+	if (tmp->prev == NULL)
 	{
-		printf("first\n");
-		env = node_to_remove->next;
-		(env)->prev = NULL;
-		temp = node_to_remove->next;
+		printf("%s\n", (*remove)->str);
+		*remove = (*remove)->next;
+		(*remove)->prev = NULL; 
+		printf("%s\n", (*remove)->str);
 	}
-	else if (node_to_remove->prev != NULL && node_to_remove->next != NULL)
+	else if ((*remove)->prev != NULL && (*remove)->next != NULL)
 	{
-		printf("midlle\n");
-		node_to_remove->prev->next = node_to_remove->next;
-		node_to_remove->next->prev = node_to_remove->prev;
-		node_to_remove = temp;
+		(*remove)->next->prev = (*remove)->prev;
+		(*remove)->prev->next = (*remove)->next;
 	}
-	else if (node_to_remove->next == NULL)
+	else if ((*remove)->next == NULL)
 	{
-		printf("end\n");
-		node_to_remove->prev->next = NULL;
-		node_to_remove = temp;
+		(*remove)->prev->next = NULL;
 	}
-	free(node_to_remove->str);
-    free(node_to_remove);
+	free(tmp->str);
+	free(tmp);
+	*remove = NULL;
+	printf("%p\n", *remove);
 }
 
+// void    free_list(t_env *head)
+// {
+//     t_env    *current;
+//     t_env    *next;
+
+//     current = head;
+//     while (current != NULL)
+//     {
+//         next = current->next;
+// 		free(current->str);
+//         free(current);
+//         current = next;
+//     }
+// }
 void	ft_check_unset(char *input, t_env *env)
 {
 	t_env	*tmp;
@@ -46,12 +56,14 @@ void	ft_check_unset(char *input, t_env *env)
 	{
 		if (ft_strncmp((env)->str, input, poseg) == 0 && i == 0)
 		{
-			del_env(env, env);
+			del_env(&env);
 			i = 1;
+			break ;
 		}
 		else
 			env = env->next;
 	}
+	printf("%p\n", env);
 	env = tmp;
 }
 

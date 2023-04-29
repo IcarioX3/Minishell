@@ -65,7 +65,7 @@ t_env *lst_env(char **env)
     int i = 1;
 	envi = NULL;
 	
-    while (i <= 1)
+    while (env[i])
     {
         envi = lst_new_env(envi, env[i]);
         i++;
