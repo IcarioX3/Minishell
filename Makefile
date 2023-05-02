@@ -28,13 +28,17 @@ PARSING 	= lexer.c \
 			split_dollar.c \
 			check_parse_error.c \
 			redir_parser.c \
+			blocks.c
 
 LST			= lst_token.c
 
-DEBUG		= print_tokens.c
+DEBUG		= print_tokens.c \
+			print_blocks.c \
 
 UTILS		= parsing_utils.c \
-			lst_token_utils.c
+			lst_token_utils.c \
+			lst_block_utils.c \
+			free_double_array.c \
 
 ERROR		= error.c
 
