@@ -40,7 +40,7 @@ typedef struct s_tokens
 //PARSING
 int			prompt(void);
 t_tokens	*lexer(char *str, t_tokens *tokens);
-t_tokens	*parser(t_tokens *tokens);
+t_tokens	*parser(t_tokens *tokens, int *exit_status);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens);
 t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);

@@ -41,35 +41,69 @@ t_tokens	*merge_words(t_tokens *tokens)
 	return (tokens);
 }
 
-t_tokens	*parser(t_tokens *tokens)
+int	check_pipe(t_tokens *tokens)
 {
 	t_tokens	*tmp;
-	int			in_d_quote;
 
-	in_d_quote = 0;
 	tmp = tokens;
-	if (check_close_quote(tokens) == 1)
-		return (tokens);
 	while (tmp)
 	{
-		if (tmp->token == S_QUOTE)
-			tmp = s_quote_parser(tmp);
-		else if (tmp->token == D_QUOTE)
+		if (tmp->token == PIPE)
 		{
-			in_d_quote = !in_d_quote;
-			tmp = d_quote_parser(tmp);
-		}
-		else if (tmp->token == DOLLAR)
-		{
-			tmp = env_var_parser(tmp, in_d_quote);
-			tmp = split_dollar(tmp);
+			if (!tmp->next || tmp->next->token == PIPE || !tmp->previous)
+			{
+				ft_putstr_fd("minishell:", 2);
+				ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
+				return (1);
+			}
 		}
 		tmp = tmp->next;
 	}
+	return (0);
+}
+
+t_tokens	*handle_quote(t_tokens *tokens)
+{
+	int	in_d_quote;
+
+	in_d_quote = 0;
+	while (tokens)
+	{
+		if (tokens->token == S_QUOTE)
+			tokens = s_quote_parser(tokens);
+		else if (tokens->token == D_QUOTE)
+		{
+			in_d_quote = !in_d_quote;
+			tokens = d_quote_parser(tokens);
+		}
+		else if (tokens->token == DOLLAR)
+		{
+			tokens = env_var_parser(tokens, in_d_quote);
+			tokens = remove_sep(tokens);
+		}
+		tokens = tokens->next;
+	}
+	return (tokens);
+}
+
+t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
+{
+	t_tokens	*tmp;
+
+	tmp = tokens;
+	if (check_close_quote(tokens) == 1)
+	{
+		*g_exit_status = 2;
+		return (tokens);
+	}
+	tokens = handle_quote(tokens);
 	tokens = merge_words(tokens);
 	tokens = remove_sep(tokens);
-	if (check_redir(tokens) == 1)
+	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)
+	{
+		*g_exit_status = 2;
 		return (tokens);
+	}
 	tokens = redir_parser(tokens);
 	return (tokens);
 }

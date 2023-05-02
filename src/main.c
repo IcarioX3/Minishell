@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+int	g_exit_status = 0;
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*input;
@@ -25,10 +27,16 @@ int	main(int argc, char **argv, char **env)
 		printf("After lexer:\n");
 		print_tokens(tokens);
 		free(input);
-		tokens = parser(tokens);
+		tokens = parser(tokens, &g_exit_status);
+		if (g_exit_status != 0)
+		{
+			lst_clear_token(&tokens);
+			continue ;
+		}
 		printf("\nAfter parser:\n");
 		print_tokens(tokens);
 		lst_clear_token(&tokens);
 	}
+	printf("Exit status: %d\n", g_exit_status);
 	return (0);
 }
