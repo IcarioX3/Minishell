@@ -56,6 +56,8 @@ t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp)
 		previous->next = next;
 	if (next)
 		next->previous = previous;
+	else if (previous)
+		previous->next = NULL;
 	if (tmp->str)
 		free(tmp->str);
 	if (tmp)

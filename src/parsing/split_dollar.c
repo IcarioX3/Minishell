@@ -67,13 +67,13 @@ t_tokens	*split_dollar(t_tokens *tokens)
 	i = count_words(tmp->str);
 	free(tmp->str);
 	tmp->str = split[0];
-	tmp->token = WORD;
+	tmp->token = DOLLAR;
 	if (i > 1)
 	{
 		i = 1;
 		while (split[i])
 		{
-			tmp = insert_token(tmp, split[i], WORD);
+			tmp = insert_token(tmp, split[i], DOLLAR);
 			i++;
 		}
 	}

@@ -1,38 +1,8 @@
 #include "minishell.h"
 
-t_tokens	*remove_empty_words(t_tokens **tokens)
-{
-	t_tokens	*tmp;
-	t_tokens	*prev;
-
-	tmp = *tokens;
-	while (tmp && tmp->token == WORD && ft_strlen(tmp->str) == 0)
-	{
-		*tokens = tmp->next;
-		free(tmp->str);
-		free(tmp);
-		tmp = *tokens;
-	}
-	while (tmp)
-	{
-		if (tmp->token == WORD && ft_strlen(tmp->str) == 0)
-		{
-			prev->next = tmp->next;
-			free(tmp->str);
-			free(tmp);
-			tmp = prev->next;
-			continue ;
-		}
-		prev = tmp;
-		tmp = tmp->next;
-	}
-	return (*tokens);
-}
-
 t_tokens	*remove_sep(t_tokens *tokens)
 {
 	t_tokens	*tmp;
-	t_tokens	*prev;
 
 	tmp = tokens;
 	while (tmp && tmp->token == SEP)
@@ -42,17 +12,10 @@ t_tokens	*remove_sep(t_tokens *tokens)
 		free(tmp);
 		tmp = tokens;
 	}
-	while (tmp)
+	while (tmp && tmp->next)
 	{
-		if (tmp->token == SEP)
-		{
-			prev->next = tmp->next;
-			free(tmp->str);
-			free(tmp);
-			tmp = prev->next;
-			continue ;
-		}
-		prev = tmp;
+		if (tmp->next->token == SEP)
+			del_token(tokens, tmp->next);
 		tmp = tmp->next;
 	}
 	return (tokens);
@@ -71,6 +34,8 @@ t_tokens	*merge_words(t_tokens *tokens)
 			del_token(tokens, tmp->next);
 			continue ;
 		}
+		if (tmp->token == DOLLAR)
+			tmp->token = WORD;
 		tmp = tmp->next;
 	}
 	return (tokens);
@@ -94,18 +59,17 @@ t_tokens	*parser(t_tokens *tokens)
 			in_d_quote = !in_d_quote;
 			tmp = d_quote_parser(tmp);
 		}
-/*  		else if (tmp->token == DOLLAR)
+		else if (tmp->token == DOLLAR)
 		{
 			tmp = env_var_parser(tmp, in_d_quote);
 			tmp = split_dollar(tmp);
-		} */
+		}
 		tmp = tmp->next;
 	}
 	tokens = merge_words(tokens);
-	//tokens = remove_sep(tokens);
+	tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1)
 		return (tokens);
-	//tokens = remove_empty_words(&tokens);
 	tokens = redir_parser(tokens);
 	return (tokens);
 }
