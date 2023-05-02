@@ -64,33 +64,32 @@ int	check_pipe(t_tokens *tokens)
 
 t_tokens	*handle_quote(t_tokens *tokens)
 {
-	int	in_d_quote;
+	int			in_d_quote;
+	t_tokens	*tmp;
 
 	in_d_quote = 0;
-	while (tokens)
+	tmp = tokens;
+	while (tmp)
 	{
-		if (tokens->token == S_QUOTE)
-			tokens = s_quote_parser(tokens);
-		else if (tokens->token == D_QUOTE)
+		if (tmp->token == S_QUOTE)
+			tmp = s_quote_parser(tmp);
+		else if (tmp->token == D_QUOTE)
 		{
 			in_d_quote = !in_d_quote;
-			tokens = d_quote_parser(tokens);
+			tmp = d_quote_parser(tmp);
 		}
-		else if (tokens->token == DOLLAR)
+		else if (tmp->token == DOLLAR)
 		{
-			tokens = env_var_parser(tokens, in_d_quote);
-			tokens = remove_sep(tokens);
+			tmp = env_var_parser(tmp, in_d_quote);
+			tmp = split_dollar(tmp);
 		}
-		tokens = tokens->next;
+		tmp = tmp->next;
 	}
 	return (tokens);
 }
 
 t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
 {
-	t_tokens	*tmp;
-
-	tmp = tokens;
 	if (check_close_quote(tokens) == 1)
 	{
 		*g_exit_status = 2;

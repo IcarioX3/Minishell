@@ -2,6 +2,24 @@
 
 int	g_exit_status = 0;
 
+int parsing(t_tokens *tokens, char *input)
+{
+	tokens = lexer(input, tokens);
+	free(input);
+	printf("After lexer:\n");
+	print_tokens(tokens);
+	tokens = parser(tokens, &g_exit_status);
+	if (g_exit_status != 0)
+	{
+		lst_clear_token(&tokens);
+		return (1);
+	}
+	printf("\nAfter parser:\n");
+	print_tokens(tokens);
+	lst_clear_token(&tokens);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*input;
@@ -23,19 +41,8 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			break ;
 		}
-		tokens = lexer(input, tokens);
-		printf("After lexer:\n");
-		print_tokens(tokens);
-		free(input);
-		tokens = parser(tokens, &g_exit_status);
-		if (g_exit_status != 0)
-		{
-			lst_clear_token(&tokens);
+		if (parsing(tokens, input) == 1)
 			continue ;
-		}
-		printf("\nAfter parser:\n");
-		print_tokens(tokens);
-		lst_clear_token(&tokens);
 	}
 	printf("Exit status: %d\n", g_exit_status);
 	return (0);
