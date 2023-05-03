@@ -26,7 +26,7 @@ void	ft_check_export(char *input, t_env *env)
 	}
 }
 
-void	ft_export(char **input, t_env *env)
+void	ft_export(char **input, t_env **env)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ void	ft_export(char **input, t_env *env)
 			{
 				if (input[i][0] == '=')
 					return ;
-				ft_check_export(input[i], env);
+				ft_check_export(input[i], *env);
 				i++;
 			}
 		}

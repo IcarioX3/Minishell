@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	check_builtin(char **input, t_env *env)
+void	check_builtin(char **input, t_env **env)
 {
 	ft_pwd(input);
 	ft_env(input, env);

@@ -23,51 +23,36 @@ void del_env(t_env **remove)
 	}
 	free(tmp->str);
 	free(tmp);
-	*remove = NULL;
 	printf("%p\n", *remove);
 }
 
-// void    free_list(t_env *head)
-// {
-//     t_env    *current;
-//     t_env    *next;
-
-//     current = head;
-//     while (current != NULL)
-//     {
-//         next = current->next;
-// 		free(current->str);
-//         free(current);
-//         current = next;
-//     }
-// }
-void	ft_check_unset(char *input, t_env *env)
+void	ft_check_unset(char *input, t_env **env)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = *env;
 	int		poseg;
 	int i = 0;
 
 	poseg = 0;
 	while (input[poseg] != 0)
 		poseg++;
-	while (env && i == 0)
+	while (*env && i == 0)
 	{
-		if (ft_strncmp((env)->str, input, poseg) == 0 && i == 0)
+		if (ft_strncmp((*env)->str, input, poseg) == 0 && i == 0)
 		{
-			del_env(&env);
+			del_env(env);
 			i = 1;
-			break ;
+			return ;
 		}
 		else
-			env = env->next;
+			*env = (*env)->next;
 	}
-	printf("%p\n", env);
-	env = tmp;
+	printf("%p\n", *env);
+	*env = tmp;
 }
 
-void	ft_unset(char **input, t_env *env)
+void	ft_unset(char **input, t_env **env)
 {
 	int i;
 
