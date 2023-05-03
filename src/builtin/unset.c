@@ -19,10 +19,6 @@ void del_env(t_env **remove)
 	{
 		(*remove)->prev->next = NULL;
 	}
-	if ((*remove)->next == NULL && (*remove)->prev == NULL)
-	{
-		*remove = NULL;
-	}
 	free(tmp->str);
 	free(tmp);
 }
@@ -44,12 +40,13 @@ void	ft_check_unset(char *input, t_env **env)
 		{
 			del_env(env);
 			i = 1;
-			return ;
+			break ;
 		}
 		else
 			*env = (*env)->next;
 	}
-	*env = tmp;
+	if (env)
+		*env = tmp;
 }
 
 void	ft_unset(char **input, t_env **env)
@@ -57,7 +54,7 @@ void	ft_unset(char **input, t_env **env)
 	int i;
 
 	i = 1;
-	if (input[1] == NULL)
+	if (input[1] == NULL || (ft_strlen(input[1]) == 1 && input[1][0] == '_'))
 		return ;
 	if (ft_strlen(input[0]) == 5)
 	{

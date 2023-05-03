@@ -75,6 +75,7 @@ t_env *lst_env(char **env)
 
     int i = 1;
 	envi = NULL;
+	char *tmp = NULL;
 	char	cwd[1024];
     while (*env && env[i])
     {
@@ -84,6 +85,9 @@ t_env *lst_env(char **env)
 	if (*env == NULL)
 	{
 		envi = lst_new_env_null(envi, getcwd(cwd, sizeof(cwd)));
+		tmp = ft_strjoin("PWD", envi->str); //join le nom de la variable au contenu 
+		free(envi->str);
+		envi->str = ft_strdup(tmp);
 		envi = lst_new_env_null(envi, "SHLVL=1");
 		envi = lst_new_env_null(envi, "_=/usr/bin/env");
 	}
