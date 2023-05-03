@@ -5,25 +5,26 @@ void del_env(t_env **remove)
 	t_env	*tmp;
 
 	tmp = *remove;
-	if (tmp->prev == NULL)
+	if ((*remove)->prev == NULL && (*remove)->next != NULL)
 	{
-		printf("%s\n", (*remove)->str);
 		*remove = (*remove)->next;
 		(*remove)->prev = NULL; 
-		printf("%s\n", (*remove)->str);
 	}
 	else if ((*remove)->prev != NULL && (*remove)->next != NULL)
 	{
 		(*remove)->next->prev = (*remove)->prev;
 		(*remove)->prev->next = (*remove)->next;
 	}
-	else if ((*remove)->next == NULL)
+	else if ((*remove)->next == NULL && (*remove)->prev != NULL)
 	{
 		(*remove)->prev->next = NULL;
 	}
+	if ((*remove)->next == NULL && (*remove)->prev == NULL)
+	{
+		*remove = NULL;
+	}
 	free(tmp->str);
 	free(tmp);
-	printf("%p\n", *remove);
 }
 
 void	ft_check_unset(char *input, t_env **env)
@@ -48,7 +49,6 @@ void	ft_check_unset(char *input, t_env **env)
 		else
 			*env = (*env)->next;
 	}
-	printf("%p\n", *env);
 	*env = tmp;
 }
 

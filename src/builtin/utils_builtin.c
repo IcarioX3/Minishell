@@ -51,7 +51,18 @@ t_env	*lst_new_env(t_env *envi, char *str)
 
 	new = malloc(sizeof(t_env));
 	new->str = ft_strdup(str);
-	//printf("%p\n 1\n", new->next);
+	new->next = NULL;
+	new->prev = NULL;
+	envi = ft_lstadd_back_env(envi, new);
+	return (envi);
+}
+
+t_env	*lst_new_env_null(t_env *envi, char *str)
+{
+	t_env	*new;
+
+	new = malloc(sizeof(t_env));
+	new->str = ft_strdup(str);
 	new->next = NULL;
 	new->prev = NULL;
 	envi = ft_lstadd_back_env(envi, new);
@@ -64,11 +75,17 @@ t_env *lst_env(char **env)
 
     int i = 1;
 	envi = NULL;
-	
-    while (env[i])
+	char	cwd[1024];
+    while (*env && env[i])
     {
         envi = lst_new_env(envi, env[i]);
         i++;
     }
+	if (*env == NULL)
+	{
+		envi = lst_new_env_null(envi, getcwd(cwd, sizeof(cwd)));
+		envi = lst_new_env_null(envi, "SHLVL=1");
+		envi = lst_new_env_null(envi, "_=/usr/bin/env");
+	}
     return (envi);
 }

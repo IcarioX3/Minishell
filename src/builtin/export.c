@@ -24,6 +24,8 @@ void	ft_check_export(char *input, t_env *env)
 		}
 		env = (env)->next;
 	}
+	if (!env)
+		lst_new_env(env, input);
 }
 
 void	ft_export(char **input, t_env **env)
