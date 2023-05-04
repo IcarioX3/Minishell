@@ -38,6 +38,8 @@ void	ft_check_unset(char *input, t_env **env)
 	{
 		if (ft_strncmp((*env)->str, input, poseg) == 0 && i == 0)
 		{
+			if ((*env)->prev == NULL)
+				tmp = (*env)->next;
 			del_env(env);
 			i = 1;
 			break ;
