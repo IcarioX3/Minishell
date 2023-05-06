@@ -35,18 +35,19 @@ typedef struct s_tokens
 	struct s_tokens	*previous;
 }	t_tokens;
 
+typedef struct s_redir
+{
+	char	*file;
+	int		type;
+	struct s_redir	*next;
+}	t_redir;
+
 typedef struct s_blocks
 {
 	char	**cmd;
-	char	**heredoc;
-	char	**in;
-	char	**out;
-	char	**append;
-	int		heredoc_count;
-	int		in_count;
-	int		out_count;
-	int		append_count;
-	int		cmd_count;
+	int		fd_in;
+	int		fd_out;
+	t_redir	*redir;
 	struct s_blocks	*next;
 }	t_blocks;
 

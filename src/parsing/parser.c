@@ -104,5 +104,6 @@ t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
 		return (tokens);
 	}
 	tokens = redir_parser(tokens);
+	*g_exit_status = 0;
 	return (tokens);
 }

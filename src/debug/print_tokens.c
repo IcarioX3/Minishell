@@ -4,7 +4,7 @@ void	print_tokens(t_tokens *tokens)
 {
 	while (tokens)
 	{
-		printf("Str: \"%s\"    ", tokens->str);
+		printf("\"%s\"    ", tokens->str);
 		if (tokens->token == PIPE)
 			printf("%s", "Token: PIPE\n");
 		else if (tokens->token == DOLLAR)
