@@ -43,11 +43,10 @@ int	main(int argc, char **argv, char **env)
 			lst_clear_token(&tokens);
 			continue ;
 		}
-		blocks = put_in_blocks(blocks, tokens);
+		blocks = put_in_blocks(blocks, tokens, &g_exit_status);
 		lst_clear_token(&tokens);
-		printf("\nAfter put_in_blocks:\n");
-		printf("%s\n", blocks->cmd[0]);
-		//lst_clear_block(&blocks);
+		print_blocks(blocks);
+		lst_clear_blocks(&blocks);
 	}
 	printf("Exit status: %d\n", g_exit_status);
 	return (0);

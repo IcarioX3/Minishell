@@ -38,7 +38,7 @@ typedef struct s_tokens
 typedef struct s_redir
 {
 	char	*file;
-	int		type;
+	int		token;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -64,15 +64,17 @@ t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);
 int			check_redir(t_tokens *tokens);
-t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens);
+t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens, int *g_status);
 //LST_UTILS
 t_tokens	*lst_new_token(t_tokens *tokens, char *str, int token);
 void		lst_clear_token(t_tokens **tokens);
 t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp);
 t_tokens	*insert_token(t_tokens *tmp, char *s, int token);
-void		lst_clear_block(t_blocks **blocks);
+void		lst_clear_blocks(t_blocks **blocks);
+void		lst_clear_redir(t_redir **redir);
 //DEBUG
 void		print_tokens(t_tokens *tokens);
+void		print_blocks(t_blocks *blocks);
 //UTILS
 int			is_whitespace(char c);
 int			is_special(char c);

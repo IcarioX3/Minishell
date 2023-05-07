@@ -8,7 +8,7 @@ END		= \033[0m
 NAME	= minishell
 LIBNAME	= libft.a
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -lreadline
+CFLAGS	= -Wall -Werror -Wextra -g -lreadline
 
 SRCDIR	= src
 OBJDIR	= obj
@@ -32,13 +32,13 @@ PARSING 	= lexer.c \
 
 BLOCKS		= blocks.c
 
-LST			= lst_token.c
-
 DEBUG		= print_tokens.c \
+			print_blocks.c \
 
 UTILS		= parsing_utils.c \
 			lst_token_utils.c \
 			free_double_array.c \
+			lst_blocks_utils.c \
 
 ERROR		= error.c
 
