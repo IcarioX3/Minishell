@@ -50,7 +50,14 @@ t_env	*lst_new_env(t_env *envi, char *str)
 	t_env	*new;
 
 	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
 	new->str = ft_strdup(str);
+	if (!new->str)
+	{
+		free(new);
+		return (NULL);
+	}
 	new->next = NULL;
 	new->prev = NULL;
 	envi = ft_lstadd_back_env(envi, new);
@@ -62,10 +69,54 @@ t_env	*lst_new_env_null(t_env *envi, char *str)
 	t_env	*new;
 
 	new = malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
 	new->str = ft_strdup(str);
+	if (!new->str)
+	{
+		free(new);
+		return (NULL);
+	}
 	new->next = NULL;
 	new->prev = NULL;
 	envi = ft_lstadd_back_env(envi, new);
+	return (envi);
+}
+
+
+t_env *lst_env_error(t_env *envi)
+{
+	lst_clear_env(envi);
+	return (NULL);
+}
+
+t_env *lst_env_create_defaults(t_env *envi)
+{
+	char *tmp = NULL;
+	char *tmp2 = NULL;
+	char	cwd[1024];
+
+	tmp2 = ft_strdup("PWD=");
+	if (!tmp2)
+		return (lst_env_error(envi));
+	envi = lst_new_env_null(envi, getcwd(cwd, sizeof(cwd)));
+	if (!envi)
+		return (lst_env_error(envi));
+	tmp = ft_strjoin(tmp2, envi->str);
+	if (!tmp)
+		return (lst_env_error(envi));
+	free(envi->str);
+	envi->str = ft_strdup(tmp);
+	if (!envi->str)
+		return (lst_env_error(envi));
+	envi = lst_new_env_null(envi, "SHLVL=1");
+	if (!envi)
+		return (lst_env_error(envi));
+	envi = lst_new_env_null(envi, "_=/usr/bin/env");
+	if (!envi)
+		return (lst_env_error(envi));
+	free(tmp2);
+	free(tmp);
 	return (envi);
 }
 
@@ -75,23 +126,84 @@ t_env *lst_env(char **env)
 
     int i = 1;
 	envi = NULL;
-	char *tmp = NULL;
-	char *tmp2 = NULL;
-	char	cwd[1024];
     while (*env && env[i])
     {
         envi = lst_new_env(envi, env[i]);
+		if (!envi)
+			return (lst_env_error(envi));
         i++;
     }
 	if (*env == NULL)
-	{
-		tmp2 = ft_strdup("PWD=");
-		envi = lst_new_env_null(envi, getcwd(cwd, sizeof(cwd)));
-		tmp = ft_strjoin(tmp2, envi->str); //join le nom de la variable au contenu 
-		free(envi->str);
-		envi->str = ft_strdup(tmp);
-		envi = lst_new_env_null(envi, "SHLVL=1");
-		envi = lst_new_env_null(envi, "_=/usr/bin/env");
-	}
+		envi = lst_env_create_defaults(envi);
     return (envi);
 }
+
+// t_env *lst_env(char **env)
+// {
+//     t_env *envi;
+
+//     int i = 1;
+// 	envi = NULL;
+// 	char *tmp = NULL;
+// 	char *tmp2 = NULL;
+// 	char	cwd[1024];
+//     while (*env && env[i])
+//     {
+//         envi = lst_new_env(envi, env[i]);
+// 		if (!envi)
+// 		{
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+//         i++;
+//     }
+// 	if (*env == NULL)
+// 	{
+// 		tmp2 = ft_strdup("PWD=");
+// 		if (!tmp2)
+// 		{
+// 			return (NULL);
+// 		}
+// 		envi = lst_new_env_null(envi, getcwd(cwd, sizeof(cwd)));
+// 		if (!envi)
+// 		{
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+// 		tmp = ft_strjoin(tmp2, envi->str);
+// 		if (!tmp)
+// 		{
+// 			free(tmp2);
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+// 		free(envi->str);
+// 		envi->str = ft_strdup(tmp);
+// 		if (!envi->str)
+// 		{
+// 			free(tmp2);
+// 			free(tmp);
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+// 		envi = lst_new_env_null(envi, "SHLVL=1");
+// 		if (!envi)
+// 		{
+// 			free(tmp2);
+// 			free(tmp);
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+// 		envi = lst_new_env_null(envi, "_=/usr/bin/env");
+// 		if (!envi)
+// 		{
+// 			free(tmp2);
+// 			free(tmp);
+// 			lst_clear_env(envi);
+// 			return (NULL);
+// 		}
+// 		free(tmp2);
+// 		free(tmp);
+// 	}
+//     return (envi);
+// }

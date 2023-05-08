@@ -93,8 +93,8 @@ int	ft_pwd(char **input);
 /*env.c*/
 void	ft_env(char **input, t_env **env);
 /*export.c*/
-void	ft_check_export(char *input, t_env *env);
-void	ft_export(char **input, t_env **env);
+int	ft_check_export(char *input, t_env *env);
+int	ft_export(char **input, t_env **env);
 /*unset.c*/
 void del_env(t_env **remove);
 void	ft_check_unset(char *input, t_env **env);
@@ -106,7 +106,7 @@ t_env	*ft_lstadd_back_env(t_env *env, t_env *new);
 t_env	*lst_new_env(t_env *envi, char *str);
 t_env *lst_env(char **env);
 /*builtin.c*/
-void	check_builtin(char **input, t_env **env);
+int	check_builtin(char **input, t_env **env);
 
 
 

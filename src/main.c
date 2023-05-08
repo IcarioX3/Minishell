@@ -14,6 +14,8 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	envi = lst_env(env);
+	if (!envi)
+		return (1);
 	while (1)
 	{
 		input = readline("\033[36mminishell$\033[0m ");
@@ -24,7 +26,8 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		}
 		ui = ft_split(input, ' ');
-		check_builtin(ui, &envi);
+		if ((check_builtin(ui, &envi)) == 1)
+			break ;
 		free_split(ui);
 		//tokens = lexer(input, tokens);
 		//printf("After lexer:\n");
