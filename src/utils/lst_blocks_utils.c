@@ -4,7 +4,7 @@ void	lst_clear_redir(t_redir **redir)
 {
 	t_redir	*tmp;
 
-	if (redir == NULL)
+	if (!redir)
 		return ;
 	while (*redir)
 	{
@@ -27,7 +27,16 @@ void	lst_clear_blocks(t_blocks **blocks)
 		tmp = *blocks;
 		*blocks = (*blocks)->next;
 		if (tmp->cmd)
-			free_double_array(tmp->cmd);
+		{
+			printf("nb_cmd: %d\n", tmp->nb_args);
+			while (tmp->nb_args > 0)
+			{
+				if (tmp->cmd[tmp->nb_args- 1] != NULL)
+					free(tmp->cmd[tmp->nb_args - 1]);
+				tmp->nb_args--;
+			}
+			free(tmp->cmd);
+		}
 		lst_clear_redir(&tmp->redir);
 		free(tmp);
 	}

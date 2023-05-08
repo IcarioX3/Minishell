@@ -37,6 +37,11 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			break ;
 		}
+		if (input[0] == '\0')
+		{
+			free(input);
+			continue ;
+		}
 		tokens = parsing(tokens, input);
 		if (g_exit_status != 0)
 		{
@@ -44,6 +49,11 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		}
 		blocks = put_in_blocks(blocks, tokens, &g_exit_status);
+		if (!blocks)
+		{
+			lst_clear_token(&tokens);
+			continue ;
+		}
 		lst_clear_token(&tokens);
 		print_blocks(blocks);
 		lst_clear_blocks(&blocks);

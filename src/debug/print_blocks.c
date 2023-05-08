@@ -3,32 +3,47 @@
 void	print_blocks(t_blocks *blocks)
 {
 	int	i;
+	int	j;
+	t_blocks *tmp;
+	t_redir	*tmp_redir;
 
-	while (blocks)
+	tmp = blocks;
+	i = 0;
+	j = 0;
+	printf("\nAfter putting blocks:\n");
+	while (tmp)
 	{
-		i = 0;
-		printf("Command: ");
-		while (blocks->cmd[i])
+		printf("--------------------\n");
+		printf("Block %d\n", i);
+		printf("Command:");
+		while (tmp->nb_args > j)
 		{
-			printf("\"%s\" ", blocks->cmd[i]);
-			i++;
+			printf(" \"%s\"", tmp->cmd[j]);
+			j++;
 		}
 		printf("\n");
-		printf("Redirections:\n");
-		while (blocks->redir)
+		printf("Redir:\n");
+		j = 0;
+		tmp_redir = tmp->redir;
+		while (tmp_redir)
 		{
-			printf("File: \"%s\"    ", blocks->redir->file);
-			if (blocks->redir->token == IN_REDIR)
-				printf("%s", "Type: IN_REDIR\n");
-			else if (blocks->redir->token == OUT_REDIR)
-				printf("%s", "Type: OUT_REDIR\n");
-			else if (blocks->redir->token == HEREDOC)
-				printf("%s", "Type: HEREDOC\n");
-			else if (blocks->redir->token == APPEND)
-				printf("%s", "Type: APPEND\n");
-			blocks->redir = blocks->redir->next;
+			printf("(%d) ", j);
+			printf("| file: \"%s\" | ", tmp_redir->file);
+			if (tmp_redir->token == IN_REDIR)
+				printf("token: IN_REDIR\n");
+			else if (tmp_redir->token == OUT_REDIR)
+				printf("token: OUT_REDIR\n");
+			else if (tmp_redir->token == APPEND)
+				printf("token: APPEND\n");
+			else if (tmp_redir->token == HEREDOC)
+				printf("token: HEREDOC\n");
+			else
+				printf("token: %d\n", tmp_redir->token);
+			tmp_redir = tmp_redir->next;
+			j++;
 		}
-		printf("\n");
-		blocks = blocks->next;
+		j = 0;
+		tmp = tmp->next;
+		i++;
 	}
 }

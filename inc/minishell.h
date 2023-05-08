@@ -47,6 +47,7 @@ typedef struct s_blocks
 	char	**cmd;
 	int		fd_in;
 	int		fd_out;
+	int		nb_args;
 	t_redir	*redir;
 	struct s_blocks	*next;
 }	t_blocks;
