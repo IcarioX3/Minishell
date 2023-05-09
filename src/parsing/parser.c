@@ -1,38 +1,74 @@
 #include "minishell.h"
 
-int	check_close_quote(t_tokens *tokens)
+t_tokens	*remove_sep(t_tokens *tokens)
 {
-	int	s_quote;
-	int	d_quote;
+	t_tokens	*tmp;
 
-	s_quote = 0;
-	d_quote = 0;
-	while (tokens)
+	tmp = tokens;
+	while (tmp && tmp->token == SEP)
 	{
-		if (tokens->token == S_QUOTE && d_quote == 0)
-			s_quote = !s_quote;
-		else if (tokens->token == D_QUOTE && s_quote == 0)
-			d_quote = !d_quote;
-		tokens = tokens->next;
+		tokens = tmp->next;
+		free(tmp->str);
+		free(tmp);
+		tmp = tokens;
 	}
-	if (s_quote == 1 || d_quote == 1)
+	while (tmp && tmp->next)
 	{
-		ft_putstr_fd("minishell: syntax error: ", 2);
-		ft_putstr_fd("unterminated quote\n", 2);
-		return (1);
+		if (tmp->next->token == SEP)
+			del_token(tokens, tmp->next);
+		tmp = tmp->next;
+	}
+	return (tokens);
+}
+
+t_tokens	*merge_words(t_tokens *tokens)
+{
+	t_tokens	*tmp;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->token == WORD && tmp->next && tmp->next->token == WORD)
+		{
+			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
+			del_token(tokens, tmp->next);
+			continue ;
+		}
+		if (tmp->token == DOLLAR)
+			tmp->token = WORD;
+		tmp = tmp->next;
+	}
+	return (tokens);
+}
+
+int	check_pipe(t_tokens *tokens)
+{
+	t_tokens	*tmp;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->token == PIPE)
+		{
+			if (!tmp->next || tmp->next->token == PIPE || !tmp->previous)
+			{
+				ft_putstr_fd("minishell:", 2);
+				ft_putstr_fd(" syntax error near unexpected token `|'\n", 2);
+				return (1);
+			}
+		}
+		tmp = tmp->next;
 	}
 	return (0);
 }
 
-void	parser(t_tokens **tokens)
+t_tokens	*handle_quote(t_tokens *tokens)
 {
-	t_tokens	*tmp;
 	int			in_d_quote;
+	t_tokens	*tmp;
 
 	in_d_quote = 0;
-	tmp = *tokens;
-	if (check_close_quote(*tokens) == 1)
-		return ;
+	tmp = tokens;
 	while (tmp)
 	{
 		if (tmp->token == S_QUOTE)
@@ -43,7 +79,31 @@ void	parser(t_tokens **tokens)
 			tmp = d_quote_parser(tmp);
 		}
 		else if (tmp->token == DOLLAR)
+		{
 			tmp = env_var_parser(tmp, in_d_quote);
+			tmp = split_dollar(tmp);
+		}
 		tmp = tmp->next;
 	}
+	return (tokens);
+}
+
+t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
+{
+	if (check_close_quote(tokens) == 1)
+	{
+		*g_exit_status = 2;
+		return (tokens);
+	}
+	tokens = handle_quote(tokens);
+	tokens = merge_words(tokens);
+	tokens = remove_sep(tokens);
+	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)
+	{
+		*g_exit_status = 2;
+		return (tokens);
+	}
+	tokens = redir_parser(tokens);
+	*g_exit_status = 0;
+	return (tokens);
 }

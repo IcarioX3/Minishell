@@ -1,14 +1,31 @@
 #include "minishell.h"
 
+int	g_exit_status = 0;
+
+t_tokens	*parsing(t_tokens *tokens, char *input)
+{
+	tokens = lexer(input, tokens);
+	free(input);
+	printf("After lexer:\n");
+	print_tokens(tokens);
+	tokens = parser(tokens, &g_exit_status);
+	printf("\nAfter parser:\n");
+	print_tokens(tokens);
+	return (tokens);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*input;
-	//t_tokens	*tokens;
-	t_env		*envi = NULL;
-	char		**ui;
+
+	t_tokens	*tokens;
+	t_blocks	*blocks;
 
 	(void)argv;
-	//tokens = NULL;
+	tokens = NULL;
+	blocks = NULL;
+  t_env		*envi = NULL;
+
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sigint);
@@ -25,20 +42,31 @@ int	main(int argc, char **argv, char **env)
 			free(input);
 			break ;
 		}
-		ui = ft_split(input, ' ');
-		if ((check_builtin(ui, &envi)) == 1)
+		if (input[0] == '\0')
+		{
+			free(input);
+			continue ;
+		}
+		tokens = parsing(tokens, input);
+		if (g_exit_status != 0)
+		{
+			lst_clear_token(&tokens);
+			continue ;
+		}
+		blocks = put_in_blocks(blocks, tokens, &g_exit_status);
+		if (!blocks)
+		{
+			lst_clear_token(&tokens);
+			continue ;
+		}
+		lst_clear_token(&tokens);
+		print_blocks(blocks);
+    if ((check_builtin(blocks->cmd, &envi)) == 1)
 			break ;
-		free_split(ui);
-		//tokens = lexer(input, tokens);
-		//printf("After lexer:\n");
-		//print_tokens(tokens);
-		//free(input);
-		//parser(&tokens);
-		//printf("\nAfter parser:\n");
-		//print_tokens(tokens);
-		//lst_clear_token(&tokens);
+		lst_clear_blocks(&blocks);
 	}
-	if (env)
-		lst_clear_env(envi);
+  //if (env)
+		//lst_clear_env(envi);
+	printf("Exit status: %d\n", g_exit_status);
 	return (0);
 }

@@ -16,6 +16,7 @@ INCDIR	= inc
 LIBDIR	= libft
 
 PARSING_DIR = parsing
+BLOCKS_DIR	= blocks
 DEBUG_DIR	= debug
 UTILS_DIR	= utils
 ERROR_DIR	= error
@@ -25,14 +26,20 @@ PARSING 	= lexer.c \
 			parser.c \
 			s_quote_parser.c \
 			d_quote_parser.c \
-			env_var_parser.c
+			env_var_parser.c \
+			split_dollar.c \
+			check_parse_error.c \
+			redir_parser.c \
 
-LST			= lst_token.c
+BLOCKS		= blocks.c
 
-DEBUG		= print_tokens.c
+DEBUG		= print_tokens.c \
+			print_blocks.c \
 
 UTILS		= parsing_utils.c \
-			lst_token_utils.c
+			lst_token_utils.c \
+			free_double_array.c \
+			lst_blocks_utils.c \
 
 ERROR		= error.c
 
@@ -50,6 +57,7 @@ SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRC_DEBUG	= $(addprefix $(DEBUG_DIR)/, $(DEBUG))
 SRC_UTILS	= $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRC_ERROR	= $(addprefix $(ERROR_DIR)/, $(ERROR))
+SRC_BLOCKS	= $(addprefix $(BLOCKS_DIR)/, $(BLOCKS))
 SRC_BUILTIN	= $(addprefix $(BUILTIN_DIR)/, $(BUILTIN))
 
 _SRC		= main.c \
@@ -58,6 +66,7 @@ _SRC		= main.c \
 			$(SRC_DEBUG) \
 			$(SRC_UTILS) \
 			$(SRC_ERROR) \
+			$(SRC_BLOCKS) \
 			$(SRC_BUILTIN)
 		
 SRC			= $(addprefix $(SRCDIR)/, $(_SRC))

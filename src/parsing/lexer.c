@@ -20,7 +20,7 @@ t_tokens	*redir_token(t_tokens *tokens, char *str, int *i)
 		if (str[*i + 1] == '<')
 		{
 			tokens = lst_new_token(tokens, ft_substr(str, *i, 2), HEREDOC);
-			i++;
+			(*i)++;
 		}
 		else
 			tokens = lst_new_token(tokens, ft_substr(str, *i, 1), IN_REDIR);
@@ -30,7 +30,7 @@ t_tokens	*redir_token(t_tokens *tokens, char *str, int *i)
 		if (str[*i + 1] == '>')
 		{
 			tokens = lst_new_token(tokens, ft_substr(str, *i, 2), APPEND);
-			i++;
+			(*i)++;
 		}
 		else
 			tokens = lst_new_token(tokens, ft_substr(str, *i, 1), OUT_REDIR);
