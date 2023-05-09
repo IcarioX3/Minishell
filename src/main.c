@@ -17,17 +17,22 @@ t_tokens	*parsing(t_tokens *tokens, char *input)
 int	main(int argc, char **argv, char **env)
 {
 	char		*input;
+
 	t_tokens	*tokens;
 	t_blocks	*blocks;
 
 	(void)argv;
-	(void)env;
 	tokens = NULL;
 	blocks = NULL;
+  t_env		*envi = NULL;
+
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	envi = lst_env(env);
+	if (!envi)
+		return (1);
 	while (1)
 	{
 		input = readline("\033[36mminishell$\033[0m ");
@@ -56,8 +61,12 @@ int	main(int argc, char **argv, char **env)
 		}
 		lst_clear_token(&tokens);
 		print_blocks(blocks);
+    if ((check_builtin(blocks->cmd, &envi)) == 1)
+			break ;
 		lst_clear_blocks(&blocks);
 	}
+  //if (env)
+		//lst_clear_env(envi);
 	printf("Exit status: %d\n", g_exit_status);
 	return (0);
 }
