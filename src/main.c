@@ -65,8 +65,8 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		lst_clear_blocks(&blocks);
 	}
-  //if (env)
-		//lst_clear_env(envi);
+	if (env)
+		lst_clear_env(envi);
 	printf("Exit status: %d\n", g_exit_status);
 	return (0);
 }

@@ -2,6 +2,8 @@
 
 int	check_builtin(char **input, t_env **env)
 {
+	if (!input || !*input)
+		return (0);
 	ft_pwd(input);
 	ft_env(input, env);
 	ft_cd(input);

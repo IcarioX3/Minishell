@@ -28,14 +28,14 @@ t_tokens	*merge_words(t_tokens *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
+		if (tmp->token == DOLLAR)
+			tmp->token = WORD;
 		if (tmp->token == WORD && tmp->next && tmp->next->token == WORD)
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
 			del_token(tokens, tmp->next);
 			continue ;
 		}
-		if (tmp->token == DOLLAR)
-			tmp->token = WORD;
 		tmp = tmp->next;
 	}
 	return (tokens);
@@ -96,6 +96,7 @@ t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
 		return (tokens);
 	}
 	tokens = handle_quote(tokens);
+	print_tokens(tokens);
 	tokens = merge_words(tokens);
 	tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)
