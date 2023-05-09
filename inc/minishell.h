@@ -37,18 +37,18 @@ typedef struct s_tokens
 
 typedef struct s_redir
 {
-	char	*file;
-	int		token;
+	char			*file;
+	int				token;
 	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_blocks
 {
-	char	**cmd;
-	int		fd_in;
-	int		fd_out;
-	int		nb_args;
-	t_redir	*redir;
+	char			**cmd;
+	int				fd_in;
+	int				fd_out;
+	int				nb_args;
+	t_redir			*redir;
 	struct s_blocks	*next;
 }	t_blocks;
 
@@ -79,7 +79,7 @@ void		print_blocks(t_blocks *blocks);
 //UTILS
 int			is_whitespace(char c);
 int			is_special(char c);
-void    	free_double_array(char **array);
+void		free_double_array(char **array);
 //ERRORS
 void		error_exit(char *str, int exit_code);
 void		print_error(char *str);

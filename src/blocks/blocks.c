@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int count_cmd(t_tokens *tokens)
+int	count_cmd(t_tokens *tokens)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (tokens)
@@ -14,9 +14,9 @@ int count_cmd(t_tokens *tokens)
 	return (count + 1);
 }
 
-int count_args(t_tokens *tokens)
+int	count_args(t_tokens *tokens)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (tokens && tokens->token != PIPE)
@@ -30,7 +30,7 @@ int count_args(t_tokens *tokens)
 
 int	count_redir(t_tokens *tokens)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (tokens && tokens->token != PIPE)
@@ -45,8 +45,8 @@ int	count_redir(t_tokens *tokens)
 
 char	**get_args(t_tokens *tokens)
 {
-	char **args;
-	int i;
+	char	**args;
+	int		i;
 
 	args = malloc(sizeof(char *) * (count_args(tokens) + 1));
 	if (!args)
@@ -67,8 +67,8 @@ char	**get_args(t_tokens *tokens)
 
 t_redir	*add_new_redir(t_redir *redir, t_tokens *tokens)
 {
-	t_redir *new_redir;
-	t_redir *tmp;
+	t_redir	*new_redir;
+	t_redir	*tmp;
 
 	new_redir = malloc(sizeof(t_redir));
 	if (!new_redir)
@@ -89,7 +89,7 @@ t_redir	*add_new_redir(t_redir *redir, t_tokens *tokens)
 
 t_redir	*get_redir(t_tokens *tokens)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	redir = NULL;
 	while (tokens && tokens->token != PIPE)
@@ -117,8 +117,8 @@ t_redir	*get_redir(t_tokens *tokens)
 
 t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 {
-	t_blocks *new_block;
-	t_blocks *tmp;
+	t_blocks	*new_block;
+	t_blocks	*tmp;
 
 	new_block = malloc(sizeof(t_blocks));
 	if (!new_block)
@@ -142,7 +142,7 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 
 t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens, int *g_status)
 {
-	t_tokens *tmp;
+	t_tokens	*tmp;
 
 	tmp = tokens;
 	while (tmp)

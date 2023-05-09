@@ -31,7 +31,7 @@ void	lst_clear_blocks(t_blocks **blocks)
 			printf("nb_cmd: %d\n", tmp->nb_args);
 			while (tmp->nb_args > 0)
 			{
-				if (tmp->cmd[tmp->nb_args- 1] != NULL)
+				if (tmp->cmd[tmp->nb_args - 1] != NULL)
 					free(tmp->cmd[tmp->nb_args - 1]);
 				tmp->nb_args--;
 			}
