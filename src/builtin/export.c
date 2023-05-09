@@ -1,41 +1,5 @@
 #include "minishell.h"
 
-// int	ft_check_export(char *input, t_env *env)
-// {
-// 	int		poseg;
-
-// 	poseg = 0;
-// 	if (ft_strlen(input) < 2)
-// 		return (0);
-// 	while (input[poseg] != '=')
-// 		poseg++;
-// 	while (env)
-// 	{
-// 		if (ft_strncmp((env)->str, input, poseg + 1) == 0)
-// 		{
-// 			free(env->str);
-// 			env->str = ft_strdup(input);
-// 			if (!env->str)
-// 				return (1);
-// 			break ;
-// 		}
-// 		else if ((env)->next == NULL)
-// 		{
-// 			if (lst_new_env(env, input) == NULL)
-// 				return (1);
-// 			break;
-// 		}
-// 		env = (env)->next;
-// 	}
-// 	if (!env)
-// 	{
-// 		if (lst_new_env(env, input) == NULL)
-// 			return (1);
-// 	}
-// 	return (0);
-// }
-
-
 int	get_pos_equal(char *input)
 {
 	int	pos;

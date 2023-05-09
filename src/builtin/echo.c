@@ -9,6 +9,8 @@ int	ft_nflag(char *input)
 	len = 0;
 	if (!input)
 		return (0);
+	if (input[0] != '-')
+		return (0);
 	while (input[len])
 		len++;
 	while (input[i] == 'n')
