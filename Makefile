@@ -8,7 +8,7 @@ END		= \033[0m
 NAME	= minishell
 LIBNAME	= libft.a
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -lreadline
+CFLAGS	= -Wall -Werror -Wextra -lreadline -g3
 
 SRCDIR	= src
 OBJDIR	= obj
@@ -19,6 +19,7 @@ PARSING_DIR = parsing
 DEBUG_DIR	= debug
 UTILS_DIR	= utils
 ERROR_DIR	= error
+BUILTIN_DIR	= builtin
 
 PARSING 	= lexer.c \
 			parser.c \
@@ -35,17 +36,29 @@ UTILS		= parsing_utils.c \
 
 ERROR		= error.c
 
+BUILTIN		= builtin.c \
+			cd.c \
+			echo.c \
+			env.c \
+			export.c \
+			pwd.c \
+			unset.c \
+			utils_builtin.c
+
+
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRC_DEBUG	= $(addprefix $(DEBUG_DIR)/, $(DEBUG))
 SRC_UTILS	= $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRC_ERROR	= $(addprefix $(ERROR_DIR)/, $(ERROR))
+SRC_BUILTIN	= $(addprefix $(BUILTIN_DIR)/, $(BUILTIN))
 
 _SRC		= main.c \
 			signal.c \
 			$(SRC_PARSING) \
 			$(SRC_DEBUG) \
 			$(SRC_UTILS) \
-			$(SRC_ERROR)
+			$(SRC_ERROR) \
+			$(SRC_BUILTIN)
 		
 SRC			= $(addprefix $(SRCDIR)/, $(_SRC))
 OBJ			= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)
@@ -54,7 +67,6 @@ HEADER 		= $(addprefix $(INCDIR)/, $(NAME).h)
 ##### Makefile work ####
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(HEADER)
 	@mkdir -p $(@D)
-	@mkdir -p $(OBJDIR)/$(PARSING_DIR)
 	@$(CC) -c $(CFLAGS) -I$(LIBDIR) -I$(INCDIR) $< -o $@
 
 all: $(NAME)
