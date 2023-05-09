@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void del_env(t_env **remove)
+void	del_env(t_env **remove)
 {
 	t_env	*tmp;
 
@@ -8,7 +8,7 @@ void del_env(t_env **remove)
 	if ((*remove)->prev == NULL && (*remove)->next != NULL)
 	{
 		*remove = (*remove)->next;
-		(*remove)->prev = NULL; 
+		(*remove)->prev = NULL;
 	}
 	else if ((*remove)->prev != NULL && (*remove)->next != NULL)
 	{
@@ -26,11 +26,11 @@ void del_env(t_env **remove)
 void	ft_check_unset(char *input, t_env **env)
 {
 	t_env	*tmp;
+	int		i;
+	int		poseg;
 
 	tmp = *env;
-	int		poseg;
-	int i = 0;
-
+	i = 0;
 	poseg = 0;
 	while (input[poseg] != 0)
 		poseg++;
@@ -53,7 +53,7 @@ void	ft_check_unset(char *input, t_env **env)
 
 void	ft_unset(char **input, t_env **env)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (input[1] == NULL || (ft_strlen(input[1]) == 1 && input[1][0] == '_'))

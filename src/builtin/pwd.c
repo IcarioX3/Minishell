@@ -13,7 +13,7 @@ int	ft_pwd(char **input)
 				printf("pwd: -%c: invalid option\n", input[1][1]);
 				return (1);
 			}
-			if (getcwd(cwd, sizeof(cwd)) != NULL) 
+			if (getcwd(cwd, sizeof(cwd)) != NULL)
 				printf("%s\n", cwd);
 			else
 			{

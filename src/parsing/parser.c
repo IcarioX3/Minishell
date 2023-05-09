@@ -96,7 +96,6 @@ t_tokens	*parser(t_tokens *tokens, int *g_exit_status)
 		return (tokens);
 	}
 	tokens = handle_quote(tokens);
-	print_tokens(tokens);
 	tokens = merge_words(tokens);
 	tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)

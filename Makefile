@@ -31,7 +31,8 @@ PARSING 	= lexer.c \
 			check_parse_error.c \
 			redir_parser.c \
 
-BLOCKS		= blocks.c
+BLOCKS		= blocks.c \
+			blocks_redir.c \
 
 DEBUG		= print_tokens.c \
 			print_blocks.c \
@@ -50,7 +51,8 @@ BUILTIN		= builtin.c \
 			export.c \
 			pwd.c \
 			unset.c \
-			utils_builtin.c
+			utils_builtin.c \
+			utils_builtin2.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))

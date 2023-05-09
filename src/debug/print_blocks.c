@@ -2,10 +2,10 @@
 
 void	print_blocks(t_blocks *blocks)
 {
-	int	i;
-	int	j;
-	t_blocks *tmp;
-	t_redir	*tmp_redir;
+	int			i;
+	int			j;
+	t_blocks	*tmp;
+	t_redir		*tmp_redir;
 
 	tmp = blocks;
 	i = 0;

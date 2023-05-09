@@ -2,30 +2,41 @@
 
 int	g_exit_status = 0;
 
-t_tokens	*parsing(t_tokens *tokens, char *input)
+t_blocks	*parsing(t_blocks *blocks, char *input)
 {
+	t_tokens	*tokens;
+
+	tokens = NULL;
 	tokens = lexer(input, tokens);
 	free(input);
-	printf("After lexer:\n");
-	print_tokens(tokens);
+	//printf("After lexer:\n");
+	//print_tokens(tokens);
 	tokens = parser(tokens, &g_exit_status);
-	printf("\nAfter parser:\n");
-	print_tokens(tokens);
-	return (tokens);
+	//printf("\nAfter parser:\n");
+	//print_tokens(tokens);
+	if (g_exit_status != 0)
+		return (lst_clear_token(&tokens), NULL);
+	blocks = put_in_blocks(blocks, tokens, &g_exit_status);
+	if (!blocks)
+	{
+		lst_clear_token(&tokens);
+		lst_clear_blocks(&blocks);
+		return (NULL);
+	}
+	lst_clear_token(&tokens);
+	print_blocks(blocks);
+	return (blocks);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	char		*input;
-
-	t_tokens	*tokens;
 	t_blocks	*blocks;
+	t_env		*envi;
 
 	(void)argv;
-	tokens = NULL;
+	envi = NULL;
 	blocks = NULL;
-  t_env		*envi = NULL;
-
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sigint);
@@ -37,31 +48,17 @@ int	main(int argc, char **argv, char **env)
 	{
 		input = readline("\033[36mminishell$\033[0m ");
 		add_history(input);
-		if (!input)
+		if (!input || input[0] == '\0')
 		{
 			free(input);
-			break ;
-		}
-		if (input[0] == '\0')
-		{
-			free(input);
+			if (!input)
+				break ;
 			continue ;
 		}
-		tokens = parsing(tokens, input);
-		if (g_exit_status != 0)
-		{
-			lst_clear_token(&tokens);
-			continue ;
-		}
-		blocks = put_in_blocks(blocks, tokens, &g_exit_status);
+		blocks = parsing(blocks, input);
 		if (!blocks)
-		{
-			lst_clear_token(&tokens);
 			continue ;
-		}
-		lst_clear_token(&tokens);
-		print_blocks(blocks);
-    if ((check_builtin(blocks->cmd, &envi)) == 1)
+		if ((check_builtin(blocks->cmd, &envi)) == 1)
 			break ;
 		lst_clear_blocks(&blocks);
 	}

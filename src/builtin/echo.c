@@ -2,8 +2,8 @@
 
 int	ft_nflag(char *input)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 1;
 	len = 0;
@@ -25,9 +25,11 @@ int	ft_nflag(char *input)
 
 void	ft_echo(char **input)
 {
-	int i = 1;
-	int nflag = 0;
+	int	i;
+	int	nflag;
 
+	i = 1;
+	nflag = 0;
 	if (ft_strlen(input[0]) == 4)
 	{
 		if (ft_strnstr(input[0], "echo", 4) != NULL)
@@ -41,13 +43,11 @@ void	ft_echo(char **input)
 			{
 				printf("%s", input[i]);
 				i++;
-				if (input[i] != NULL) 
+				if (input[i] != NULL)
 					printf(" ");
 			}
 			if (nflag == 0)
-			{
 				printf("\n");
-			}
 		}
 	}
 }

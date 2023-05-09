@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void    free_double_array(char **array)
+void	free_double_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (array[i])
