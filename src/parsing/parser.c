@@ -80,7 +80,7 @@ t_tokens	*handle_quote(t_tokens *tokens, char **env)
 		}
 		else if (tmp->token == DOLLAR)
 		{
-			tmp = env_var_parser(tmp, in_d_quote);
+			tmp = env_var_parser(tmp, in_d_quote, env);
 			tmp = split_dollar(tmp);
 		}
 		tmp = tmp->next;
