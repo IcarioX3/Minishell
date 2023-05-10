@@ -55,16 +55,19 @@ int	ft_export(char **input, t_env **env)
 	int	i;
 
 	i = 1;
-	if (input[1] == NULL)
-		return (0);
 	if (ft_strlen(input[0]) == 6)
 	{
 		if (ft_strnstr(input[0], "export", 6) != NULL)
 		{
+			if (input[1] == NULL)
+				return (print_error("Usage : export var=value"), 0);
 			while (input[i])
 			{
 				if (input[i][0] == '=')
-					return (0);
+				{
+					i++;
+					continue ;
+				}
 				if (ft_check_export(input[i], *env) == 1)
 					return (1);
 				i++;
