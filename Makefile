@@ -41,6 +41,7 @@ UTILS		= parsing_utils.c \
 			lst_token_utils.c \
 			free_double_array.c \
 			lst_blocks_utils.c \
+			get_env.c \
 
 ERROR		= error.c
 
