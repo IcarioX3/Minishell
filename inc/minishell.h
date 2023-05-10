@@ -135,5 +135,6 @@ t_env		*lst_new_env(t_env *envi, char *str);
 t_env		*lst_env(char **env);
 /*builtin.c*/
 int			check_builtin(char **input, t_env **env);
+/*get_env.c*/
 
 #endif
