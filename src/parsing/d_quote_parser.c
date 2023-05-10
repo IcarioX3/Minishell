@@ -5,6 +5,11 @@ char	*get_string_d_quote(t_tokens *tokens, char **env)
 	char	*str;
 
 	str = NULL;
+	if (tokens->token == D_QUOTE)
+	{
+		str = ft_strdup("");
+		return (str);
+	}
 	while (tokens && tokens->token != D_QUOTE)
 	{
 		if (tokens->token == DOLLAR)

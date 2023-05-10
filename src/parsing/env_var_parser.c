@@ -1,9 +1,9 @@
 #include "minishell.h"
 
-t_tokens	*replace_var(t_tokens *token, int in_quote)
+t_tokens	*replace_var(t_tokens *token, int in_quote, char **env)
 {
 	free(token->str);
-	token->str = ft_strdup(getenv(token->next->str));
+	token->str = ft_strdup(ft_getenv(token->next->str, env));
 	if (in_quote == 0)
 		token->token = DOLLAR;
 	else
@@ -12,10 +12,10 @@ t_tokens	*replace_var(t_tokens *token, int in_quote)
 	return (token);
 }
 
-t_tokens	*env_var_parser(t_tokens *tokens, int in_quote)
+t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, char **env)
 {
 	if (tokens->next && tokens->next->token == WORD)
-		tokens = replace_var(tokens, in_quote);
+		tokens = replace_var(tokens, in_quote, env);
 	else
 		tokens->token = WORD;
 	return (tokens);

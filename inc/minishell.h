@@ -71,7 +71,7 @@ t_tokens	*lexer(char *str, t_tokens *tokens);
 t_tokens	*parser(t_tokens *tokens, int *exit_status, char **env);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens, char **env);
-t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
+t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, char **env);
 t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);

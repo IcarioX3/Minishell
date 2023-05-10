@@ -5,11 +5,19 @@ char	*get_string_s_quote(t_tokens *tokens)
 	char	*str;
 
 	str = NULL;
+	if (tokens->token == S_QUOTE)
+	{
+		str = ft_strdup("");
+		if (!str)
+			return (NULL);
+		return (str);
+	}
 	while (tokens && tokens->token != S_QUOTE)
 	{
 		str = ft_strjoin(str, tokens->str);
 		tokens = tokens->next;
 	}
+	printf("str: %s\n", str);
 	return (str);
 }
 

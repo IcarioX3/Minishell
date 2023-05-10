@@ -9,11 +9,11 @@ t_blocks	*parsing(t_blocks *blocks, char *input, char **env)
 	tokens = NULL;
 	tokens = lexer(input, tokens);
 	free(input);
-	//printf("After lexer:\n");
-	//print_tokens(tokens);
+	printf("After lexer:\n");
+	print_tokens(tokens);
 	tokens = parser(tokens, &g_exit_status, env);
-	//printf("\nAfter parser:\n");
-	//print_tokens(tokens);
+	printf("\nAfter parser:\n");
+	print_tokens(tokens);
 	if (g_exit_status != 0)
 		return (lst_clear_token(&tokens), NULL);
 	blocks = put_in_blocks(blocks, tokens, &g_exit_status);
@@ -33,13 +33,10 @@ int	main(int argc, char **argv, char **env)
 	char		*input;
 	t_blocks	*blocks;
 	t_env		*envi;
-	char	*str = "";
-	char	*str2;
 
 	(void)argv;
 	envi = NULL;
 	blocks = NULL;
-	str2 = NULL;
 	if (argc != 1)
 		return (1);
 	signal(SIGINT, handle_sigint);
@@ -60,7 +57,6 @@ int	main(int argc, char **argv, char **env)
 		}
 		blocks = parsing(blocks, input, env);
 		if (!blocks)
-
 			continue ;
 		if ((check_builtin(blocks->cmd, &envi)) == 1)
 			break ;
@@ -69,7 +65,5 @@ int	main(int argc, char **argv, char **env)
 	if (env)
 		lst_clear_env(envi);
 	printf("Exit status: %d\n", g_exit_status);
-	printf("str: %s\n", str);
-	printf("str2: %s\n", str2);
 	return (0);
 }
