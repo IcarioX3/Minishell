@@ -56,7 +56,7 @@ void	ft_unset(char **input, t_env **env)
 	int	i;
 
 	i = 1;
-	if (input[1] == NULL || (ft_strlen(input[1]) == 1 && input[1][0] == '_'))
+	if (input[1] == NULL || (ft_strlen(input[1]) == 1))
 		return ;
 	if (ft_strlen(input[0]) == 5)
 	{
@@ -64,6 +64,11 @@ void	ft_unset(char **input, t_env **env)
 		{
 			while (input[i])
 			{
+				if (input[i][0] == '_')
+				{
+					i++;
+					continue ;
+				}
 				ft_check_unset(input[i], env);
 				i++;
 			}
