@@ -134,7 +134,7 @@ t_env		*lst_new_env_null(t_env *envi, char *str);
 t_env		*lst_new_env(t_env *envi, char *str);
 t_env		*lst_env(char **env);
 /*builtin.c*/
-int			check_builtin(char **input, t_env **env);
-/*get_env.c*/
-
+int			check_builtin(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
+/*exit.c*/
+void	ft_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
 #endif

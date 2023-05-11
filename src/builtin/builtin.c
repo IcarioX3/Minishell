@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	check_builtin(char **input, t_env **env)
+int	check_builtin(char **input, t_env **env, t_blocks **blocks, int *g_exit_status)
 {
 	if (!input || !*input)
 		return (0);
@@ -9,6 +9,7 @@ int	check_builtin(char **input, t_env **env)
 	ft_cd(input);
 	ft_echo(input);
 	ft_unset(input, env);
+	ft_check_exit(input, env, blocks, g_exit_status);
 	if (ft_export(input, env) == 1)
 		return (1);
 	return (0);

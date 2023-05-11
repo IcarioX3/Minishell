@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 		blocks = parsing(blocks, input);
 		if (!blocks)
 			continue ;
-		if ((check_builtin(blocks->cmd, &envi)) == 1)
+		if ((check_builtin(blocks->cmd, &envi, &blocks, &g_exit_status)) == 1)
 			break ;
 		lst_clear_blocks(&blocks);
 	}

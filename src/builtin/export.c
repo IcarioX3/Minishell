@@ -58,9 +58,12 @@ int	ft_is_export(char *input)
 	while (input[i])
 	{
 		if ((input[i] > 0 && input[i] <= 47) 
-		|| (input[i] >= 58 && input[i] <= 60) 
-		|| (input[i] >= 62 && input[i] <= 64) || (input[i] >= 91 && input[i] <= 94) 
-		|| (input[i] >= 123 && input[i] <= 127) || (input[i] == 96) || (input[0] == '=') || (input[0] >= 48 && input[0] <= 57))
+			|| (input[i] >= 58 && input[i] <= 60) 
+			|| (input[i] >= 62 && input[i] <= 64) 
+			|| (input[i] >= 91 && input[i] <= 94)
+			|| (input[i] >= 123 && input[i] < 127) 
+			|| (input[i] == 96) || (input[0] == '=')
+			|| (input[0] >= 48 && input[0] <= 57))
 			return (1);
 		i++;
 	}
