@@ -28,6 +28,8 @@ t_redir	*add_new_redir(t_redir *redir, t_tokens *tokens)
 		return (lst_clear_redir(&redir), NULL);
 	new_redir->token = tokens->token;
 	new_redir->next = NULL;
+	new_redir->pipe_heredoc[0] = -1;
+	new_redir->pipe_heredoc[1] = -1;
 	if (!redir)
 		return (new_redir);
 	tmp = redir;

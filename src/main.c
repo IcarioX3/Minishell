@@ -9,11 +9,11 @@ t_blocks	*parsing(t_blocks *blocks, char *input, char **env)
 	tokens = NULL;
 	tokens = lexer(input, tokens);
 	free(input);
-	printf("After lexer:\n");
-	print_tokens(tokens);
+/* 	printf("After lexer:\n");
+	print_tokens(tokens); */
 	tokens = parser(tokens, &g_exit_status, env);
-	printf("\nAfter parser:\n");
-	print_tokens(tokens);
+/* 	printf("\nAfter parser:\n");
+	print_tokens(tokens); */
 	if (g_exit_status != 0)
 		return (lst_clear_token(&tokens), NULL);
 	blocks = put_in_blocks(blocks, tokens, &g_exit_status);
@@ -60,6 +60,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if ((check_builtin(blocks->cmd, &envi)) == 1)
 			break ;
+		heredoc(blocks, &g_exit_status);
 		lst_clear_blocks(&blocks);
 	}
 	if (env)
