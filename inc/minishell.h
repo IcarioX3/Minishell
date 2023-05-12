@@ -136,5 +136,5 @@ t_env		*lst_env(char **env);
 /*builtin.c*/
 int			check_builtin(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
 /*exit.c*/
-void	ft_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
+void	ft_check_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
 #endif

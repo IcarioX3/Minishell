@@ -53,6 +53,7 @@ BUILTIN		= builtin.c \
 			unset.c \
 			utils_builtin.c \
 			utils_builtin2.c \
+			exit.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
