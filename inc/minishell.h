@@ -114,8 +114,7 @@ void		handle_sigint(int sig);
 int			ft_nflag(char *input);
 void		ft_echo(char **input);
 /*cd.c*/
-void		ft_cd(char **input);
-/*pwd.c*/
+int	ft_cd(t_env **env, char **input, int *g_exit_status, char **true_env);/*pwd.c*/
 int			ft_pwd(char **input);
 /*env.c*/
 void		ft_env(char **input, t_env **env);
@@ -134,7 +133,7 @@ t_env		*lst_new_env_null(t_env *envi, char *str);
 t_env		*lst_new_env(t_env *envi, char *str);
 t_env		*lst_env(char **env);
 /*builtin.c*/
-int			check_builtin(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
+int			check_builtin(char **input, t_env **env, t_blocks **blocks, int *g_exit_status, char **true_env);
 /*exit.c*/
 void	ft_check_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_status);
 #endif

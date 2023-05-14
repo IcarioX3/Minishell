@@ -63,7 +63,7 @@ int	ft_is_export(char *input)
 			|| (input[i] >= 91 && input[i] <= 94)
 			|| (input[i] >= 123 && input[i] < 127) 
 			|| (input[i] == 96) || (input[0] == '=')
-			|| (input[0] >= 48 && input[0] <= 57))
+			|| (input[0] >= 48 && input[0] <= 57) || input[0] == '\\')
 			return (1);
 		i++;
 	}

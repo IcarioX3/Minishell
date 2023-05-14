@@ -55,6 +55,7 @@ void	ft_exit_two(t_env **env, t_blocks **blocks, int *g_exit_status)
 		exit (*g_exit_status);
 	}
 }
+
 void	ft_exit_tree(t_env **env, t_blocks **blocks, int *g_exit_status)
 {
 	t_blocks	*tmp;
@@ -75,7 +76,6 @@ void	ft_exit_tree(t_env **env, t_blocks **blocks, int *g_exit_status)
 	}
 	else
 	{
-		// ft_clear_all(env, blocks);
 		*g_exit_status = 1;
 		printf("exit\n");
 		ft_putstr_fd("exit: too many arguments\n", 2);
