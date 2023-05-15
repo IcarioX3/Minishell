@@ -68,10 +68,10 @@ typedef struct s_blocks
 // ----------------------------------------------------
 int			prompt(void);
 t_tokens	*lexer(char *str, t_tokens *tokens);
-t_tokens	*parser(t_tokens *tokens, char **env);
+t_tokens	*parser(t_tokens *tokens, t_env **env);
 t_tokens	*s_quote_parser(t_tokens *tokens);
-t_tokens	*d_quote_parser(t_tokens *tokens, char **env);
-t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, char **env);
+t_tokens	*d_quote_parser(t_tokens *tokens, t_env **env);
+t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, t_env **env);
 t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);
@@ -98,7 +98,7 @@ void		print_blocks(t_blocks *blocks);
 int			is_whitespace(char c);
 int			is_special(char c);
 void		free_double_array(char **array);
-char		*ft_getenv(char	*name, char **env);
+char		*ft_getenv(char	*name, t_env **env);
 // ----------------------------------------------------
 //	ERROR
 // ----------------------------------------------------
@@ -108,10 +108,10 @@ void		print_error(char *str);
 //	SIGNAL
 // ----------------------------------------------------
 void		handle_sigint(int sig);
-int	return_global_exit_status(void);
-int	global_exit_status(int new_value);
-void	signal_heredoc(int signal);
-void	signal_fork(int signal);
+int			return_global_exit_status(void);
+int			global_exit_status(int new_value);
+void		signal_heredoc(int signal);
+void		signal_fork(int signal);
 // ----------------------------------------------------
 //	BUILTIN
 // ----------------------------------------------------
@@ -119,7 +119,7 @@ void	signal_fork(int signal);
 int			ft_nflag(char *input);
 void		ft_echo(char **input);
 /*cd.c*/
-int	ft_cd(t_env **env, char **input);/*pwd.c*/
+int			ft_cd(t_env **env, char **input);/*pwd.c*/
 int			ft_pwd(char **input);
 /*env.c*/
 void		ft_env(char **input, t_env **env);
@@ -140,8 +140,8 @@ t_env		*lst_env(char **env);
 /*builtin.c*/
 int			check_builtin(char **input, t_env **env, t_blocks **blocks);
 /*exit.c*/
-void	ft_check_exit(char **input, t_env **env, t_blocks **blocks);
-int	ft_home(t_env **env);
-void	ft_clear_all(t_env **env, t_blocks **blocks);
-int	create_env(char *input, t_env *env);
+void		ft_check_exit(char **input, t_env **env, t_blocks **blocks);
+int			ft_home(t_env **env);
+void		ft_clear_all(t_env **env, t_blocks **blocks);
+int			create_env(char *input, t_env *env);
 #endif

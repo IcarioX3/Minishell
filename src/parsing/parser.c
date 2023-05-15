@@ -62,7 +62,7 @@ int	check_pipe(t_tokens *tokens)
 	return (0);
 }
 
-t_tokens	*handle_quote(t_tokens *tokens, char **env)
+t_tokens	*handle_quote(t_tokens *tokens, t_env **env)
 {
 	int			in_d_quote;
 	t_tokens	*tmp;
@@ -88,7 +88,7 @@ t_tokens	*handle_quote(t_tokens *tokens, char **env)
 	return (tokens);
 }
 
-t_tokens	*parser(t_tokens *tokens, char **env)
+t_tokens	*parser(t_tokens *tokens, t_env **env)
 {
 	if (check_close_quote(tokens) == 1)
 	{

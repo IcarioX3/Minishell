@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_blocks	*parsing(t_blocks *blocks, char *input, char **env)
+t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
 {
 	t_tokens	*tokens;
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **env)
 				break ;
 			continue ;
 		}
-		blocks = parsing(blocks, input, env);
+		blocks = parsing(blocks, input, &envi);
 		if (!blocks)
 			continue ;
 		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
