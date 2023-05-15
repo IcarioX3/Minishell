@@ -23,13 +23,6 @@ int	update_env(char *input, t_env *env)
 	return (0);
 }
 
-int	create_env(char *input, t_env *env)
-{
-	if (lst_new_env(env, input) == NULL)
-		return (1);
-	return (0);
-}
-
 int	ft_check_export(char *input, t_env *env)
 {
 	int	pos_eg;
@@ -52,16 +45,16 @@ int	ft_check_export(char *input, t_env *env)
 
 int	ft_is_export(char *input)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
 	{
-		if ((input[i] > 0 && input[i] <= 47) 
-			|| (input[i] >= 58 && input[i] <= 60) 
-			|| (input[i] >= 62 && input[i] <= 64) 
+		if ((input[i] > 0 && input[i] <= 47)
+			|| (input[i] >= 58 && input[i] <= 60)
+			|| (input[i] >= 62 && input[i] <= 64)
 			|| (input[i] >= 91 && input[i] <= 94)
-			|| (input[i] >= 123 && input[i] < 127) 
+			|| (input[i] >= 123 && input[i] < 127)
 			|| (input[i] == 96) || (input[0] == '=')
 			|| (input[0] >= 48 && input[0] <= 57) || input[0] == '\\')
 			return (1);
@@ -83,7 +76,8 @@ int	ft_export(char **input, t_env **env)
 				return (print_error("Usage : export var=value"), 0);
 			while (input[i])
 			{
-				if (ft_is_export(input[i]) != 0 || (input[i][0] == '_' && input[i][1] == '='))
+				if ((ft_is_export(input[i]) != 0)
+					|| (input[i][0] == '_' && input[i][1] == '='))
 				{
 					i++;
 					continue ;

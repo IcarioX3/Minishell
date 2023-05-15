@@ -1,71 +1,111 @@
 #include "minishell.h"
 
-int	ft_home(t_env **env)
+int	ft_join_old(t_env **old)
 {
-	t_env	*tmp;
+	char	*tmp;
+	char	*tmp2;
 
-	tmp = *env;
-	while(tmp)
+	tmp = ft_strdup("OLD");
+	if (!tmp)
+		return (1);
+	tmp2 = ft_strjoin(tmp, (*old)->str);
+	if (!tmp2)
 	{
-		if (ft_strnstr(tmp->str, "HOME", 4) != NULL)
-			return (0);
-		tmp = tmp->next;
+		free(tmp);
+		return (1);
 	}
-	return (1);
+	free((*old)->str);
+	(*old)->str = ft_strdup(tmp2);
+	if (!(*old)->str)
+	{
+		free(tmp2);
+		return (1);
+	}
+	free(tmp2);
+	return (0);
 }
 
-int	ft_old_pwd(t_env **env, char *true_pwd, char *true_old)
+int	ft_join_pwd(t_env **pwd)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	tmp = ft_strdup("PWD=");
+	if (!tmp)
+		return (1);
+	tmp2 = ft_strjoin(tmp, (*pwd)->str);
+	if (!tmp2)
+	{
+		free(tmp);
+		return (1);
+	}
+	free((*pwd)->str);
+	(*pwd)->str = ft_strdup(tmp2);
+	if (!(*pwd)->str)
+	{
+		free(tmp2);
+		return (1);
+	}
+	free(tmp2);
+	return (0);
+}
+
+int	ft_old_pwd(t_env **true_old, t_env **true_pwd)
 {
 	t_env	*tmp;
+	t_env	*tmp2;
+	char	cwd[1024];
+
+	tmp = *true_old;
+	tmp2 = *true_pwd;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	{
+		perror("Erreur lors de l'appel à getcwd()");
+		return (1);
+	}
+	free(tmp->str);
+	tmp->str = ft_strdup(tmp2->str);
+	if (!tmp->str)
+		return (1);
+	free(tmp2->str);
+	tmp2->str = ft_strdup(cwd);
+	if (!tmp2->str)
+		return (1);
+	if (ft_join_old(true_old) == 1)
+		return (1);
+	if (ft_join_pwd(true_pwd) == 1)
+		return (1);
+	return (0);
+}
+
+int	ft_check_pwd(t_env **env)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
 
 	tmp = *env;
+	tmp2 = *env;
 	while (tmp)
 	{
 		if (ft_strnstr(tmp->str, "PWD", 3) != NULL)
 		{
-			free(tmp->str);
-			tmp->str = ft_strdup(true_pwd);
-			if (!tmp->str)
-				return (1);
+			while (tmp2)
+			{
+				if (ft_strnstr(tmp2->str, "OLDPWD", 6) != NULL)
+				{
+					if (ft_old_pwd(&tmp2, &tmp) == 1)
+						return (1);
+					return (0);
+				}
+				tmp2 = tmp2->next;
+			}
 		}
-		if (ft_strnstr(tmp->str, "OLDPWD", 3) != NULL)
-		{
-			free(tmp->str);
-			tmp->str = ft_strdup(true_old);
-			if (!tmp->str)
-				return (1);
-		}
-
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-int	ft_check_pwd(t_env **env, char **true_env)
-{
-	int i = 0;
-	int j = 0;
-	while(true_env[i])
-	{
-		if (ft_strnstr(true_env[i], "PWD", 3) != NULL)
-		{
-			while (true_env[j])
-			{
-				if (ft_strnstr(true_env[j], "OLDPWD", 6) != NULL)
-				{
-					if (ft_old_pwd(env, true_env[i], true_env[j]) == 1)
-						return (1);
-					return (0);
-				}
-				j++;
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	ft_cd(t_env **env, char **input, int *g_exit_status, char **true_env)
+int	ft_cd(t_env **env, char **input)
 {
 	if (ft_strlen(input[0]) == 2)
 	{
@@ -77,11 +117,11 @@ int	ft_cd(t_env **env, char **input, int *g_exit_status, char **true_env)
 			{
 				if (chdir(input[1]) != 0)
 				{
-					*g_exit_status = 1;
+					global_exit_status(1);
 					perror("cd");
 				}
 			}
-			if (ft_check_pwd(env, true_env) == 1)
+			if (ft_check_pwd(env) == 1)
 				return (1);
 		}
 	}

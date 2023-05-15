@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	ft_clear_all(t_env **env, t_blocks **blocks)
-{
-	lst_clear_blocks(blocks);
-	lst_clear_env(*env);
-}
-
 int	is_all_num(char *cmd)
 {
 	int	i;
@@ -20,18 +14,17 @@ int	is_all_num(char *cmd)
 	return (0);
 }
 
-void	ft_exit_one(t_env **env, t_blocks **blocks, int *g_exit_status)
+void	ft_exit_one(t_env **env, t_blocks **blocks)
 {
 	ft_clear_all(env, blocks);
-	*g_exit_status = 0;
 	printf("exit\n");
-	exit (*g_exit_status);
+	exit (return_global_exit_status());
 }
 
-void	ft_exit_two(t_env **env, t_blocks **blocks, int *g_exit_status)
+void	ft_exit_two(t_env **env, t_blocks **blocks)
 {
 	t_blocks	*tmp;
-	int	cmd;
+	int			cmd;
 
 	tmp = *blocks;
 	cmd = 0;
@@ -41,25 +34,25 @@ void	ft_exit_two(t_env **env, t_blocks **blocks, int *g_exit_status)
 		if (cmd >= 0 && cmd <= 255)
 		{
 			ft_clear_all(env, blocks);
-			*g_exit_status = cmd;
+			global_exit_status(cmd);
 			printf("exit\n");
-			exit (*g_exit_status);
+			exit (return_global_exit_status());
 		}
 	}
 	else
 	{
 		ft_clear_all(env, blocks);
-		*g_exit_status = 2;
+		global_exit_status(2);
 		printf("exit\n");
 		ft_putstr_fd("exit: numeric argument required\n", 2);
-		exit (*g_exit_status);
+		exit (return_global_exit_status());
 	}
 }
 
-void	ft_exit_tree(t_env **env, t_blocks **blocks, int *g_exit_status)
+void	ft_exit_tree(t_env **env, t_blocks **blocks)
 {
 	t_blocks	*tmp;
-	int	cmd;
+	int			cmd;
 
 	tmp = *blocks;
 	cmd = 0;
@@ -68,23 +61,23 @@ void	ft_exit_tree(t_env **env, t_blocks **blocks, int *g_exit_status)
 		if (cmd >= 0 && cmd <= 255)
 		{
 			ft_clear_all(env, blocks);
-			*g_exit_status = 2;
+			global_exit_status(2);
 			printf("exit\n");
 			ft_putstr_fd("exit: numeric argument required\n", 2);
-			exit (*g_exit_status);
+			exit (return_global_exit_status());
 		}
 	}
 	else
 	{
-		*g_exit_status = 1;
+		global_exit_status(1);
 		printf("exit\n");
 		ft_putstr_fd("exit: too many arguments\n", 2);
 	}	
 }
 
-void	ft_check_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_status)
+void	ft_check_exit(char **input, t_env **env, t_blocks **blocks)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while ((*blocks)->cmd[len])
@@ -94,12 +87,11 @@ void	ft_check_exit(char **input, t_env **env, t_blocks **blocks, int *g_exit_sta
 		if (ft_strnstr(input[0], "exit", 4) != NULL)
 		{
 			if (len == 1)
-				ft_exit_one(env, blocks, g_exit_status);
+				ft_exit_one(env, blocks);
 			else if (len == 2)
-				ft_exit_two(env, blocks, g_exit_status);
+				ft_exit_two(env, blocks);
 			else if (len > 2)
-				ft_exit_tree(env, blocks, g_exit_status);
+				ft_exit_tree(env, blocks);
 		}
 	}
 }
-

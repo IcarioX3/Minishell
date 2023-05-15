@@ -75,7 +75,7 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 	return (blocks);
 }
 
-t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens, int *g_status)
+t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens)
 {
 	t_tokens	*tmp;
 
@@ -86,7 +86,7 @@ t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens, int *g_status)
 		if (!blocks)
 		{
 			printf("minishell: malloc error\n");
-			*g_status = 1;
+			global_exit_status(1);
 			return (NULL);
 		}
 		while (tmp && tmp->token != PIPE)

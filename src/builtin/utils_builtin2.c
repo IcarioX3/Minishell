@@ -34,7 +34,7 @@ t_env	*lst_env_create_defaults(t_env *envi)
 	return (envi);
 }
 
-void 	add_under_score(t_env **env)
+void	add_under_score(t_env **env)
 {
 	t_env	*tmp;
 
@@ -43,7 +43,6 @@ void 	add_under_score(t_env **env)
 		tmp = tmp->next;
 	if (tmp->str[0] != '_')
 		tmp = lst_new_env_null(*env, "_=/usr/bin/env");
-
 }
 
 t_env	*lst_env(char **env)
