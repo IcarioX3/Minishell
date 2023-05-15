@@ -1,17 +1,17 @@
 #include "minishell.h"
 
-char	*ft_getenv(char	*name, char **env)
+char	*ft_getenv(char	*name, t_env **env)
 {
-	int	i;
-	int	len;
+	int		len;
+	t_env	*tmp;
 
-	i = 0;
 	len = strlen(name);
-	while (env[i] != NULL)
+	tmp = *env;
+	while (*tmp)
 	{
-		if ((strncmp(name, env[i], len) == 0) && (env[i][len] == '='))
-			return (env[i] + len + 1);
-		i++;
-	}
+		if ((strncmp(name, tmp->str, len) == 0) && (tmp->str[len] == '='))
+			return (tmp->str + len + 1);
+		tmp = tmp->next;
+  }
 	return (NULL);
 }

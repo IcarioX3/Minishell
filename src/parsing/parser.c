@@ -88,11 +88,11 @@ t_tokens	*handle_quote(t_tokens *tokens, char **env)
 	return (tokens);
 }
 
-t_tokens	*parser(t_tokens *tokens, int *g_exit_status, char **env)
+t_tokens	*parser(t_tokens *tokens, char **env)
 {
 	if (check_close_quote(tokens) == 1)
 	{
-		*g_exit_status = 2;
+		global_exit_status(2);
 		return (tokens);
 	}
 	tokens = handle_quote(tokens, env);
@@ -100,10 +100,10 @@ t_tokens	*parser(t_tokens *tokens, int *g_exit_status, char **env)
 	tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)
 	{
-		*g_exit_status = 2;
+		global_exit_status(2);
 		return (tokens);
 	}
 	tokens = redir_parser(tokens);
-	*g_exit_status = 0;
+	global_exit_status(0);
 	return (tokens);
 }

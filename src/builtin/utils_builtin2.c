@@ -30,9 +30,19 @@ t_env	*lst_env_create_defaults(t_env *envi)
 	envi = lst_new_env_null(envi, "_=/usr/bin/env");
 	if (!envi)
 		return (lst_env_error(envi));
-	free(tmp2);
 	free(tmp);
 	return (envi);
+}
+
+void	add_under_score(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	if (tmp->str[0] != '_')
+		tmp = lst_new_env_null(*env, "_=/usr/bin/env");
 }
 
 t_env	*lst_env(char **env)
@@ -50,6 +60,7 @@ t_env	*lst_env(char **env)
 		i++;
 	}
 	if (*env == NULL)
-	envi = lst_env_create_defaults(envi);
+		envi = lst_env_create_defaults(envi);
+	add_under_score(&envi);
 	return (envi);
 }

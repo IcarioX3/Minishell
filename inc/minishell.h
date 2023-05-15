@@ -68,7 +68,7 @@ typedef struct s_blocks
 // ----------------------------------------------------
 int			prompt(void);
 t_tokens	*lexer(char *str, t_tokens *tokens);
-t_tokens	*parser(t_tokens *tokens, int *exit_status, char **env);
+t_tokens	*parser(t_tokens *tokens, char **env);
 t_tokens	*s_quote_parser(t_tokens *tokens);
 t_tokens	*d_quote_parser(t_tokens *tokens, char **env);
 t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, char **env);
@@ -76,7 +76,7 @@ t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);
 int			check_redir(t_tokens *tokens);
-t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens, int *g_status);
+t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens);
 t_redir		*get_redir(t_tokens *tokens);
 // ----------------------------------------------------
 //	LIST_UTILS
@@ -108,6 +108,10 @@ void		print_error(char *str);
 //	SIGNAL
 // ----------------------------------------------------
 void		handle_sigint(int sig);
+int	return_global_exit_status(void);
+int	global_exit_status(int new_value);
+void	signal_heredoc(int signal);
+void	signal_fork(int signal);
 // ----------------------------------------------------
 //	BUILTIN
 // ----------------------------------------------------
@@ -115,8 +119,7 @@ void		handle_sigint(int sig);
 int			ft_nflag(char *input);
 void		ft_echo(char **input);
 /*cd.c*/
-void		ft_cd(char **input);
-/*pwd.c*/
+int	ft_cd(t_env **env, char **input);/*pwd.c*/
 int			ft_pwd(char **input);
 /*env.c*/
 void		ft_env(char **input, t_env **env);
@@ -135,7 +138,10 @@ t_env		*lst_new_env_null(t_env *envi, char *str);
 t_env		*lst_new_env(t_env *envi, char *str);
 t_env		*lst_env(char **env);
 /*builtin.c*/
-int			check_builtin(char **input, t_env **env);
-/*get_env.c*/
-
+int			check_builtin(char **input, t_env **env, t_blocks **blocks);
+/*exit.c*/
+void	ft_check_exit(char **input, t_env **env, t_blocks **blocks);
+int	ft_home(t_env **env);
+void	ft_clear_all(t_env **env, t_blocks **blocks);
+int	create_env(char *input, t_env *env);
 #endif
