@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_blocks	*parsing(t_blocks *blocks, char *input)
+t_blocks	*parsing(t_blocks *blocks, char *input, char **env)
 {
 	t_tokens	*tokens;
 
@@ -9,7 +9,7 @@ t_blocks	*parsing(t_blocks *blocks, char *input)
 	free(input);
 	//printf("After lexer:\n");
 	//print_tokens(tokens);
-	tokens = parser(tokens);
+	tokens = parser(tokens, env);
 	//printf("\nAfter parser:\n");
 	//print_tokens(tokens);
 	if (return_global_exit_status() != 0)
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **env)
 				break ;
 			continue ;
 		}
-		blocks = parsing(blocks, input);
+		blocks = parsing(blocks, input, env);
 		if (!blocks)
 			continue ;
 		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)

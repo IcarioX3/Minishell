@@ -12,6 +12,6 @@ char	*ft_getenv(char	*name, t_env **env)
 		if ((strncmp(name, tmp->str, len) == 0) && (tmp->str[len] == '='))
 			return (tmp->str + len + 1);
 		tmp = tmp->next;
-	}
+  }
 	return (NULL);
 }

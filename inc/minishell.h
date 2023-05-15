@@ -68,10 +68,10 @@ typedef struct s_blocks
 // ----------------------------------------------------
 int			prompt(void);
 t_tokens	*lexer(char *str, t_tokens *tokens);
-t_tokens	*parser(t_tokens *tokens);
+t_tokens	*parser(t_tokens *tokens, char **env);
 t_tokens	*s_quote_parser(t_tokens *tokens);
-t_tokens	*d_quote_parser(t_tokens *tokens);
-t_tokens	*env_var_parser(t_tokens *tokens, int in_quote);
+t_tokens	*d_quote_parser(t_tokens *tokens, char **env);
+t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, char **env);
 t_tokens	*redir_parser(t_tokens *tokens);
 t_tokens	*split_dollar(t_tokens *tokens);
 int			check_close_quote(t_tokens *tokens);
@@ -98,6 +98,7 @@ void		print_blocks(t_blocks *blocks);
 int			is_whitespace(char c);
 int			is_special(char c);
 void		free_double_array(char **array);
+char		*ft_getenv(char	*name, char **env);
 // ----------------------------------------------------
 //	ERROR
 // ----------------------------------------------------

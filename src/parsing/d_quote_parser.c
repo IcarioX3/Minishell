@@ -1,17 +1,22 @@
 #include "minishell.h"
 
-char	*get_string_d_quote(t_tokens *tokens)
+char	*get_string_d_quote(t_tokens *tokens, char **env)
 {
 	char	*str;
 
 	str = NULL;
+	if (tokens->token == D_QUOTE)
+	{
+		str = ft_strdup("");
+		return (str);
+	}
 	while (tokens && tokens->token != D_QUOTE)
 	{
 		if (tokens->token == DOLLAR)
 		{
 			if (tokens->next && tokens->next->token == WORD)
 			{
-				str = ft_strjoin(str, getenv(tokens->next->str));
+				str = ft_strjoin(str, ft_getenv(tokens->next->str, env));
 				tokens = tokens->next;
 			}
 			else
@@ -24,14 +29,14 @@ char	*get_string_d_quote(t_tokens *tokens)
 	return (str);
 }
 
-t_tokens	*d_quote_parser(t_tokens *tokens)
+t_tokens	*d_quote_parser(t_tokens *tokens, char **env)
 {
 	t_tokens	*tmp;
 	char		*str;
 
 	tmp = tokens;
 	tmp = tmp->next;
-	str = get_string_d_quote(tmp);
+	str = get_string_d_quote(tmp, env);
 	while (tmp && tmp->token != D_QUOTE)
 	{
 		tokens = del_token(tokens, tmp);

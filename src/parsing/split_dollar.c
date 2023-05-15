@@ -9,6 +9,8 @@ int	count_words(char *str)
 	count = 0;
 	if (str == NULL)
 		return (0);
+	if (str[0] == '\0')
+		return (1);
 	while (str[i])
 	{
 		if (is_whitespace(str[i]))

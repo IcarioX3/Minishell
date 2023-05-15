@@ -62,7 +62,7 @@ int	check_pipe(t_tokens *tokens)
 	return (0);
 }
 
-t_tokens	*handle_quote(t_tokens *tokens)
+t_tokens	*handle_quote(t_tokens *tokens, char **env)
 {
 	int			in_d_quote;
 	t_tokens	*tmp;
@@ -76,11 +76,11 @@ t_tokens	*handle_quote(t_tokens *tokens)
 		else if (tmp->token == D_QUOTE)
 		{
 			in_d_quote = !in_d_quote;
-			tmp = d_quote_parser(tmp);
+			tmp = d_quote_parser(tmp, env);
 		}
 		else if (tmp->token == DOLLAR)
 		{
-			tmp = env_var_parser(tmp, in_d_quote);
+			tmp = env_var_parser(tmp, in_d_quote, env);
 			tmp = split_dollar(tmp);
 		}
 		tmp = tmp->next;
@@ -88,14 +88,14 @@ t_tokens	*handle_quote(t_tokens *tokens)
 	return (tokens);
 }
 
-t_tokens	*parser(t_tokens *tokens)
+t_tokens	*parser(t_tokens *tokens, char **env)
 {
 	if (check_close_quote(tokens) == 1)
 	{
 		global_exit_status(2);
 		return (tokens);
 	}
-	tokens = handle_quote(tokens);
+	tokens = handle_quote(tokens, env);
 	tokens = merge_words(tokens);
 	tokens = remove_sep(tokens);
 	if (check_redir(tokens) == 1 || check_pipe(tokens) == 1)
