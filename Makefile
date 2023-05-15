@@ -43,6 +43,7 @@ UTILS		= parsing_utils.c \
 			free_double_array.c \
 			lst_blocks_utils.c \
 			get_env.c \
+			clean.c \
 
 ERROR		= error.c
 
@@ -57,7 +58,8 @@ BUILTIN		= builtin.c \
 			utils_builtin2.c \
 
 EXEC	= heredoc.c \
-			exec.c \
+		exec.c \
+		open_files.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))

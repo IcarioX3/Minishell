@@ -54,6 +54,7 @@ typedef struct s_redir
 {
 	char			*file;
 	int				token;
+	int				fd;
 	int				pipe_heredoc[2];
 	struct s_redir	*next;
 }	t_redir;
@@ -61,8 +62,6 @@ typedef struct s_redir
 typedef struct s_blocks
 {
 	char			**cmd;
-	int				fd_in;
-	int				fd_out;
 	int				nb_args;
 	int				pipe[2];
 	t_redir			*redir;
@@ -90,6 +89,7 @@ t_redir		*get_redir(t_tokens *tokens);
 // ----------------------------------------------------
 //	EXECUTION
 // ----------------------------------------------------
+int			exec(t_blocks *blocks, t_env *env);
 int			heredoc(t_blocks *blocks, int *g_status);
 
 // ----------------------------------------------------
@@ -115,6 +115,7 @@ int			is_whitespace(char c);
 int			is_special(char c);
 void		free_double_array(char **array);
 char		*ft_getenv(char	*name, char **env);
+void		clean_all(t_blocks *blocks, t_env *envi);
 
 // ----------------------------------------------------
 //	ERROR

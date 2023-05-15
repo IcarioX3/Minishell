@@ -12,6 +12,8 @@ void	lst_clear_redir(t_redir **redir)
 		*redir = (*redir)->next;
 		if (tmp)
 			free(tmp->file);
+		if (tmp->fd != -1 && tmp->fd != -2)
+			close(tmp->fd);
 		free(tmp);
 	}
 }
@@ -36,6 +38,8 @@ void	lst_clear_blocks(t_blocks **blocks)
 			}
 			free(tmp->cmd);
 		}
+		close(tmp->pipe[0]);
+		close(tmp->pipe[1]);
 		lst_clear_redir(&tmp->redir);
 		free(tmp);
 	}

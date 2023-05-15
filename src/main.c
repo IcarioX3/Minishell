@@ -60,10 +60,12 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if ((check_builtin(blocks->cmd, &envi)) == 1)
 			break ;
-		heredoc(blocks, &g_exit_status);
+		if (exec(blocks, envi) == 1)
+			break ;
+		//heredoc(blocks, &g_exit_status);
 		lst_clear_blocks(&blocks);
 	}
-	if (env)
+	if (envi)
 		lst_clear_env(envi);
 	printf("Exit status: %d\n", g_exit_status);
 	return (0);

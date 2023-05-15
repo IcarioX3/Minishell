@@ -30,6 +30,7 @@ t_redir	*add_new_redir(t_redir *redir, t_tokens *tokens)
 	new_redir->next = NULL;
 	new_redir->pipe_heredoc[0] = -1;
 	new_redir->pipe_heredoc[1] = -1;
+	new_redir->fd = -2;
 	if (!redir)
 		return (new_redir);
 	tmp = redir;
@@ -63,6 +64,9 @@ t_redir	*get_redir(t_tokens *tokens)
 		redir->file = NULL;
 		redir->token = 0;
 		redir->next = NULL;
+		redir->pipe_heredoc[0] = -1;
+		redir->pipe_heredoc[1] = -1;
+		redir->fd = -2;
 	}
 	return (redir);
 }
