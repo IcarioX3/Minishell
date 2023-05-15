@@ -8,6 +8,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include <errno.h>
 # include "libft.h"
 
 //---MACROS---
@@ -91,6 +92,7 @@ t_redir		*get_redir(t_tokens *tokens);
 // ----------------------------------------------------
 int			exec(t_blocks *blocks, t_env *env);
 int			heredoc(t_blocks *blocks, int *g_status);
+void		open_files(t_blocks *blocks);
 
 // ----------------------------------------------------
 //	LIST_UTILS

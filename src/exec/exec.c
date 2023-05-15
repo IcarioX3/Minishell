@@ -18,7 +18,11 @@ int	exec(t_blocks *blocks, t_env *env)
 {
 	(void)env;
 	if (init_pipes(blocks) == 1)
+	{
+		global_exit_status(errno);
 		return (ft_putstr_fd("minishell: pipe error\n", 2), 1);
+	}
 	open_files(blocks);
+	ft_putstr_fd("exec\n", 1);
 	return (0);
 }

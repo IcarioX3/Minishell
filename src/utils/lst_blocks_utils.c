@@ -18,6 +18,21 @@ void	lst_clear_redir(t_redir **redir)
 	}
 }
 
+void	close_pipes(t_blocks *blocks)
+{
+	t_blocks	*tmp;
+
+	tmp = blocks;
+	while (tmp)
+	{
+		if (tmp->pipe[0] != -1)
+			close(tmp->pipe[0]);
+		if (tmp->pipe[1] != -1)
+			close(tmp->pipe[1]);
+		tmp = tmp->next;
+	}
+}
+
 void	lst_clear_blocks(t_blocks **blocks)
 {
 	t_blocks	*tmp;
@@ -38,8 +53,7 @@ void	lst_clear_blocks(t_blocks **blocks)
 			}
 			free(tmp->cmd);
 		}
-		close(tmp->pipe[0]);
-		close(tmp->pipe[1]);
+		close_pipes(tmp);
 		lst_clear_redir(&tmp->redir);
 		free(tmp);
 	}
