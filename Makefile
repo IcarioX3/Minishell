@@ -56,6 +56,10 @@ BUILTIN		= builtin.c \
 			unset.c \
 			utils_builtin.c \
 			utils_builtin2.c \
+			exit.c \
+			cd2.c \
+			clear_exit.c \
+			export2.c \
 
 EXEC	= heredoc.c \
 		exec.c \

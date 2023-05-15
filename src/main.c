@@ -1,22 +1,20 @@
 #include "minishell.h"
 
-int	g_exit_status = 0;
-
-t_blocks	*parsing(t_blocks *blocks, char *input, char **env)
+t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
 {
 	t_tokens	*tokens;
 
 	tokens = NULL;
 	tokens = lexer(input, tokens);
 	free(input);
-/* 	printf("After lexer:\n");
-	print_tokens(tokens); */
-	tokens = parser(tokens, &g_exit_status, env);
-/* 	printf("\nAfter parser:\n");
-	print_tokens(tokens); */
-	if (g_exit_status != 0)
+	//printf("After lexer:\n");
+	//print_tokens(tokens);
+	tokens = parser(tokens, env);
+	//printf("\nAfter parser:\n");
+	//print_tokens(tokens);
+	if (return_global_exit_status() != 0)
 		return (lst_clear_token(&tokens), NULL);
-	blocks = put_in_blocks(blocks, tokens, &g_exit_status);
+	blocks = put_in_blocks(blocks, tokens);
 	if (!blocks)
 	{
 		lst_clear_token(&tokens);
@@ -55,10 +53,10 @@ int	main(int argc, char **argv, char **env)
 				break ;
 			continue ;
 		}
-		blocks = parsing(blocks, input, env);
+		blocks = parsing(blocks, input, &envi);
 		if (!blocks)
 			continue ;
-		if ((check_builtin(blocks->cmd, &envi)) == 1)
+		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
 			break ;
 		if (exec(blocks, envi) == 1)
 			break ;
@@ -67,6 +65,6 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (envi)
 		lst_clear_env(envi);
-	printf("Exit status: %d\n", g_exit_status);
+	printf("Exit status: %d\n", return_global_exit_status());
 	return (0);
 }

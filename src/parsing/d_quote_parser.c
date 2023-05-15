@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*get_string_d_quote(t_tokens *tokens, char **env)
+char	*get_string_d_quote(t_tokens *tokens, t_env **env)
 {
 	char	*str;
 
@@ -29,7 +29,7 @@ char	*get_string_d_quote(t_tokens *tokens, char **env)
 	return (str);
 }
 
-t_tokens	*d_quote_parser(t_tokens *tokens, char **env)
+t_tokens	*d_quote_parser(t_tokens *tokens, t_env **env)
 {
 	t_tokens	*tmp;
 	char		*str;
