@@ -48,7 +48,7 @@ int	ft_is_export(char *input)
 	int	i;
 
 	i = 0;
-	while (input[i])
+	while (i <= get_pos_equal(input))
 	{
 		if ((input[i] > 0 && input[i] <= 47)
 			|| (input[i] >= 58 && input[i] <= 60)
@@ -57,7 +57,12 @@ int	ft_is_export(char *input)
 			|| (input[i] >= 123 && input[i] < 127)
 			|| (input[i] == 96) || (input[0] == '=')
 			|| (input[0] >= 48 && input[0] <= 57) || input[0] == '\\')
+		{
+			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd(input, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			return (1);
+		}
 		i++;
 	}
 	return (0);
