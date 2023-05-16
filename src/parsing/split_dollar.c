@@ -68,6 +68,39 @@ t_tokens	*split_dollar(t_tokens *tokens)
 		return (NULL);
 	i = count_words(tmp->str);
 	free(tmp->str);
+	if (split[0][0] == '$')
+		ft_strcpy(split[0], split[0] + 1);
+	tmp->str = split[0];
+	tmp->token = DOLLAR;
+	if (i > 1)
+	{
+		i = 1;
+		while (split[i])
+		{
+			if (split[i][0] == '$')
+				ft_strcpy(split[i], split[i] + 1);
+			tmp = insert_token(tmp, split[i], DOLLAR);
+			i++;
+		}
+	}
+	free(split);
+	return (tokens);
+}
+
+/*t_tokens	*split_dollar(t_tokens *tokens)
+{
+	t_tokens	*tmp;
+	char		**split;
+	int			i;
+
+	tmp = tokens;
+	if (!tmp || !tmp->str)
+		return (tokens);
+	split = get_split_str(tmp->str);
+	if (!split)
+		return (NULL);
+	i = count_words(tmp->str);
+	free(tmp->str);
 	tmp->str = split[0];
 	tmp->token = DOLLAR;
 	if (i > 1)
@@ -81,4 +114,4 @@ t_tokens	*split_dollar(t_tokens *tokens)
 	}
 	free(split);
 	return (tokens);
-}
+}*/

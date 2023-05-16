@@ -3,6 +3,7 @@
 char	*get_string_d_quote(t_tokens *tokens, t_env **env)
 {
 	char	*str;
+	char	*exit_status_str;
 
 	str = NULL;
 	if (tokens->token == D_QUOTE)
@@ -16,7 +17,14 @@ char	*get_string_d_quote(t_tokens *tokens, t_env **env)
 		{
 			if (tokens->next && tokens->next->token == WORD)
 			{
-				str = ft_strjoin(str, ft_getenv(tokens->next->str, env));
+				if (ft_strcmp(tokens->next->str, "?") == 1)
+				{
+					exit_status_str = ft_itoa(return_global_exit_status());
+					str = ft_strjoin(str, exit_status_str);
+					free(exit_status_str);
+				}
+				else
+					str = ft_strjoin(str, ft_getenv(tokens->next->str, env));
 				tokens = tokens->next;
 			}
 			else

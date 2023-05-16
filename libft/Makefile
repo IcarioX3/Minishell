@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+         #
+#    By: nasamadi <nasamadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/21 12:49:00 by ablevin           #+#    #+#              #
-#    Updated: 2023/04/13 10:50:30 by ablevin          ###   ########.fr        #
+#    Updated: 2023/05/16 12:19:43 by nasamadi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS 			=	ft_isalpha.c \
 				ft_bzero.c \
 				ft_memcpy.c \
 				ft_memmove.c \
+				ft_strcpy.c \
 				ft_strlcpy.c \
 				ft_strlcat.c \
 				ft_toupper.c \
