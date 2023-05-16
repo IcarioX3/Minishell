@@ -40,7 +40,6 @@ DEBUG		= print_tokens.c \
 
 UTILS		= parsing_utils.c \
 			lst_token_utils.c \
-			free_double_array.c \
 			lst_blocks_utils.c \
 			get_env.c \
 			clean.c \
@@ -63,7 +62,8 @@ BUILTIN		= builtin.c \
 
 EXEC	= heredoc.c \
 		exec.c \
-		open_files.c \
+		init_exec.c \
+		get_path.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))

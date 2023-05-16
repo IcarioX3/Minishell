@@ -61,10 +61,12 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 	new_block->cmd = get_args(tokens);
 	if (!new_block->cmd)
 		return (lst_clear_blocks(&blocks), NULL);
+	new_block->path = NULL;
 	new_block->nb_args = count_args(tokens);
 	new_block->pipe[0] = -1;
 	new_block->pipe[1] = -1;
 	new_block->next = NULL;
+	new_block->prev = NULL;
 	new_block->redir = get_redir(tokens);
 	if (!blocks)
 		return (new_block);
@@ -72,6 +74,7 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_block;
+	new_block->prev = tmp;
 	return (blocks);
 }
 

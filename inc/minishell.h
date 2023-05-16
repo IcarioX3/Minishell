@@ -63,10 +63,12 @@ typedef struct s_redir
 typedef struct s_blocks
 {
 	char			**cmd;
+	char			*path;
 	int				nb_args;
 	int				pipe[2];
 	t_redir			*redir;
 	struct s_blocks	*next;
+	struct s_blocks	*prev;
 }	t_blocks;
 
 //---FUNCTIONS---
@@ -92,7 +94,9 @@ t_redir		*get_redir(t_tokens *tokens);
 // ----------------------------------------------------
 int			exec(t_blocks *blocks, t_env *env);
 int			heredoc(t_blocks *blocks, int *g_status);
-void		open_files(t_blocks *blocks);
+int			*init_exec(t_blocks *blocks);
+int			get_nb_cmds(t_blocks *blocks);
+char	*get_bin_path(char *cmd, t_env *env);
 
 // ----------------------------------------------------
 //	LIST_UTILS
