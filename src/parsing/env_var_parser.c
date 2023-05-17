@@ -25,10 +25,7 @@ t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, t_env **env)
 	if (tokens->next && tokens->next->token == WORD)
 	{
 		if (tokens->next && ft_strcmp(tokens->next->str, "?") == 1)
-		{
-			printf("valeur %d\n", return_global_exit_status());
 			tokens = replace_exit(tokens);
-		}
 		else
 			tokens = replace_var(tokens, in_quote, env);
 	}
