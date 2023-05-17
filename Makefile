@@ -64,6 +64,8 @@ EXEC	= heredoc.c \
 		exec.c \
 		init_exec.c \
 		get_path.c \
+		open_files.c \
+		child.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))

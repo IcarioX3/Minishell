@@ -29,47 +29,6 @@ int	get_nb_cmds(t_blocks *blocks)
 	return (nb_cmds);
 }
 
-int	get_fd(t_redir *redir)
-{
-	int	fd;
-
-	fd = -1;
-	if (redir->token == IN_REDIR)
-		fd = open(redir->file, O_RDONLY);
-	else if (redir->token == OUT_REDIR)
-		fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (redir->token == APPEND)
-		fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (redir->token == HEREDOC)
-		fd = redir->pipe_heredoc[0];
-	return (fd);
-}
-
-void	open_files(t_blocks *blocks)
-{
-	t_blocks	*tmp;
-	t_redir		*redir;
-
-	tmp = blocks;
-	while (tmp)
-	{
-		redir = tmp->redir;
-		while (redir)
-		{
-			redir->fd = get_fd(redir);
-			if (redir->fd == -1)
-			{
-				global_exit_status(errno);
-				ft_putstr_fd("minishell: ", 2);
-				perror(redir->file);
-				break ;
-			}
-			redir = redir->next;
-		}
-		tmp = tmp->next;
-	}
-}
-
 int	*init_exec(t_blocks *blocks)
 {
 	int	*pid;
@@ -90,4 +49,3 @@ int	*init_exec(t_blocks *blocks)
 	}
 	return (pid);
 }
-

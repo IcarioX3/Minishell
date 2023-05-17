@@ -4,7 +4,7 @@ char	**env_to_array(t_env *env)
 {
 	char	**env_array;
 	int		i;
-	int	len;
+	int		len;
 	t_env	*tmp;
 
 	tmp = env;
@@ -24,76 +24,69 @@ char	**env_to_array(t_env *env)
 		if (!env_array[i])
 			return (free_double_array(env_array), NULL);
 		env = env->next;
+		i++;
 	}
-	env_array[i] = NULL;
-	return (env_array);
+	return (env_array[i] = NULL, env_array);
 }
 
-void	check_before_exec(t_blocks *blocks, t_env *env, int *pid, char **envi)
+void	error_fork(t_blocks *blocks, t_env *env)
 {
-	 t_redir	*tmp;
-
-	tmp = blocks->redir;
-	while (tmp)
-	{
-		if (tmp->fd == -1)
-		{
-			free(pid);
-			free_double_array(envi);
-			clean_all(blocks, env);
-			exit(errno);
-		}
-		tmp = tmp->next;
-	}
-	if (access(blocks->cmd[0], F_OK | X_OK) == 0)
-		blocks->path = ft_strdup(blocks->cmd[0]);
-	else
-		blocks->path = get_bin_path(blocks->cmd[0], env);
+	clean_all(blocks, env);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	exit(errno);
 }
 
-int	exec(t_blocks *blocks, t_env *env)
+void	core(t_blocks *blocks, t_env *env)
 {
-	int	*pid;
-	int	i;
 	t_blocks	*tmp;
-	char	**env_array;
-	int		status;
-	int		nb_cmd;
+	int			i;
 
-	tmp = blocks;
-	pid = init_exec(blocks);
-	env_array = env_to_array(env);
-	if (!pid || !env_array)
-		return (lst_clear_blocks(&blocks), 1);
 	i = 0;
+	tmp = blocks;
 	while (tmp)
 	{
-		check_before_exec(tmp, env, pid, env_array);
-		if (!tmp->path)
-		{
-			free(pid);
-			free_double_array(env_array);
-			clean_all(blocks, env);
-			return (1);
-		}
-		if (pid[i] == 0)
-		{
-			execve(tmp->path, tmp->cmd, env_array);
-		}
+		blocks->pid[i] = fork();
+		if (blocks->pid[i] == -1)
+			error_fork(blocks, env);
+		if (blocks->pid[i] == 0)
+			child(blocks, tmp, env);
+		close(tmp->pipe[1]);
+		if (tmp->prev)
+			close(tmp->prev->pipe[0]);
 		tmp = tmp->next;
 		i++;
 	}
+}
+
+void	parent(t_blocks *blocks)
+{
+	int	nb_cmd;
+	int	i;
+	int	status;
+
 	nb_cmd = get_nb_cmds(blocks);
 	i = 0;
 	while (i < nb_cmd)
 	{
-		waitpid(pid[i], &status, 0);
+		waitpid(blocks->pid[i], &status, 0);
 		if (WIFEXITED(status))
 			global_exit_status(WEXITSTATUS(status));
 		i++;
 	}
-	free(pid);
-	free_double_array(env_array);
-	lst_clear_blocks(&blocks);
+}
+
+int	exec(t_blocks *blocks, t_env *env)
+{
+	t_blocks	*tmp;
+
+	tmp = blocks;
+	blocks->pid = init_exec(blocks);
+	blocks->env = env_to_array(env);
+	if (!blocks->pid || !blocks->env)
+		return (lst_clear_blocks(&blocks), 1);
+	core(tmp, env);
+	parent(blocks);
 	return (0);
 }

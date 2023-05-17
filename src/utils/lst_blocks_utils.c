@@ -55,6 +55,8 @@ void	lst_clear_blocks(t_blocks **blocks)
 		}
 		close_pipes(tmp);
 		lst_clear_redir(&tmp->redir);
+		free(tmp->pid);
+		free_double_array(tmp->env);
 		free(tmp->path);
 		free(tmp);
 	}

@@ -63,9 +63,13 @@ typedef struct s_redir
 typedef struct s_blocks
 {
 	char			**cmd;
+	char			**env;
 	char			*path;
 	int				nb_args;
 	int				pipe[2];
+	int				fd_in;
+	int				fd_out;
+	int				*pid;
 	t_redir			*redir;
 	struct s_blocks	*next;
 	struct s_blocks	*prev;
@@ -96,7 +100,9 @@ int			exec(t_blocks *blocks, t_env *env);
 int			heredoc(t_blocks *blocks, int *g_status);
 int			*init_exec(t_blocks *blocks);
 int			get_nb_cmds(t_blocks *blocks);
-char	*get_bin_path(char *cmd, t_env *env);
+char		*get_bin_path(char *cmd, t_env *env);
+void		open_files(t_blocks *blocks);
+void		child(t_blocks *blocks, t_blocks *tmp, t_env *env);
 
 // ----------------------------------------------------
 //	LIST_UTILS
@@ -122,6 +128,7 @@ int			is_special(char c);
 void		free_double_array(char **array);
 char		*ft_getenv(char	*name, t_env **env);
 void		clean_all(t_blocks *blocks, t_env *envi);
+void		clean_all_exit(t_blocks *blocks, t_env *envi, int exit_code);
 
 // ----------------------------------------------------
 //	ERROR

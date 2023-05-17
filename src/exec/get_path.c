@@ -29,12 +29,13 @@ char	*get_bin_path(char *cmd, t_env *env)
 
 	path = get_path(env);
 	path_array = ft_split(path, ':');
+	free(path);
 	if (!path_array)
 		return (NULL);
 	i = 0;
-	while (path_array[i])
+	while (path_array[i] && cmd[0] != '\0')
 	{
-		bin_path = ft_strjoin(path_array[i], "/");
+		bin_path = ft_strjoin(ft_strdup(path_array[i]), "/");
 		if (!bin_path)
 			return (free_double_array(path_array), NULL);
 		bin_path = ft_strjoin(bin_path, cmd);

@@ -22,7 +22,7 @@ t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
 		return (NULL);
 	}
 	lst_clear_token(&tokens);
-	print_blocks(blocks);
+	//print_blocks(blocks);
 	return (blocks);
 }
 
@@ -56,9 +56,9 @@ int	main(int argc, char **argv, char **env)
 		blocks = parsing(blocks, input, &envi);
 		if (!blocks)
 			continue ;
-		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
-			break ;
-	 	if (exec(blocks, envi) == 1)
+/* 		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
+			break ; */
+  	 	if (exec(blocks, envi) == 1)
 			break ;
 		//heredoc(blocks, &g_exit_status);
 		lst_clear_blocks(&blocks);
