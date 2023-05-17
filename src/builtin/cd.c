@@ -54,7 +54,7 @@ int	ft_old_pwd(t_env **true_old, t_env **true_pwd)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
-	char	cwd[1024];
+	char	cwd[4096];
 
 	tmp = *true_old;
 	tmp2 = *true_pwd;
