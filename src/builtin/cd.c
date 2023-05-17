@@ -54,7 +54,7 @@ int	ft_old_pwd(t_env **true_old, t_env **true_pwd)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
-	char	cwd[1024];
+	char	cwd[4096];
 
 	tmp = *true_old;
 	tmp2 = *true_pwd;
@@ -111,11 +111,17 @@ int	ft_cd(t_env **env, char **input)
 	{
 		if (ft_strnstr(input[0], "cd", 2) != NULL)
 		{
-			if (input[1] == NULL && ft_home(env) == 0)
+			if (ft_home(env) == 1 && input[1] == NULL)
+			{
+				global_exit_status(1);
+				ft_putstr_fd("cd: HOME not set\n", 2);
+				return (2);
+			}
+			if (input[1] == NULL)
 				chdir("/");
 			else
 			{
-				if (chdir(input[1]) != 0)
+				if (chdir(input[1]) == -1)
 				{
 					global_exit_status(1);
 					perror("cd");

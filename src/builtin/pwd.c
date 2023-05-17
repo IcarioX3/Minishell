@@ -2,7 +2,7 @@
 
 int	ft_pwd(char **input)
 {
-	char	cwd[1024];
+	char	cwd[4096];
 
 	if (ft_strlen(input[0]) == 3)
 	{

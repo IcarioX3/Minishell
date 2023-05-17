@@ -170,4 +170,5 @@ void		ft_check_exit(char **input, t_env **env, t_blocks **blocks);
 int			ft_home(t_env **env);
 void		ft_clear_all(t_env **env, t_blocks **blocks);
 int			create_env(char *input, t_env *env);
+int			get_pos_equal(char *input);
 #endif
