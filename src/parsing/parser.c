@@ -78,7 +78,7 @@ t_tokens	*handle_quote(t_tokens *tokens, t_env **env)
 			in_d_quote = !in_d_quote;
 			tmp = d_quote_parser(tmp, env);
 		}
-		else if (tmp->token == DOLLAR)
+		else if (tmp->token == DOLLAR && tokens->token != HEREDOC)
 		{
 			tmp = env_var_parser(tmp, in_d_quote, env);
 			tmp = split_dollar(tmp);
