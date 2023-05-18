@@ -52,7 +52,8 @@ void	core(t_blocks *blocks, t_env *env)
 			error_fork(blocks, env);
 		if (blocks->pid[i] == 0)
 			child(blocks, tmp, env);
-		close(tmp->pipe[1]);
+		if (tmp->next)
+			close(tmp->pipe[1]);
 		if (tmp->prev)
 			close(tmp->prev->pipe[0]);
 		tmp = tmp->next;
@@ -68,6 +69,7 @@ void	parent(t_blocks *blocks)
 
 	nb_cmd = get_nb_cmds(blocks);
 	i = 0;
+
 	while (i < nb_cmd)
 	{
 		waitpid(blocks->pid[i], &status, 0);
@@ -85,7 +87,15 @@ int	exec(t_blocks *blocks, t_env *env)
 	blocks->pid = init_exec(blocks);
 	blocks->env = env_to_array(env);
 	if (!blocks->pid || !blocks->env)
+	{
 		return (lst_clear_blocks(&blocks), 1);
+	}	
+	if (!blocks->next && is_builtin(blocks->cmd[0]))
+	{
+		if (check_builtin(blocks->cmd, &env, &blocks) == 1)
+			return (1);
+		return (0);
+	}
 	core(tmp, env);
 	parent(blocks);
 	return (0);

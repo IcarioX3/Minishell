@@ -52,7 +52,16 @@ int	get_fd(t_redir *redir, t_blocks *blocks)
 			blocks->fd_out = fd;
 	}
 	else if (redir->token == HEREDOC)
+	{
+		if (is_last_in(redir->next))
+		{
+			ft_putstr_fd("fd pipe_heredoc[0] = ", 2);
+			ft_putnbr_fd(redir->pipe_heredoc[0], 2);
+			ft_putstr_fd("\n", 2);
+			blocks->fd_in = redir->pipe_heredoc[0];
+		}
 		fd = redir->pipe_heredoc[0];
+	}
 	return (fd);
 }
 

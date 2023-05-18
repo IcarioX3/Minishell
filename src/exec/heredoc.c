@@ -1,15 +1,13 @@
 #include "minishell.h"
 
-int	heredoc(t_blocks *blocks, int *g_status)
+int	heredoc(t_blocks *blocks)
 {
 	t_blocks	*tmp;
 	t_redir	*tmp_redir;
 	char	*line;
 	int	pid;
-	int	err_dup;
 	int	status;
 
-	err_dup = 0;
 	line = NULL;
 	tmp = blocks;
 	while (blocks)
@@ -26,11 +24,8 @@ int	heredoc(t_blocks *blocks, int *g_status)
 					return (0);
 				if (pid == 0)
 				{
+					signal(SIGINT, signal_heredoc);
 					close(blocks->redir->pipe_heredoc[0]);
-					err_dup = dup2(blocks->redir->pipe_heredoc[1], 1);
-					if (err_dup == -1)
-						return (0);
-					close(blocks->redir->pipe_heredoc[1]);
 					while (1)
 					{
 						ft_putstr_fd("> ", STDIN_FILENO);
@@ -41,11 +36,6 @@ int	heredoc(t_blocks *blocks, int *g_status)
 							lst_clear_blocks(&tmp);
 							exit(0);
 						}
-						ft_putstr_fd("file: ", 2);
-						ft_putstr_fd(blocks->redir->file, 2);
-						ft_putstr_fd("\n", 2);																								
-						ft_putstr_fd("line: ", 2);
-						ft_putstr_fd(line, 2);
 						if (ft_strncmp(line, blocks->redir->file, ft_strlen(blocks->redir->file)) == 0)
 						{
 							free(line);
@@ -53,28 +43,23 @@ int	heredoc(t_blocks *blocks, int *g_status)
 							exit(0);
 						}
 						ft_putstr_fd(line, blocks->redir->pipe_heredoc[1]);
-						ft_putstr_fd("\n", blocks->redir->pipe_heredoc[1]);
 						free(line);
 					}
 					exit(0);
 				}
 				else
 				{
-					ft_putstr_fd("Here\n", 2);
 					close(blocks->redir->pipe_heredoc[1]);
 					waitpid(pid, &status, 0);
 					if (WIFEXITED(status))
 					{
 						if (WEXITSTATUS(status) == 0)
 						{
-							err_dup = dup2(blocks->redir->pipe_heredoc[0], 0);
-							if (err_dup == -1)
-								return (0);
-							close(blocks->redir->pipe_heredoc[0]);
+							close(blocks->redir->pipe_heredoc[1]);
 						}
 						else
 						{
-							*g_status = WEXITSTATUS(status);
+							global_exit_status(WEXITSTATUS(status));
 							return (0);
 						}
 					}

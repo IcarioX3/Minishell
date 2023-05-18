@@ -36,4 +36,5 @@ void	signal_fork(int signal)
 		global_exit_status(130);
 	else if (signal == SIGQUIT)
 		global_exit_status(131);
+	 ft_putstr_fd("exit\n", 1);
 }

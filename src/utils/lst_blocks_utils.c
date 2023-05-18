@@ -21,6 +21,7 @@ void	lst_clear_redir(t_redir **redir)
 void	close_pipes(t_blocks *blocks)
 {
 	t_blocks	*tmp;
+	t_redir		*tmp_redir;
 
 	tmp = blocks;
 	while (tmp)
@@ -29,6 +30,15 @@ void	close_pipes(t_blocks *blocks)
 			close(tmp->pipe[0]);
 		if (tmp->pipe[1] != -1)
 			close(tmp->pipe[1]);
+		tmp_redir = tmp->redir;
+		while (tmp_redir)
+		{
+			if (tmp_redir->pipe_heredoc[0] != -1)
+				close(tmp_redir->pipe_heredoc[0]);
+			if (tmp_redir->pipe_heredoc[1] != -1)
+				close(tmp_redir->pipe_heredoc[1]);
+			tmp_redir = tmp_redir->next;
+		}
 		tmp = tmp->next;
 	}
 }

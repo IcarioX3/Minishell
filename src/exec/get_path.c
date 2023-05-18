@@ -28,6 +28,13 @@ char	*get_bin_path(char *cmd, t_env *env)
 	int		i;
 
 	path = get_path(env);
+	if (!path)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (NULL);
+	}
 	path_array = ft_split(path, ':');
 	free(path);
 	if (!path_array)

@@ -97,12 +97,14 @@ t_redir		*get_redir(t_tokens *tokens);
 //	EXECUTION
 // ----------------------------------------------------
 int			exec(t_blocks *blocks, t_env *env);
-int			heredoc(t_blocks *blocks, int *g_status);
+int			heredoc(t_blocks *blocks);
 int			*init_exec(t_blocks *blocks);
 int			get_nb_cmds(t_blocks *blocks);
 char		*get_bin_path(char *cmd, t_env *env);
 void		open_files(t_blocks *blocks);
 void		child(t_blocks *blocks, t_blocks *tmp, t_env *env);
+int			is_builtin(char *cmd);
+int 		is_last_in(t_redir *redir);
 
 // ----------------------------------------------------
 //	LIST_UTILS
@@ -149,7 +151,7 @@ void		signal_fork(int signal);
 // ----------------------------------------------------
 /*echo.c*/
 int			ft_nflag(char *input);
-void		ft_echo(char **input);
+void		ft_echo(char **input, t_blocks *blocks);
 /*cd.c*/
 int			ft_cd(t_env **env, char **input);
 /*pwd.c*/

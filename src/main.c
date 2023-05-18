@@ -48,6 +48,7 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		if (!input || input[0] == '\0')
 		{
+			ft_putstr_fd("exit\n", 1);
 			free(input);
 			if (!input)
 				break ;

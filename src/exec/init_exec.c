@@ -40,6 +40,7 @@ int	*init_exec(t_blocks *blocks)
 		global_exit_status(errno);
 		return (ft_putstr_fd("minishell: pipe error\n", 2), NULL);
 	}
+	heredoc(blocks);
 	open_files(blocks);
 	pid = malloc(sizeof(int) * nb_cmds);
 	if (!pid)

@@ -17,7 +17,7 @@ int	ft_pwd(char **input)
 				printf("%s\n", cwd);
 			else
 			{
-				perror("Erreur lors de l'appel à getcwd()");
+				perror("Error during call of getcwd()");
 				return (1);
 			}
 		}

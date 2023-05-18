@@ -23,7 +23,7 @@ int	ft_nflag(char *input)
 		return (0);
 }
 
-void	ft_echo(char **input)
+void	ft_echo(char **input, t_blocks *blocks)
 {
 	int	i;
 	int	nflag;
@@ -39,9 +39,10 @@ void	ft_echo(char **input)
 				nflag = 1;
 				i++;
 			}
-			while (input[i])
+			while (i < blocks->nb_args)
 			{
-				printf("%s", input[i]);
+				if (input[i] != NULL)
+					printf("%s", input[i]);
 				i++;
 				if (input[i] != NULL)
 					printf(" ");
