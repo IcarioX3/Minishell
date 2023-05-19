@@ -103,7 +103,8 @@ void	child(t_blocks *blocks, t_blocks *tmp, t_env *env)
 		exec_last(blocks, tmp, env);
 	else if (tmp->next != NULL && tmp->prev != NULL)
 		exec_middle(blocks, tmp, env);
-	if (is_builtin(tmp->cmd[0]) == 1 && check_builtin(tmp->cmd, &env, &blocks))
+	if (is_builtin(tmp->cmd[0]) == 1
+		&& check_builtin(tmp->cmd, &env, &blocks) != 1)
 		clean_all_exit(blocks, env, 0);
 	while (blocks)
 	{
