@@ -65,6 +65,7 @@ int	one_builtin(t_blocks *blocks, t_env *env)
 			return (1);
 		close(blocks->fd_out);
 	}
+	blocks->fd_in = stdout_copy;
 	if (check_builtin(blocks->cmd, &env, &blocks) == 1)
 		return (1);
 	if (dup2(stdout_copy, STDOUT_FILENO) == -1)
