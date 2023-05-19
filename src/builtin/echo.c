@@ -42,7 +42,7 @@ void	ft_echo(char **input, t_blocks *blocks)
 			if (input[i] != NULL)
 			{
 				printf("%s", input[i]);
-				if (input[i] != NULL)
+				if (input[i + 1] != NULL && nflag == 0)
 					printf(" ");
 			}
 			i++;
