@@ -82,7 +82,7 @@ int	exec(t_blocks *blocks, t_env *env)
 	blocks->env = env_to_array(env);
 	if (!blocks->pid || !blocks->env)
 	{
-		return (lst_clear_blocks(&blocks), 1);
+		return (clean_all(blocks, env), 1);
 	}	
 	if (!blocks->next && is_builtin(blocks->cmd[0]))
 	{

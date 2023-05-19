@@ -28,40 +28,6 @@ int	is_last_in(t_redir *redir)
 	return (1);
 }
 
-/* int	get_fd(t_redir *redir, t_blocks *blocks)
-{
-	int	fd;
-
-	fd = -2;
-	if (redir->token == IN_REDIR)
-	{
-		fd = open(redir->file, O_RDONLY);
-		if (fd != -1 && is_last_in(redir->next))
-			blocks->fd_in = fd;
-	}
-	else if (redir->token == OUT_REDIR)
-	{
-		fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd != -1 && is_last_out(redir->next))
-			blocks->fd_out = fd;
-	}
-	else if (redir->token == APPEND)
-	{
-		fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd != -1 && is_last_out(redir->next))
-			blocks->fd_out = fd;
-	}
-	else if (redir->token == HEREDOC)
-	{
-		if (is_last_in(redir->next))
-			blocks->fd_in = redir->pipe_heredoc[0];
-		else
-			close(redir->pipe_heredoc[0]);
-		fd = redir->pipe_heredoc[0];
-	}
-	return (fd);
-} */
-
 int	get_fd_out(t_redir *redir, t_blocks *blocks)
 {
 	int	fd;

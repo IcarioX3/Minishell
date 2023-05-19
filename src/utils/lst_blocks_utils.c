@@ -58,6 +58,10 @@ void	close_pipes(t_blocks *blocks)
 			close(tmp->pipe[0]);
 		if (tmp->pipe[1] != -1)
 			close(tmp->pipe[1]);
+		if (tmp->fd_in != -1 && tmp->fd_in != -2)
+			close(tmp->fd_in);
+		if (tmp->fd_out != -1 && tmp->fd_out != -2)
+			close(tmp->fd_out);
 		tmp_redir = tmp->redir;
 		while (tmp_redir)
 		{
