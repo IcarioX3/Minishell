@@ -9,8 +9,7 @@ void	child_heredoc(t_blocks *blocks, t_redir *redir, t_env *env)
 	close(redir->pipe_heredoc[0]);
 	while (return_global_exit_status() == 0)
 	{
-		ft_putstr_fd("> ", STDIN_FILENO);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 		if (!line)
 		{
 			free(line);

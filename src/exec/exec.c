@@ -40,6 +40,7 @@ void	parent(t_blocks *blocks)
 	int	i;
 	int	status;
 
+	status = 0;
 	nb_cmd = get_nb_cmds(blocks);
 	i = 0;
 	while (i < nb_cmd)
