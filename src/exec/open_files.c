@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int is_last_out(t_redir *redir)
+int	is_last_out(t_redir *redir)
 {
 	t_redir	*tmp;
 
@@ -14,7 +14,7 @@ int is_last_out(t_redir *redir)
 	return (1);
 }
 
-int is_last_in(t_redir *redir)
+int	is_last_in(t_redir *redir)
 {
 	t_redir	*tmp;
 
@@ -28,7 +28,7 @@ int is_last_in(t_redir *redir)
 	return (1);
 }
 
-int	get_fd(t_redir *redir, t_blocks *blocks)
+/* int	get_fd(t_redir *redir, t_blocks *blocks)
 {
 	int	fd;
 
@@ -54,12 +54,56 @@ int	get_fd(t_redir *redir, t_blocks *blocks)
 	else if (redir->token == HEREDOC)
 	{
 		if (is_last_in(redir->next))
-		{
-			ft_putstr_fd("fd pipe_heredoc[0] = ", 2);
-			ft_putnbr_fd(redir->pipe_heredoc[0], 2);
-			ft_putstr_fd("\n", 2);
 			blocks->fd_in = redir->pipe_heredoc[0];
-		}
+		else
+			close(redir->pipe_heredoc[0]);
+		fd = redir->pipe_heredoc[0];
+	}
+	return (fd);
+} */
+
+int	get_fd_out(t_redir *redir, t_blocks *blocks)
+{
+	int	fd;
+
+	fd = -2;
+	if (redir->token == OUT_REDIR)
+	{
+		fd = open(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd != -1 && is_last_out(redir->next))
+			blocks->fd_out = fd;
+	}
+	else if (redir->token == APPEND)
+	{
+		fd = open(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd != -1 && is_last_out(redir->next))
+			blocks->fd_out = fd;
+	}
+	return (fd);
+}
+
+int	get_fd(t_redir *redir, t_blocks *blocks)
+{
+	int	fd;
+
+	fd = -2;
+	if (redir->token == IN_REDIR)
+	{
+		fd = open(redir->file, O_RDONLY);
+		if (fd == -1)
+			return (-1);
+		if (is_last_in(redir->next))
+			blocks->fd_in = fd;
+	}
+	else if (redir->token == OUT_REDIR || redir->token == APPEND)
+	{
+		if (get_fd_out(redir, blocks) == -1)
+			return (-1);
+	}
+	else if (redir->token == HEREDOC)
+	{
+		if (is_last_in(redir->next))
+			blocks->fd_in = redir->pipe_heredoc[0];
 		fd = redir->pipe_heredoc[0];
 	}
 	return (fd);

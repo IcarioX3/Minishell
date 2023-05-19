@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+int	empty_string_count(char *str)
+{
+	if (str == NULL)
+		return (0);
+	if (str[0] == '\0')
+		return (1);
+	return (0);
+}
+
 int	count_words(char *str)
 {
 	int	i;
@@ -7,10 +16,8 @@ int	count_words(char *str)
 
 	i = 0;
 	count = 0;
-	if (str == NULL)
-		return (0);
-	if (str[0] == '\0')
-		return (1);
+	if (str == NULL || str[0] == '\0')
+		return (empty_string_count(str));
 	while (str[i])
 	{
 		if (is_whitespace(str[i]))
@@ -68,50 +75,17 @@ t_tokens	*split_dollar(t_tokens *tokens)
 		return (NULL);
 	i = count_words(tmp->str);
 	free(tmp->str);
-	if (split[0][0] == '$')
+	if (split[0][0] == '$' && tokens->token == DOLLAR)
 		ft_strcpy(split[0], split[0] + 1);
 	tmp->str = split[0];
 	tmp->token = DOLLAR;
-	if (i > 1)
+	i = 1;
+	while (split[i])
 	{
-		i = 1;
-		while (split[i])
-		{
-			if (split[i][0] == '$')
-				ft_strcpy(split[i], split[i] + 1);
-			tmp = insert_token(tmp, split[i], DOLLAR);
-			i++;
-		}
+		if (split[i][0] == '$')
+			ft_strcpy(split[i], split[i] + 1);
+		tmp = insert_token(tmp, split[i], DOLLAR);
+		i++;
 	}
-	free(split);
-	return (tokens);
+	return (free(split), tokens);
 }
-
-/*t_tokens	*split_dollar(t_tokens *tokens)
-{
-	t_tokens	*tmp;
-	char		**split;
-	int			i;
-
-	tmp = tokens;
-	if (!tmp || !tmp->str)
-		return (tokens);
-	split = get_split_str(tmp->str);
-	if (!split)
-		return (NULL);
-	i = count_words(tmp->str);
-	free(tmp->str);
-	tmp->str = split[0];
-	tmp->token = DOLLAR;
-	if (i > 1)
-	{
-		i = 1;
-		while (split[i])
-		{
-			tmp = insert_token(tmp, split[i], DOLLAR);
-			i++;
-		}
-	}
-	free(split);
-	return (tokens);
-}*/

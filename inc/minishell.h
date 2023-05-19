@@ -12,9 +12,9 @@
 # include "libft.h"
 
 //---MACROS---
-#define STDIN 0
-#define STDOUT 1
-#define STDERR 2
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 //---ENUMS---
 //PIPE=1, WORD=2, DOLLAR=3, IN_REDIR=4, OUT_REDIR=5, 
@@ -97,14 +97,15 @@ t_redir		*get_redir(t_tokens *tokens);
 //	EXECUTION
 // ----------------------------------------------------
 int			exec(t_blocks *blocks, t_env *env);
-int			heredoc(t_blocks *blocks);
-int			*init_exec(t_blocks *blocks);
+int			heredoc(t_blocks *blocks, t_env *env);
+int			*init_exec(t_blocks *blocks, t_env *env);
 int			get_nb_cmds(t_blocks *blocks);
 char		*get_bin_path(char *cmd, t_env *env);
 void		open_files(t_blocks *blocks);
 void		child(t_blocks *blocks, t_blocks *tmp, t_env *env);
 int			is_builtin(char *cmd);
-int 		is_last_in(t_redir *redir);
+int			is_last_in(t_redir *redir);
+int			check_before_exec(t_blocks *blocks, t_env *env);
 
 // ----------------------------------------------------
 //	LIST_UTILS
@@ -131,6 +132,9 @@ void		free_double_array(char **array);
 char		*ft_getenv(char	*name, t_env **env);
 void		clean_all(t_blocks *blocks, t_env *envi);
 void		clean_all_exit(t_blocks *blocks, t_env *envi, int exit_code);
+int			count_cmd(t_tokens *tokens);
+int			count_args(t_tokens *tokens);
+char		**env_to_array(t_env *env);
 
 // ----------------------------------------------------
 //	ERROR

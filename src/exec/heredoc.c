@@ -1,75 +1,87 @@
 #include "minishell.h"
 
-int	heredoc(t_blocks *blocks)
+void	child_heredoc(t_blocks *blocks, t_redir *redir, t_env *env)
 {
-	t_blocks	*tmp;
-	t_redir	*tmp_redir;
 	char	*line;
-	int	pid;
-	int	status;
 
 	line = NULL;
-	tmp = blocks;
-	while (blocks)
+	signal(SIGINT, signal_heredoc);
+	close(redir->pipe_heredoc[0]);
+	while (return_global_exit_status() == 0)
 	{
-		tmp_redir = blocks->redir;
-		while(blocks->redir)
+		ft_putstr_fd("> ", STDIN_FILENO);
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
 		{
-			if (blocks->redir->token == HEREDOC)
-			{
-				if (pipe(blocks->redir->pipe_heredoc) == -1)
-					return (0);
-				pid = fork();
-				if (pid == -1)
-					return (0);
-				if (pid == 0)
-				{
-					signal(SIGINT, signal_heredoc);
-					close(blocks->redir->pipe_heredoc[0]);
-					while (1)
-					{
-						ft_putstr_fd("> ", STDIN_FILENO);
-						line = get_next_line(STDIN_FILENO);
-						if (!line)
-						{
-							free(line);
-							lst_clear_blocks(&tmp);
-							exit(0);
-						}
-						if (ft_strncmp(line, blocks->redir->file, ft_strlen(blocks->redir->file)) == 0)
-						{
-							free(line);
-							lst_clear_blocks(&tmp);
-							exit(0);
-						}
-						ft_putstr_fd(line, blocks->redir->pipe_heredoc[1]);
-						free(line);
-					}
-					exit(0);
-				}
-				else
-				{
-					close(blocks->redir->pipe_heredoc[1]);
-					waitpid(pid, &status, 0);
-					if (WIFEXITED(status))
-					{
-						if (WEXITSTATUS(status) == 0)
-						{
-							close(blocks->redir->pipe_heredoc[1]);
-						}
-						else
-						{
-							global_exit_status(WEXITSTATUS(status));
-							return (0);
-						}
-					}
-				}
-			}
-			blocks->redir = blocks->redir->next;
+			free(line);
+			clean_all_exit(blocks, env, 1);
 		}
-		blocks->redir = tmp_redir;
-		blocks = blocks->next;
+		if (ft_strncmp(line, redir->file, ft_strlen(redir->file)) == 0)
+		{
+			free(line);
+			clean_all_exit(blocks, env, 0);
+		}
+		ft_putstr_fd(line, redir->pipe_heredoc[1]);
+		free(line);
 	}
-	blocks = tmp;
+	clean_all_exit(blocks, env, 1);
+}
+
+void	parent_heredoc(t_redir *redir, int pid)
+{
+	int	status;
+
+	close(redir->pipe_heredoc[1]);
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		global_exit_status(WEXITSTATUS(status));
+}
+
+void	error_fork_heredoc(t_blocks *blocks, t_env *env)
+{
+	clean_all_exit(blocks, env, 1);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	exit(errno);
+}
+
+void	do_heredoc(t_blocks *blocks, t_redir *redir, t_env *env, int pid)
+{
+	if (pipe(redir->pipe_heredoc) == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(strerror(errno), 2);
+		ft_putstr_fd("\n", 2);
+		clean_all_exit(blocks, env, 1);
+	}
+	pid = fork();
+	if (pid == -1)
+		error_fork_heredoc(blocks, env);
+	if (pid == 0)
+		child_heredoc(blocks, redir, env);
+	else
+		parent_heredoc(redir, pid);
+}
+
+int	heredoc(t_blocks *blocks, t_env *env)
+{
+	t_blocks	*tmp;
+	t_redir		*tmp_redir;
+	int			pid;
+
+	pid = 0;
+	tmp = blocks;
+	while (tmp)
+	{
+		tmp_redir = tmp->redir;
+		while (tmp_redir)
+		{
+			if (tmp_redir->token == HEREDOC)
+				do_heredoc(blocks, tmp_redir, env, pid);
+			tmp_redir = tmp_redir->next;
+		}
+		tmp = tmp->next;
+	}
 	return (1);
 }

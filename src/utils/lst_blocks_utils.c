@@ -1,5 +1,33 @@
 #include "minishell.h"
 
+int	count_cmd(t_tokens *tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens)
+	{
+		if (tokens->token == PIPE)
+			count++;
+		tokens = tokens->next;
+	}
+	return (count + 1);
+}
+
+int	count_args(t_tokens *tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens && tokens->token != PIPE)
+	{
+		if (tokens->token == WORD)
+			count++;
+		tokens = tokens->next;
+	}
+	return (count);
+}
+
 void	lst_clear_redir(t_redir **redir)
 {
 	t_redir	*tmp;

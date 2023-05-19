@@ -29,18 +29,19 @@ int	get_nb_cmds(t_blocks *blocks)
 	return (nb_cmds);
 }
 
-int	*init_exec(t_blocks *blocks)
+int	*init_exec(t_blocks *blocks, t_env *env)
 {
 	int	*pid;
 	int	nb_cmds;
 
+	(void)env;
 	nb_cmds = get_nb_cmds(blocks);
 	if (init_pipes(blocks) == 1)
 	{
 		global_exit_status(errno);
 		return (ft_putstr_fd("minishell: pipe error\n", 2), NULL);
 	}
-	heredoc(blocks);
+	heredoc(blocks, env);
 	open_files(blocks);
 	pid = malloc(sizeof(int) * nb_cmds);
 	if (!pid)

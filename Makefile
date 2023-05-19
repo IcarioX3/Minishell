@@ -43,6 +43,7 @@ UTILS		= parsing_utils.c \
 			lst_blocks_utils.c \
 			get_env.c \
 			clean.c \
+			env_to_array.c \
 
 ERROR		= error.c
 
@@ -66,6 +67,7 @@ EXEC	= heredoc.c \
 		get_path.c \
 		open_files.c \
 		child.c \
+		check_before_exec.c \
 
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))

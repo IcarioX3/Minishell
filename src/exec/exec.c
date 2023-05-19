@@ -1,34 +1,5 @@
 #include "minishell.h"
 
-char	**env_to_array(t_env *env)
-{
-	char	**env_array;
-	int		i;
-	int		len;
-	t_env	*tmp;
-
-	tmp = env;
-	len = 0;
-	while (tmp)
-	{
-		len++;
-		tmp = tmp->next;
-	}
-	env_array = malloc(sizeof(char *) * (len + 1));
-	if (!env_array)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		env_array[i] = ft_strdup(env->str);
-		if (!env_array[i])
-			return (free_double_array(env_array), NULL);
-		env = env->next;
-		i++;
-	}
-	return (env_array[i] = NULL, env_array);
-}
-
 void	error_fork(t_blocks *blocks, t_env *env)
 {
 	clean_all(blocks, env);
@@ -47,6 +18,8 @@ void	core(t_blocks *blocks, t_env *env)
 	tmp = blocks;
 	while (tmp)
 	{
+		signal(SIGQUIT, signal_fork);
+		signal(SIGINT, signal_fork);
 		blocks->pid[i] = fork();
 		if (blocks->pid[i] == -1)
 			error_fork(blocks, env);
@@ -69,7 +42,6 @@ void	parent(t_blocks *blocks)
 
 	nb_cmd = get_nb_cmds(blocks);
 	i = 0;
-
 	while (i < nb_cmd)
 	{
 		waitpid(blocks->pid[i], &status, 0);
@@ -79,12 +51,33 @@ void	parent(t_blocks *blocks)
 	}
 }
 
+int	one_builtin(t_blocks *blocks, t_env *env)
+{
+	int	stdout_copy;
+
+	stdout_copy = dup(STDOUT_FILENO);
+	if (stdout_copy == -1)
+		return (1);
+	if (blocks->fd_out != -1 && blocks->fd_out != -2)
+	{
+		if (dup2(blocks->fd_out, STDOUT_FILENO) == -1)
+			return (1);
+		close(blocks->fd_out);
+	}
+	if (check_builtin(blocks->cmd, &env, &blocks) == 1)
+		return (1);
+	if (dup2(stdout_copy, STDOUT_FILENO) == -1)
+		return (1);
+	close(stdout_copy);
+	return (0);
+}
+
 int	exec(t_blocks *blocks, t_env *env)
 {
 	t_blocks	*tmp;
 
 	tmp = blocks;
-	blocks->pid = init_exec(blocks);
+	blocks->pid = init_exec(blocks, env);
 	blocks->env = env_to_array(env);
 	if (!blocks->pid || !blocks->env)
 	{
@@ -92,7 +85,7 @@ int	exec(t_blocks *blocks, t_env *env)
 	}	
 	if (!blocks->next && is_builtin(blocks->cmd[0]))
 	{
-		if (check_builtin(blocks->cmd, &env, &blocks) == 1)
+		if (one_builtin(blocks, env) == 1)
 			return (1);
 		return (0);
 	}
