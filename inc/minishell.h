@@ -96,7 +96,7 @@ t_redir		*get_redir(t_tokens *tokens);
 // ----------------------------------------------------
 //	EXECUTION
 // ----------------------------------------------------
-int			exec(t_blocks *blocks, t_env *env);
+int			exec(t_blocks *blocks, t_env *env, t_env **env2);
 int			heredoc(t_blocks *blocks, t_env *env);
 int			*init_exec(t_blocks *blocks, t_env *env);
 int			get_nb_cmds(t_blocks *blocks);

@@ -40,7 +40,6 @@ void	parent(t_blocks *blocks)
 	int	i;
 	int	status;
 
-	status = 0;
 	nb_cmd = get_nb_cmds(blocks);
 	i = 0;
 	while (i < nb_cmd)
@@ -52,7 +51,7 @@ void	parent(t_blocks *blocks)
 	}
 }
 
-int	one_builtin(t_blocks *blocks, t_env *env)
+int	one_builtin(t_blocks *blocks, t_env **env)
 {
 	int	stdout_copy;
 
@@ -65,8 +64,7 @@ int	one_builtin(t_blocks *blocks, t_env *env)
 			return (1);
 		close(blocks->fd_out);
 	}
-	blocks->fd_in = stdout_copy;
-	if (check_builtin(blocks->cmd, &env, &blocks) == 1)
+	if (check_builtin(blocks->cmd, env, &blocks) == 1)
 		return (1);
 	if (dup2(stdout_copy, STDOUT_FILENO) == -1)
 		return (1);
@@ -74,7 +72,7 @@ int	one_builtin(t_blocks *blocks, t_env *env)
 	return (0);
 }
 
-int	exec(t_blocks *blocks, t_env *env)
+int	exec(t_blocks *blocks, t_env *env, t_env **env2)
 {
 	t_blocks	*tmp;
 
@@ -83,11 +81,11 @@ int	exec(t_blocks *blocks, t_env *env)
 	blocks->env = env_to_array(env);
 	if (!blocks->pid || !blocks->env)
 	{
-		return (clean_all(blocks, env), 1);
+		return (lst_clear_blocks(&blocks), 1);
 	}	
 	if (!blocks->next && is_builtin(blocks->cmd[0]))
 	{
-		if (one_builtin(blocks, env) == 1)
+		if (one_builtin(blocks, env2) == 1)
 			return (1);
 		return (0);
 	}

@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 /* 		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
 			break ; */
-		if (exec(blocks, envi) == 1)
+		if (exec(blocks, envi, &envi) == 1)
 			break ;
 		//heredoc(blocks, &g_exit_status);
 		lst_clear_blocks(&blocks);
