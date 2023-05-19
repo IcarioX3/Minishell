@@ -17,7 +17,6 @@ char	*get_string_s_quote(t_tokens *tokens)
 		str = ft_strjoin(str, tokens->str);
 		tokens = tokens->next;
 	}
-	printf("str: %s\n", str);
 	return (str);
 }
 
