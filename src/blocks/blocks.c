@@ -1,33 +1,5 @@
 #include "minishell.h"
 
-int	count_cmd(t_tokens *tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens)
-	{
-		if (tokens->token == PIPE)
-			count++;
-		tokens = tokens->next;
-	}
-	return (count + 1);
-}
-
-int	count_args(t_tokens *tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens && tokens->token != PIPE)
-	{
-		if (tokens->token == WORD)
-			count++;
-		tokens = tokens->next;
-	}
-	return (count);
-}
-
 char	**get_args(t_tokens *tokens)
 {
 	char	**args;
@@ -50,6 +22,21 @@ char	**get_args(t_tokens *tokens)
 	return (args);
 }
 
+void	init_var(t_blocks *new_block, t_tokens *tokens)
+{
+	new_block->path = NULL;
+	new_block->env = NULL;
+	new_block->nb_args = count_args(tokens);
+	new_block->pipe[0] = -1;
+	new_block->pipe[1] = -1;
+	new_block->fd_in = -1;
+	new_block->fd_out = -1;
+	new_block->pid = NULL;
+	new_block->next = NULL;
+	new_block->prev = NULL;
+	new_block->redir = get_redir(tokens);
+}
+
 t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 {
 	t_blocks	*new_block;
@@ -61,17 +48,14 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 	new_block->cmd = get_args(tokens);
 	if (!new_block->cmd)
 		return (lst_clear_blocks(&blocks), NULL);
-	new_block->fd_in = -1;
-	new_block->fd_out = -1;
-	new_block->nb_args = count_args(tokens);
-	new_block->next = NULL;
-	new_block->redir = get_redir(tokens);
+	init_var(new_block, tokens);
 	if (!blocks)
 		return (new_block);
 	tmp = blocks;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_block;
+	new_block->prev = tmp;
 	return (blocks);
 }
 

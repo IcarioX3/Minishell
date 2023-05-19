@@ -23,31 +23,31 @@ int	ft_nflag(char *input)
 		return (0);
 }
 
-void	ft_echo(char **input)
+void	ft_echo(char **input, t_blocks *blocks)
 {
 	int	i;
 	int	nflag;
 
 	i = 1;
 	nflag = 0;
-	if (ft_strlen(input[0]) == 4)
+	if (ft_strlen(input[0]) == 4 && ft_strnstr(input[0], "echo", 4) != NULL)
 	{
-		if (ft_strnstr(input[0], "echo", 4) != NULL)
+		if (input[1] != NULL && ft_nflag(input[1]) == 1)
 		{
-			if (input[1] != NULL && ft_nflag(input[1]) == 1)
-			{
-				nflag = 1;
-				i++;
-			}
-			while (input[i])
+			nflag = 1;
+			i++;
+		}
+		while (i < blocks->nb_args)
+		{
+			if (input[i] != NULL)
 			{
 				printf("%s", input[i]);
-				i++;
 				if (input[i] != NULL)
 					printf(" ");
 			}
-			if (nflag == 0)
-				printf("\n");
+			i++;
 		}
+		if (nflag == 0)
+			printf("\n");
 	}
 }

@@ -1,16 +1,20 @@
 #include "minishell.h"
 
+char	*empty_string(void)
+{
+	char	*str;
+
+	str = ft_strdup("");
+	return (str);
+}
+
 char	*get_string_d_quote(t_tokens *tokens, t_env **env)
 {
 	char	*str;
-	char	*exit_status_str;
 
 	str = NULL;
 	if (tokens->token == D_QUOTE)
-	{
-		str = ft_strdup("");
-		return (str);
-	}
+		return (empty_string());
 	while (tokens && tokens->token != D_QUOTE)
 	{
 		if (tokens->token == DOLLAR)
@@ -18,11 +22,7 @@ char	*get_string_d_quote(t_tokens *tokens, t_env **env)
 			if (tokens->next && tokens->next->token == WORD)
 			{
 				if (ft_strcmp(tokens->next->str, "?") == 1)
-				{
-					exit_status_str = ft_itoa(return_global_exit_status());
-					str = ft_strjoin(str, exit_status_str);
-					free(exit_status_str);
-				}
+					str = ft_strjoin(str, ft_itoa(return_global_exit_status()));
 				else
 					str = ft_strjoin(str, ft_getenv(tokens->next->str, env));
 				tokens = tokens->next;

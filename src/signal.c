@@ -35,5 +35,8 @@ void	signal_fork(int signal)
 	if (signal == SIGINT)
 		global_exit_status(130);
 	else if (signal == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: (core dumped)\n", 2);
 		global_exit_status(131);
+	}
 }

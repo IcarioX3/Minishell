@@ -8,7 +8,7 @@ int	check_builtin(char **input, t_env **env, t_blocks **blocks)
 	ft_env(input, env);
 	if (ft_cd(env, input) == 1)
 		return (1);
-	ft_echo(input);
+	ft_echo(input, *blocks);
 	ft_unset(input, env);
 	ft_check_exit(input, env, blocks);
 	if (ft_export(input, env) == 1)

@@ -28,12 +28,32 @@ t_redir	*add_new_redir(t_redir *redir, t_tokens *tokens)
 		return (lst_clear_redir(&redir), NULL);
 	new_redir->token = tokens->token;
 	new_redir->next = NULL;
+	new_redir->pipe_heredoc[0] = -1;
+	new_redir->pipe_heredoc[1] = -1;
+	new_redir->fd = -2;
 	if (!redir)
 		return (new_redir);
 	tmp = redir;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new_redir;
+	return (redir);
+}
+
+t_redir	*redir_null(t_redir *redir)
+{
+	if (redir == NULL)
+	{
+		redir = malloc(sizeof(t_redir));
+		if (!redir)
+			return (NULL);
+		redir->file = NULL;
+		redir->token = 0;
+		redir->next = NULL;
+		redir->pipe_heredoc[0] = -1;
+		redir->pipe_heredoc[1] = -1;
+		redir->fd = -2;
+	}
 	return (redir);
 }
 
@@ -55,12 +75,9 @@ t_redir	*get_redir(t_tokens *tokens)
 	}
 	if (redir == NULL)
 	{
-		redir = malloc(sizeof(t_redir));
+		redir = redir_null(redir);
 		if (!redir)
-			return (NULL);
-		redir->file = NULL;
-		redir->token = 0;
-		redir->next = NULL;
+			return (lst_clear_redir(&redir), NULL);
 	}
 	return (redir);
 }

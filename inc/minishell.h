@@ -7,7 +7,14 @@
 # include <readline/history.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <sys/wait.h>
+# include <errno.h>
 # include "libft.h"
+
+//---MACROS---
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
 
 //---ENUMS---
 //PIPE=1, WORD=2, DOLLAR=3, IN_REDIR=4, OUT_REDIR=5, 
@@ -48,17 +55,24 @@ typedef struct s_redir
 {
 	char			*file;
 	int				token;
+	int				fd;
+	int				pipe_heredoc[2];
 	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_blocks
 {
 	char			**cmd;
+	char			**env;
+	char			*path;
+	int				nb_args;
+	int				pipe[2];
 	int				fd_in;
 	int				fd_out;
-	int				nb_args;
+	int				*pid;
 	t_redir			*redir;
 	struct s_blocks	*next;
+	struct s_blocks	*prev;
 }	t_blocks;
 
 //---FUNCTIONS---
@@ -78,6 +92,21 @@ int			check_close_quote(t_tokens *tokens);
 int			check_redir(t_tokens *tokens);
 t_blocks	*put_in_blocks(t_blocks *blocks, t_tokens *tokens);
 t_redir		*get_redir(t_tokens *tokens);
+
+// ----------------------------------------------------
+//	EXECUTION
+// ----------------------------------------------------
+int			exec(t_blocks *blocks, t_env *env);
+int			heredoc(t_blocks *blocks, t_env *env);
+int			*init_exec(t_blocks *blocks, t_env *env);
+int			get_nb_cmds(t_blocks *blocks);
+char		*get_bin_path(char *cmd, t_env *env);
+void		open_files(t_blocks *blocks);
+void		child(t_blocks *blocks, t_blocks *tmp, t_env *env);
+int			is_builtin(char *cmd);
+int			is_last_in(t_redir *redir);
+int			check_before_exec(t_blocks *blocks, t_env *env);
+
 // ----------------------------------------------------
 //	LIST_UTILS
 // ----------------------------------------------------
@@ -87,11 +116,13 @@ t_tokens	*del_token(t_tokens *tokens, t_tokens *tmp);
 t_tokens	*insert_token(t_tokens *tmp, char *s, int token);
 void		lst_clear_blocks(t_blocks **blocks);
 void		lst_clear_redir(t_redir **redir);
+
 // ----------------------------------------------------
 //	DEBUG
 // ----------------------------------------------------
 void		print_tokens(t_tokens *tokens);
 void		print_blocks(t_blocks *blocks);
+
 // ----------------------------------------------------
 //	UTILS
 // ----------------------------------------------------
@@ -99,11 +130,18 @@ int			is_whitespace(char c);
 int			is_special(char c);
 void		free_double_array(char **array);
 char		*ft_getenv(char	*name, t_env **env);
+void		clean_all(t_blocks *blocks, t_env *envi);
+void		clean_all_exit(t_blocks *blocks, t_env *envi, int exit_code);
+int			count_cmd(t_tokens *tokens);
+int			count_args(t_tokens *tokens);
+char		**env_to_array(t_env *env);
+
 // ----------------------------------------------------
 //	ERROR
 // ----------------------------------------------------
 void		error_exit(char *str, int exit_code);
 void		print_error(char *str);
+
 // ----------------------------------------------------
 //	SIGNAL
 // ----------------------------------------------------
@@ -117,9 +155,10 @@ void		signal_fork(int signal);
 // ----------------------------------------------------
 /*echo.c*/
 int			ft_nflag(char *input);
-void		ft_echo(char **input);
+void		ft_echo(char **input, t_blocks *blocks);
 /*cd.c*/
-int			ft_cd(t_env **env, char **input);/*pwd.c*/
+int			ft_cd(t_env **env, char **input);
+/*pwd.c*/
 int			ft_pwd(char **input);
 /*env.c*/
 void		ft_env(char **input, t_env **env);

@@ -21,6 +21,7 @@ DEBUG_DIR	= debug
 UTILS_DIR	= utils
 ERROR_DIR	= error
 BUILTIN_DIR	= builtin
+EXEC_DIR	= exec
 
 PARSING 	= lexer.c \
 			parser.c \
@@ -39,9 +40,10 @@ DEBUG		= print_tokens.c \
 
 UTILS		= parsing_utils.c \
 			lst_token_utils.c \
-			free_double_array.c \
 			lst_blocks_utils.c \
 			get_env.c \
+			clean.c \
+			env_to_array.c \
 
 ERROR		= error.c
 
@@ -59,6 +61,14 @@ BUILTIN		= builtin.c \
 			clear_exit.c \
 			export2.c \
 
+EXEC	= heredoc.c \
+		exec.c \
+		init_exec.c \
+		get_path.c \
+		open_files.c \
+		child.c \
+		check_before_exec.c \
+
 
 SRC_PARSING = $(addprefix $(PARSING_DIR)/, $(PARSING))
 SRC_DEBUG	= $(addprefix $(DEBUG_DIR)/, $(DEBUG))
@@ -66,6 +76,7 @@ SRC_UTILS	= $(addprefix $(UTILS_DIR)/, $(UTILS))
 SRC_ERROR	= $(addprefix $(ERROR_DIR)/, $(ERROR))
 SRC_BLOCKS	= $(addprefix $(BLOCKS_DIR)/, $(BLOCKS))
 SRC_BUILTIN	= $(addprefix $(BUILTIN_DIR)/, $(BUILTIN))
+SRC_EXEC	= $(addprefix $(EXEC_DIR)/, $(EXEC))
 
 _SRC		= main.c \
 			signal.c \
@@ -74,7 +85,8 @@ _SRC		= main.c \
 			$(SRC_UTILS) \
 			$(SRC_ERROR) \
 			$(SRC_BLOCKS) \
-			$(SRC_BUILTIN)
+			$(SRC_BUILTIN) \
+			$(SRC_EXEC) \
 		
 SRC			= $(addprefix $(SRCDIR)/, $(_SRC))
 OBJ			= $(SRC:$(SRCDIR)%.c=$(OBJDIR)%.o)

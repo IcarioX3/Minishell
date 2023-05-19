@@ -30,6 +30,11 @@ t_tokens	*merge_words(t_tokens *tokens)
 	{
 		if (tmp->token == DOLLAR)
 			tmp->token = WORD;
+		tmp = tmp->next;
+	}
+	tmp = tokens;
+	while (tmp)
+	{
 		if (tmp->token == WORD && tmp->next && tmp->next->token == WORD)
 		{
 			tmp->str = ft_strjoin(tmp->str, tmp->next->str);
@@ -78,7 +83,8 @@ t_tokens	*handle_quote(t_tokens *tokens, t_env **env)
 			in_d_quote = !in_d_quote;
 			tmp = d_quote_parser(tmp, env);
 		}
-		else if (tmp->token == DOLLAR && tokens->token != HEREDOC)
+		else if (tmp->token == DOLLAR && tmp->previous
+			&& tmp->previous->token != HEREDOC)
 		{
 			tmp = env_var_parser(tmp, in_d_quote, env);
 			tmp = split_dollar(tmp);

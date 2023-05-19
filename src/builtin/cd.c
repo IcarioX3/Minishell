@@ -60,7 +60,7 @@ int	ft_old_pwd(t_env **true_old, t_env **true_pwd)
 	tmp2 = *true_pwd;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
-		perror("Erreur lors de l'appel à getcwd()");
+		perror("Error during call of getcwd()");
 		return (1);
 	}
 	free(tmp->str);

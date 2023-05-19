@@ -12,7 +12,9 @@ void	lst_clear_env(t_env *envi)
 		envi = (envi)->next;
 		if (tmp->str)
 			free(tmp->str);
+		tmp->str = NULL;
 		free(tmp);
+		tmp = NULL;
 	}
 	envi = NULL;
 }
