@@ -92,9 +92,9 @@ void	exec_one(t_blocks *blocks, t_blocks *tmp, t_env *env)
 void	child(t_blocks *blocks, t_blocks *tmp, t_env *env)
 {
 	if (check_before_exec(tmp, env) == 1)
-		clean_all_exit(blocks, env, 127);
+		clean_all_exit(blocks, env, 1);
 	if (!tmp->path)
-		clean_all_exit(blocks, env, 127);
+		clean_all_exit(blocks, env, 1);
 	if (tmp->prev == NULL && tmp->next == NULL)
 		exec_one(blocks, tmp, env);
 	else if (tmp->prev == NULL && tmp->next != NULL)

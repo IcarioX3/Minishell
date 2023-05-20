@@ -44,7 +44,6 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	while (1)
 	{
-		printf("Exit status: %d\n", return_global_exit_status());
 		input = readline("\033[36mminishell$\033[0m ");
 		add_history(input);
 		if (!input || input[0] == '\0')

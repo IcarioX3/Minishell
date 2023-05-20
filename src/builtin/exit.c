@@ -18,7 +18,6 @@ void	ft_exit_one(t_env **env, t_blocks **blocks)
 {
 	ft_clear_all(env, blocks);
 	printf("exit\n");
-	printf("Exit status: %d\n", return_global_exit_status());
 	exit (return_global_exit_status());
 }
 
@@ -37,7 +36,6 @@ void	ft_exit_two(t_env **env, t_blocks **blocks)
 			ft_clear_all(env, blocks);
 			global_exit_status(cmd);
 			printf("exit\n");
-			printf("Exit status: %d\n", return_global_exit_status());
 			exit (return_global_exit_status());
 		}
 		else
@@ -46,7 +44,6 @@ void	ft_exit_two(t_env **env, t_blocks **blocks)
 			global_exit_status(2);
 			printf("exit\n");
 			ft_putstr_fd("exit: numeric argument required\n", 2);
-			printf("Exit status: %d\n", return_global_exit_status());
 			exit (return_global_exit_status());
 		}
 	}
@@ -67,7 +64,6 @@ void	ft_exit_tree(t_env **env, t_blocks **blocks)
 			global_exit_status(2);
 			printf("exit\n");
 			ft_putstr_fd("exit: numeric argument required\n", 2);
-			printf("Exit status: %d\n", return_global_exit_status());
 			exit (return_global_exit_status());
 		}
 	}
@@ -75,7 +71,6 @@ void	ft_exit_tree(t_env **env, t_blocks **blocks)
 	{
 		global_exit_status(1);
 		printf("exit\n");
-		printf("Exit status: %d\n", return_global_exit_status());
 		ft_putstr_fd("exit: too many arguments\n", 2);
 	}	
 }
