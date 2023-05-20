@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:04:17 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:10:44 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_tokens	*remove_sep(t_tokens *tokens)
@@ -83,8 +95,7 @@ t_tokens	*handle_quote(t_tokens *tokens, t_env **env)
 			in_d_quote = !in_d_quote;
 			tmp = d_quote_parser(tmp, env);
 		}
-		else if (tmp->token == DOLLAR && tmp->previous
-			&& tmp->previous->token != HEREDOC)
+		else if (tmp->token == DOLLAR && is_heredoc(tmp) == 0)
 		{
 			tmp = env_var_parser(tmp, in_d_quote, env);
 			tmp = split_dollar(tmp);

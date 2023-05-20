@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_var_parser.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:04:11 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:04:12 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_tokens	*replace_exit(t_tokens *token)
@@ -24,7 +36,7 @@ t_tokens	*env_var_parser(t_tokens *tokens, int in_quote, t_env **env)
 {
 	if (tokens->next && tokens->next->token == WORD)
 	{
-		if (tokens->next && ft_strcmp(tokens->next->str, "?") == 1)
+		if (tokens->next && ft_strncmp(tokens->next->str, "?", 2) == 0)
 			tokens = replace_exit(tokens);
 		else
 			tokens = replace_var(tokens, in_quote, env);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   open_files.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:04:03 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:04:04 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_last_out(t_redir *redir)
@@ -63,7 +75,8 @@ int	get_fd(t_redir *redir, t_blocks *blocks)
 	}
 	else if (redir->token == OUT_REDIR || redir->token == APPEND)
 	{
-		if (get_fd_out(redir, blocks) == -1)
+		fd = get_fd_out(redir, blocks);
+		if (fd == -1)
 			return (-1);
 	}
 	else if (redir->token == HEREDOC)
@@ -89,7 +102,7 @@ void	open_files(t_blocks *blocks)
 			redir->fd = get_fd(redir, tmp);
 			if (redir->fd == -1)
 			{
-				global_exit_status(errno);
+				global_exit_status(1);
 				ft_putstr_fd("minishell: ", 2);
 				perror(redir->file);
 				break ;

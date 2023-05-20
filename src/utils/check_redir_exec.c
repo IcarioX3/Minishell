@@ -1,42 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_to_array.c                                     :+:      :+:    :+:   */
+/*   check_redir_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 13:04:33 by ablevin           #+#    #+#             */
-/*   Updated: 2023/05/20 13:04:34 by ablevin          ###   ########.fr       */
+/*   Created: 2023/05/20 13:09:19 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:11:16 by ablevin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**env_to_array(t_env *env)
+int	check_redir_out(t_blocks *blocks)
 {
-	char	**env_array;
-	int		i;
-	int		len;
-	t_env	*tmp;
+	t_redir		*tmp_redir;
 
-	tmp = env;
-	len = 0;
-	while (tmp)
+	tmp_redir = blocks->redir;
+	while (tmp_redir)
 	{
-		len++;
-		tmp = tmp->next;
+		if (tmp_redir->token == APPEND || tmp_redir->token == OUT_REDIR)
+			return (1);
+		tmp_redir = tmp_redir->next;
 	}
-	env_array = malloc(sizeof(char *) * (len + 1));
-	if (!env_array)
-		return (NULL);
-	i = 0;
-	while (env)
+	return (0);
+}
+
+int	check_redir_in(t_blocks *blocks)
+{
+	t_redir		*tmp_redir;
+
+	tmp_redir = blocks->redir;
+	while (tmp_redir)
 	{
-		env_array[i] = ft_strdup(env->str);
-		if (!env_array[i])
-			return (free_double_array(env_array), NULL);
-		env = env->next;
-		i++;
+		if (tmp_redir->token == IN_REDIR)
+			return (1);
+		tmp_redir = tmp_redir->next;
 	}
-	return (env_array[i] = NULL, env_array);
+	return (0);
 }

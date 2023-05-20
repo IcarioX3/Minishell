@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   child.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:51 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:52 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	exec_first(t_blocks *blocks, t_blocks *tmp, t_env *env)
@@ -92,7 +104,7 @@ void	exec_one(t_blocks *blocks, t_blocks *tmp, t_env *env)
 void	child(t_blocks *blocks, t_blocks *tmp, t_env *env)
 {
 	if (check_before_exec(tmp, env) == 1)
-		clean_all_exit(blocks, env, 1);
+		clean_all_exit(blocks, env, return_global_exit_status());
 	if (!tmp->path)
 		clean_all_exit(blocks, env, 1);
 	if (tmp->prev == NULL && tmp->next == NULL)
@@ -104,7 +116,7 @@ void	child(t_blocks *blocks, t_blocks *tmp, t_env *env)
 	else if (tmp->next != NULL && tmp->prev != NULL)
 		exec_middle(blocks, tmp, env);
 	if (is_builtin(tmp->cmd[0]) == 1
-		&& check_builtin(tmp->cmd, &env, &blocks) != 1)
+		&& check_builtin(tmp->cmd, &env, &blocks, tmp) != 1)
 		clean_all_exit(blocks, env, 0);
 	while (blocks)
 	{

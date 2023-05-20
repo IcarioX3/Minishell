@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_to_array.c                                     :+:      :+:    :+:   */
+/*   is_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/20 13:04:33 by ablevin           #+#    #+#             */
-/*   Updated: 2023/05/20 13:04:34 by ablevin          ###   ########.fr       */
+/*   Created: 2023/05/20 13:10:59 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:11:08 by ablevin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**env_to_array(t_env *env)
+int	is_heredoc(t_tokens *tokens)
 {
-	char	**env_array;
-	int		i;
-	int		len;
-	t_env	*tmp;
+	t_tokens	*tmp;
 
-	tmp = env;
-	len = 0;
-	while (tmp)
+	tmp = tokens;
+	while (tmp->previous && (tmp->previous->token == HEREDOC
+			|| tmp->previous->token == SEP))
 	{
-		len++;
-		tmp = tmp->next;
+		if (tmp->previous->token == HEREDOC)
+			return (1);
+		tmp = tmp->previous;
 	}
-	env_array = malloc(sizeof(char *) * (len + 1));
-	if (!env_array)
-		return (NULL);
-	i = 0;
-	while (env)
-	{
-		env_array[i] = ft_strdup(env->str);
-		if (!env_array[i])
-			return (free_double_array(env_array), NULL);
-		env = env->next;
-		i++;
-	}
-	return (env_array[i] = NULL, env_array);
+	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:05 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:06 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_join_old(t_env **old)
@@ -61,7 +73,7 @@ int	ft_old_pwd(t_env **true_old, t_env **true_pwd)
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 	{
 		perror("Error during call of getcwd()");
-		return (1);
+		return (0);
 	}
 	free(tmp->str);
 	tmp->str = ft_strdup(tmp2->str);
@@ -107,29 +119,28 @@ int	ft_check_pwd(t_env **env)
 
 int	ft_cd(t_env **env, char **input)
 {
-	if (ft_strlen(input[0]) == 2)
+	if (ft_strnstr(input[0], "cd", 2) != NULL)
 	{
-		if (ft_strnstr(input[0], "cd", 2) != NULL)
+		if (check_arg_cd(input) == 1)
+			return (0);
+		if (ft_home(env) == 1 && input[1] == NULL)
 		{
-			if (ft_home(env) == 1 && input[1] == NULL)
+			global_exit_status(1);
+			ft_putstr_fd("cd: HOME not set\n", 2);
+			return (2);
+		}
+		if (input[1] == NULL)
+			chdir("/");
+		else
+		{
+			if (chdir(input[1]) == -1)
 			{
 				global_exit_status(1);
-				ft_putstr_fd("cd: HOME not set\n", 2);
-				return (2);
+				perror("cd");
 			}
-			if (input[1] == NULL)
-				chdir("/");
-			else
-			{
-				if (chdir(input[1]) == -1)
-				{
-					global_exit_status(1);
-					perror("cd");
-				}
-			}
-			if (ft_check_pwd(env) == 1)
-				return (1);
 		}
+		if (ft_check_pwd(env) == 1)
+			return (1);
 	}
 	return (0);
 }

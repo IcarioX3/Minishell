@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:04:48 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:32:19 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
@@ -7,11 +19,7 @@ t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
 	tokens = NULL;
 	tokens = lexer(input, tokens);
 	free(input);
-	//printf("After lexer:\n");
-	//print_tokens(tokens);
 	tokens = parser(tokens, env);
-	//printf("After parser:\n");
-	//print_tokens(tokens);
 	if (return_global_exit_status() != 0)
 		return (lst_clear_token(&tokens), NULL);
 	blocks = put_in_blocks(blocks, tokens);
@@ -22,26 +30,17 @@ t_blocks	*parsing(t_blocks *blocks, char *input, t_env **env)
 		return (NULL);
 	}
 	lst_clear_token(&tokens);
-	//print_blocks(blocks);
 	return (blocks);
 }
 
-int	main(int argc, char **argv, char **env)
+void	handle_signal(void)
 {
-	char		*input;
-	t_blocks	*blocks;
-	t_env		*envi;
-
-	(void)argv;
-	envi = NULL;
-	blocks = NULL;
-	if (argc != 1)
-		return (1);
-	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	envi = lst_env(env);
-	if (!envi)
-		return (1);
+	signal(SIGINT, handle_sigint);
+}
+
+void	execution(char *input, t_env **envi, t_blocks *blocks)
+{
 	while (1)
 	{
 		input = readline("\033[36mminishell$\033[0m ");
@@ -56,18 +55,37 @@ int	main(int argc, char **argv, char **env)
 			}
 			continue ;
 		}
-		blocks = parsing(blocks, input, &envi);
+		blocks = parsing(blocks, input, envi);
 		if (!blocks)
 			continue ;
-/* 		if ((check_builtin(blocks->cmd, &envi, &blocks)) == 1)
-			break ; */
-		if (exec(blocks, envi, &envi) == 1)
+		if (exec(blocks, *envi, envi) == 1)
+		{
+			lst_clear_blocks(&blocks);
 			break ;
-		//heredoc(blocks, &g_exit_status);
+		}
 		lst_clear_blocks(&blocks);
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, handle_sigint);
+		handle_signal();
 	}
+}
+
+int	main(int argc, char **argv, char **env)
+{
+	char		*input;
+	t_blocks	*blocks;
+	t_env		*envi;
+
+	(void)argv;
+	envi = NULL;
+	blocks = NULL;
+	input = NULL;
+	if (argc != 1)
+		return (1);
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	envi = lst_env(env);
+	if (!envi)
+		return (1);
+	execution(input, &envi, blocks);
 	if (envi)
 		lst_clear_env(envi);
 	return (0);

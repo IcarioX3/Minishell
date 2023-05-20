@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:21 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:22 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_all_num(char *cmd)
@@ -38,14 +50,13 @@ void	ft_exit_two(t_env **env, t_blocks **blocks)
 			printf("exit\n");
 			exit (return_global_exit_status());
 		}
-		else
-		{
-			ft_clear_all(env, blocks);
-			global_exit_status(2);
-			printf("exit\n");
-			ft_putstr_fd("exit: numeric argument required\n", 2);
-			exit (return_global_exit_status());
-		}
+	}
+	else
+	{
+		ft_clear_all(env, blocks);
+		global_exit_status(2);
+		ft_putstr_fd("exit: numeric argument required\n", 2);
+		exit (return_global_exit_status());
 	}
 }
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:01:07 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:12:40 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -135,6 +147,9 @@ void		clean_all_exit(t_blocks *blocks, t_env *envi, int exit_code);
 int			count_cmd(t_tokens *tokens);
 int			count_args(t_tokens *tokens);
 char		**env_to_array(t_env *env);
+int			check_redir_out(t_blocks *blocks);
+int			check_redir_in(t_blocks *blocks);
+int			is_heredoc(t_tokens *tokens);
 
 // ----------------------------------------------------
 //	ERROR
@@ -158,6 +173,7 @@ int			ft_nflag(char *input);
 void		ft_echo(char **input, t_blocks *blocks);
 /*cd.c*/
 int			ft_cd(t_env **env, char **input);
+int			check_arg_cd(char **input);
 /*pwd.c*/
 int			ft_pwd(char **input);
 /*env.c*/
@@ -177,7 +193,8 @@ t_env		*lst_new_env_null(t_env *envi, char *str);
 t_env		*lst_new_env(t_env *envi, char *str);
 t_env		*lst_env(char **env);
 /*builtin.c*/
-int			check_builtin(char **input, t_env **env, t_blocks **blocks);
+int			check_builtin(char **input, t_env **env,
+				t_blocks **blocks, t_blocks *blocks2);
 /*exit.c*/
 void		ft_check_exit(char **input, t_env **env, t_blocks **blocks);
 int			ft_home(t_env **env);

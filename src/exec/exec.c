@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:54 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:08:46 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	error_fork(t_blocks *blocks, t_env *env)
@@ -56,15 +68,18 @@ int	one_builtin(t_blocks *blocks, t_env **env)
 	int	stdout_copy;
 
 	stdout_copy = dup(STDOUT_FILENO);
+	blocks->fd_in = stdout_copy;
 	if (stdout_copy == -1)
 		return (1);
-	if (blocks->fd_out != -1 && blocks->fd_out != -2)
+	if (blocks->fd_out != -1)
 	{
 		if (dup2(blocks->fd_out, STDOUT_FILENO) == -1)
 			return (1);
 		close(blocks->fd_out);
 	}
-	if (check_builtin(blocks->cmd, env, &blocks) == 1)
+	if (blocks->fd_out == -1 && check_redir_out(blocks))
+		return (0);
+	if (check_builtin(blocks->cmd, env, &blocks, blocks) == 1)
 		return (1);
 	if (dup2(stdout_copy, STDOUT_FILENO) == -1)
 		return (1);

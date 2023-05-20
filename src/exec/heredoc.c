@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:58 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:59 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	child_heredoc(t_blocks *blocks, t_redir *redir, t_env *env)
@@ -15,7 +27,7 @@ void	child_heredoc(t_blocks *blocks, t_redir *redir, t_env *env)
 			free(line);
 			clean_all_exit(blocks, env, 1);
 		}
-		if (ft_strncmp(line, redir->file, ft_strlen(redir->file)) == 0)
+		if (ft_strncmp(line, redir->file, ft_strlen(redir->file) + 1) == 0)
 		{
 			free(line);
 			clean_all_exit(blocks, env, 0);

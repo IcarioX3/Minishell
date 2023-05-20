@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_path.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:56 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:57 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*get_path(t_env *env)
@@ -68,6 +80,7 @@ char	*get_bin_path(char *cmd, t_env *env)
 		i++;
 	}
 	print_error_path(cmd, "command not found");
+	global_exit_status(127);
 	free_double_array(path_array);
 	return (NULL);
 }

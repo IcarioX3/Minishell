@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:03:23 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:03:24 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	get_pos_equal(char *input)
@@ -8,7 +20,7 @@ int	get_pos_equal(char *input)
 	while (input[pos] != '=')
 	{
 		if (input[pos] == '\0')
-			return (0);
+			return (pos);
 		pos++;
 	}
 	return (pos);
@@ -58,6 +70,7 @@ int	ft_is_export(char *input)
 			|| (input[i] == 96) || (input[0] == '=')
 			|| (input[0] >= 48 && input[0] <= 57) || input[0] == '\\')
 		{
+			global_exit_status(1);
 			ft_putstr_fd("export: `", 2);
 			ft_putstr_fd(input, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);

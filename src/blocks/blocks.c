@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   blocks.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ablevin <ablevin@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/20 13:02:55 by ablevin           #+#    #+#             */
+/*   Updated: 2023/05/20 13:02:56 by ablevin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	**get_args(t_tokens *tokens)
@@ -46,6 +58,7 @@ t_blocks	*add_new_block(t_blocks *blocks, t_tokens *tokens)
 	if (!new_block)
 		return (lst_clear_blocks(&blocks), NULL);
 	new_block->cmd = get_args(tokens);
+	new_block->nb_args = count_args(tokens);
 	if (!new_block->cmd)
 		return (lst_clear_blocks(&blocks), NULL);
 	init_var(new_block, tokens);
